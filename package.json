@@ -1,0 +1,14 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "watch": "lerna run watch --parallel",
+    "build": "lerna run build --stream",
+    "publish": "lerna publish --force-publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.10",
+    "lerna": "^7.4.2",
+    "typescript": "^5.2.2"
+  }
+}

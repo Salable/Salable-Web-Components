@@ -1,0 +1,37 @@
+{
+  "name": "@salable/react-library",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Sean Cooper <scooper@adaptavist.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "node ./__tests__/react-library.test.js",
+    "build": "npm run tsc",
+    "dev": "npm run tsc:watch",
+    "watch": "npm run tsc:watch",
+    "tsc": "tsc -p . --outDir ./dist",
+    "tsc:watch": "tsc --watch -p . --outDir ./dist"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.36",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.2.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@salable/stencil-library": "*"
+  }
+}
