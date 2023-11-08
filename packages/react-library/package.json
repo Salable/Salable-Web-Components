@@ -15,14 +15,14 @@
     "dist"
   ],
   "scripts": {
-    "test": "node ./__tests__/react-library.test.js",
     "build": "npm run tsc",
     "dev": "npm run tsc:watch",
     "watch": "npm run tsc:watch",
-    "tsc": "tsc -p . --outDir ./dist",
-    "tsc:watch": "tsc --watch -p . --outDir ./dist"
+    "tsc": "tsc --outDir ./dist",
+    "tsc:watch": "tsc --watch --outDir ./dist"
   },
   "devDependencies": {
+    "@types/node": "^20.9.0",
     "@types/react": "^18.2.36",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

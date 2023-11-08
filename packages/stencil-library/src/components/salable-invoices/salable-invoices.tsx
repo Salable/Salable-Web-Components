@@ -1,6 +1,6 @@
 import { Component, h, Host, Prop, State } from '@stencil/core';
 import { StatusType } from '../common/salable-status/salable-status';
-import { apiUrl } from '../../constants';
+import { apiUrl } from '../../../../../constants';
 
 export enum InvoiceStatus {
   PAID = 'paid',

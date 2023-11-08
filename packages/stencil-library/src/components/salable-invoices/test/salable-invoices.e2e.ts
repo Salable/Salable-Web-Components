@@ -1,9 +1,9 @@
 import { newE2EPage } from '@stencil/core/testing';
-import mockInvoice from '../../../../mock_data/invoice.mock';
+import mockInvoice from '../../../../../../mock_data/invoice.mock';
 
 import type { E2EPage } from '@stencil/core/testing';
 import type { Page } from 'puppeteer';
-import { apiUrl } from '../../../constants';
+import { apiUrl } from '../../../../../../constants';
 import { InvoiceStatus } from '../salable-invoices';
 
 const interceptRequests = async function (page: Page | E2EPage) {
