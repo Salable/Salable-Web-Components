@@ -11,7 +11,7 @@ import mockInvoice from "../../../mock_data/invoice.mock";
 //       - Visual regression tests
 
 test('salable invoice component', async ({page}) => {
-    await page.route('https://api.salable.app/**', async (route) => {
+    await page.route('https://api.salable.app/**/*', async (route) => {
         const json = {
             data: [
                 mockInvoice({number: 'INV-001', status: 'open'}),
