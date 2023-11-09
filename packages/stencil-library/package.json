@@ -25,10 +25,9 @@
     "build": "stencil build --docs",
     "dev": "stencil build --dev --watch --serve",
     "watch": "stencil build --watch --serve",
-    "test:e2e": "stencil test --e2e",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "test:spec": "stencil test --spec",
-    "test:watch": "stencil test --spec --e2e --watchAll",
-    "test:e2e:watch": "stencil test --e2e --watchAll",
     "test:spec:watch": "stencil test --spec --watchAll",
     "test:serve": "serve -p 3333",
     "generate": "stencil generate"
@@ -40,8 +39,8 @@
     "wait-on": "^7.1.0"
   },
   "devDependencies": {
-    "@fullhuman/postcss-purgecss": "^5.0.0",
     "@playwright/test": "^1.39.0",
+    "@fullhuman/postcss-purgecss": "^5.0.0",
     "@stencil-community/postcss": "^2.2.0",
     "@stencil/react-output-target": "^0.5.3",
     "@types/jest": "^29.5.6",
