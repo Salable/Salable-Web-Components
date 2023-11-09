@@ -1,5 +1,5 @@
-import { newSpecPage } from '@stencil/core/testing';
-import { SalableInvoices } from '../salable-invoices';
+import {newSpecPage} from '@stencil/core/testing';
+import {SalableInvoices} from '../salable-invoices';
 
 describe('salable-invoices', () => {
   it('renders', async () => {

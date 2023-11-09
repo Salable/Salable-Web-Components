@@ -1,76 +1,33 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { test } from 'stencil-playwright';
+import {expect} from '@playwright/test';
 import mockInvoice from '../../../../../../mock_data/invoice.mock';
 
-import type { E2EPage } from '@stencil/core/testing';
-import type { Page } from 'puppeteer';
-import { apiUrl } from '../../../../../../constants';
-import { InvoiceStatus } from '../salable-invoices';
-
-const interceptRequests = async function (page: Page | E2EPage) {
-  const fetchOverride = `
-  if (!window.originalFetch) {
-    window.originalFetch = window.fetch;
-    window.requestsToIntercept = [];
-    window.fetch = (...args) => (async (args) => {
-      const request = requestsToIntercept.find(req => args[0].includes(req.url));
-
-      if (request) {
-        let result = {};
-        result.json = async () => JSON.parse(request.response);
-        result.text = async () => request.response;
-        result.clone = () => result;
-        result.ok = true;
-        return result;
-      }
-
-      try {
-        let result = await window.originalFetch(...args);
-        return result;
-      } catch(e) {
-        console.log('oh no!', args[0], e?.message);
-        throw(e);
-      }
-    })(args);
-  }`;
-
-  await page.evaluateOnNewDocument(fetchOverride);
-
-  return async (requests: { url: string; response: {} }[]) => {
-    requests = requests.map(req => ({
-      url: req.url,
-      response: JSON.stringify(req.response),
-    }));
-
-    await page.evaluateOnNewDocument(
-      `window.requestsToIntercept.unshift(...${JSON.stringify(requests)});`,
-    );
-  };
-};
-
-describe('salable-invoices E2E Tests', () => {
-  it('updates data after fetch request', async () => {
-    const page = await newE2EPage();
-
+test.describe('salable-invoices E2E Tests', () => {
+  test('updates data after fetch request', async ({ page }) => {
     const mockApiKey = 'mock_api_key';
     const mockSubscriptionUuid = 'mock_subscription_uuid';
 
-    const addInterceptRequests = await interceptRequests(page);
+    // Intercept fetch requests and provide mock responses
+    await page.route('https://api.salable.app/**/*', async (route) => {
+      const json = {
+        data: [
+          mockInvoice({number: 'INV-001', status: 'open'}),
+          mockInvoice({number: 'INV-002', status: 'paid'}),
+          mockInvoice({number: 'INV-003', status: 'void'}),
+          mockInvoice({number: 'INV-004', status: 'draft'}),
+          mockInvoice({number: 'INV-005', status: 'uncollectible'}),
+        ],
+        last: 'cursor_last',
+        first: 'cursor_first',
+        hasMore: true,
+      };
 
-    await addInterceptRequests([
-      {
-        url: `${apiUrl}/subscriptions/${mockSubscriptionUuid}/invoices`,
-        response: {
-          data: [
-            mockInvoice(),
-            mockInvoice({number: 'INV-002', status: InvoiceStatus.PAID}),
-            mockInvoice({number: 'INV-003', status: InvoiceStatus.VOID}),
-          ],
-          last: 'cursor_last',
-          first: 'cursor_first',
-          hasMore: true
-        },
-      }
-    ]);
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(json),
+      });
+    });
 
     await page.setContent(`
       <salable-invoices
@@ -81,16 +38,16 @@ describe('salable-invoices E2E Tests', () => {
 
     await page.waitForChanges();
 
-    const element = await page.find('salable-invoices'); // Use shadow piercing selector
-    expect(element).not.toBeNull();
+    const element = page.locator('salable-invoices');
+    await expect(element).toBeVisible();
 
-    const rows = await page.findAll('salable-invoices >>> tr'); // Use shadow piercing selector
-    expect(rows.length).toBe(4);
-    expect(rows[1].textContent).toContain('INV-001');
-    expect(rows[1].textContent).toContain('Open');
-    expect(rows[2].textContent).toContain('INV-002');
-    expect(rows[2].textContent).toContain('Paid');
-    expect(rows[3].textContent).toContain('INV-003');
-    expect(rows[3].textContent).toContain('Void');
+    const rows = page.locator('salable-invoices tr');
+    await expect(rows).toHaveCount(6);
+    await expect(rows.nth(1)).toContainText('INV-001');
+    await expect(rows.nth(2)).toContainText('INV-002');
+    await expect(rows.nth(3)).toContainText('INV-003');
+    await expect(rows.nth(4)).toContainText('INV-004');
+    await expect(rows.nth(5)).toContainText('INV-005');
+    await expect(page).toHaveScreenshot();
   });
 });

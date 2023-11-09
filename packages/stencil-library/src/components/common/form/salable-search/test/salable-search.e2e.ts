@@ -1,11 +1,12 @@
-import { newE2EPage } from '@stencil/core/testing';
+import {test} from 'stencil-playwright';
+import {expect} from '@playwright/test';
 
-describe('salable-search', () => {
-  it('renders', async () => {
-    const page = await newE2EPage();
+test.describe('salable-search', () => {
+  test('renders', async ({page}) => {
     await page.setContent('<salable-search></salable-search>');
 
-    const element = await page.find('salable-search');
-    expect(element).toHaveClass('hydrated');
+    const element = await page.locator('salable-search');
+    await expect(element).toHaveClass('hydrated');
+    await expect(page).toHaveScreenshot();
   });
 });

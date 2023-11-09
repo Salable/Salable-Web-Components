@@ -1,52 +1,42 @@
-import { newE2EPage } from '@stencil/core/testing';
-import { StatusType } from '../salable-status'; // Assuming the enum is exported from the component file
+import {test} from 'stencil-playwright';
+import {expect} from '@playwright/test';
 
-describe('salable-status', () => {
-  it('renders', async () => {
-    const page = await newE2EPage();
+test.describe('salable-status', () => {
+  test('renders', async ({page}) => {
     await page.setContent('<salable-status></salable-status>');
-
-    const element = await page.find('salable-status');
-    expect(element).toHaveClass('hydrated');
+    const element = page.locator('salable-status');
+    await expect(element).toHaveClass('hydrated');
+    await expect(page).toHaveScreenshot();
   });
 
-  it('displays the correct SVG for success status', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<salable-status status-type="${StatusType.SUCCESS}"></salable-status>`);
-
-    const svgElements = await page.findAll('salable-status svg');
-    expect(svgElements).toHaveLength(1);
-    const svgElement = await page.find('salable-status svg#success-svg');
-    expect(svgElement).not.toBeNull();
+  test('displays the correct SVG for success status', async ({page}) => {
+    await page.setContent(`<salable-status status-type="success"></salable-status>`);
+    const svgElements = page.locator('salable-status svg');
+    await expect(svgElements).toHaveCount(1);
+    const svgElement = page.locator('salable-status svg#success-svg');
+    await expect(svgElement).toBeVisible();
   });
 
-  it('displays the correct SVG for warning status', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<salable-status status-type="${StatusType.WARNING}"></salable-status>`);
-
-    const svgElements = await page.findAll('salable-status svg');
-    expect(svgElements).toHaveLength(1);
-    const svgElement = await page.find('salable-status svg#warning-svg');
-    expect(svgElement).not.toBeNull();
+  test('displays the correct SVG for warning status', async ({page}) => {
+    await page.setContent(`<salable-status status-type="warning"></salable-status>`);
+    const svgElements = page.locator('salable-status svg');
+    await expect(svgElements).toHaveCount(1);
+    const svgElement = page.locator('salable-status svg#warning-svg');
+    await expect(svgElement).toBeVisible();
   });
 
-  it('displays the correct SVG for error status', async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<salable-status status-type="${StatusType.ERROR}"></salable-status>`);
-
-    const svgElements = await page.findAll('salable-status svg');
-    expect(svgElements).toHaveLength(1);
-    const svgElement = await page.find('salable-status svg#error-svg');
-    expect(svgElement).not.toBeNull();
+  test('displays the correct SVG for error status', async ({page}) => {
+    await page.setContent(`<salable-status status-type="error"></salable-status>`);
+    const svgElements = page.locator('salable-status svg');
+    await expect(svgElements).toHaveCount(1);
+    const svgElement = page.locator('salable-status svg#error-svg');
+    await expect(svgElement).toBeVisible();
   });
 
-  it('displays the text content correctly', async () => {
+  test('displays the text content correctly', async ({page}) => {
     const testContent = 'Status message';
-    const page = await newE2EPage();
     await page.setContent(`<salable-status>${testContent}</salable-status>`);
-
-    const element = await page.find('salable-status');
-    const content = element.innerText;
-    expect(content).toBe(testContent);
+    const element = page.locator('salable-status');
+    await expect(element).toHaveText(testContent);
   });
 });

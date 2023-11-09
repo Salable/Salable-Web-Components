@@ -1,24 +1,21 @@
 # salable-status
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
 | Property     | Attribute     | Description | Type                                                           | Default              |
-| ------------ | ------------- | ----------- | -------------------------------------------------------------- | -------------------- |
+|--------------|---------------|-------------|----------------------------------------------------------------|----------------------|
 | `statusType` | `status-type` |             | `StatusType.ERROR \| StatusType.SUCCESS \| StatusType.WARNING` | `StatusType.SUCCESS` |
-
 
 ## Dependencies
 
 ### Used by
 
- - [salable-invoices](../../salable-invoices)
+- [salable-invoices](../../salable-invoices)
 
 ### Graph
+
 ```mermaid
 graph TD;
   salable-invoices --> salable-status

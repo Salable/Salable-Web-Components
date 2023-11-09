@@ -1,4 +1,4 @@
-import { SalableDate } from '../salable-date';
+import {SalableDate} from '../salable-date';
 import format from 'date-fns/format';
 
 describe('SalableDate', () => {
@@ -23,11 +23,11 @@ describe('SalableDate', () => {
   });
 
   it('should update isLongFormat based on hostElement width', () => {
-    getBoundingClientRectSpy.mockReturnValue({ width: 150 });
+    getBoundingClientRectSpy.mockReturnValue({width: 150});
     salableDate.updateFormat();
     expect(salableDate.isLongFormat).toBeFalsy();
 
-    getBoundingClientRectSpy.mockReturnValue({ width: 250 });
+    getBoundingClientRectSpy.mockReturnValue({width: 250});
     salableDate.updateFormat();
     expect(salableDate.isLongFormat).toBeTruthy();
   });

@@ -1,4 +1,4 @@
-import { Component, Element, h, Host, Prop, State } from '@stencil/core';
+import {Component, Element, h, Host, Prop, State} from '@stencil/core';
 import format from 'date-fns/format';
 
 @Component({
@@ -45,7 +45,7 @@ export class SalableDate {
   render() {
     return (
       <Host>
-        <time dateTime={new Date(this.date).toISOString()} style={{ width: '100%', display: 'block' }}>
+        <time dateTime={new Date(this.date).toISOString()} style={{width: '100%', display: 'block'}}>
           {this.getDateFormat()}
         </time>
       </Host>

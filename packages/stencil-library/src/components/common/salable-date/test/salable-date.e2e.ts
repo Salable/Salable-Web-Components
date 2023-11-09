@@ -1,52 +1,53 @@
-import { newE2EPage } from '@stencil/core/testing';
+import {test} from 'stencil-playwright';
+import {expect} from '@playwright/test';
 
-describe('salable-date', () => {
-  it('renders', async () => {
-    const page = await newE2EPage();
+test.describe('salable-date', () => {
+  test('renders', async ({page}) => {
     await page.setContent('<salable-date date="2023-04-30"></salable-date>');
 
-    const element = await page.find('salable-date');
-    expect(element).toHaveClass('hydrated');
+    const element = page.locator('salable-date');
+    await expect(element).toHaveClass('hydrated');
+    await expect(page).toHaveScreenshot();
   });
 
-  it('renders with the short date format when the width is less than 200', async () => {
-    const page = await newE2EPage();
+  test('renders with the short date format when the width is less than 200', async ({page}) => {
     await page.setContent('<salable-date date="2023-04-30"></salable-date>');
-    const element = await page.find('salable-date >>> time'); // Use shadow piercing selector
 
-    expect(element).not.toBeNull();
+    const element = page.locator('salable-date');
+    await expect(element).toBeVisible();
 
-    const width = await page.$eval('salable-date >>> time', (el) => el.getBoundingClientRect().width);
+    const width = await element.evaluate(el => el.shadowRoot.querySelector('time').getBoundingClientRect().width);
     if (width <= 200) {
-      expect(element.innerText).toMatch(/\d{2}-\d{2}-\d{4}/);
+      await expect(element.locator('time')).toHaveText(/\d{2}-\d{2}-\d{4}/);
     }
   });
 
-  it('renders with the long date format when the width is greater than 200', async () => {
-    const page = await newE2EPage();
+  test('renders with the long date format when the width is greater than 200', async ({page}) => {
     await page.setContent('<salable-date date="2023-04-30" style="width: 250px;"></salable-date>');
-    const element = await page.find('salable-date >>> time');
 
-    expect(element).not.toBeNull();
+    const element = page.locator('salable-date');
+    await expect(element).toBeVisible();
 
-    const width = await page.$eval('salable-date >>> time', (el) => el.getBoundingClientRect().width);
+    const width = await element.evaluate(el => el.shadowRoot.querySelector('time').getBoundingClientRect().width);
     if (width > 200) {
-      expect(element.innerText).toMatch(/\d{2} [a-zA-Z]+ \d{4}/);
+      await expect(element.locator('time')).toHaveText(/\d{2} [a-zA-Z]+ \d{4}/);
     }
   });
 
-  it('updates the date format upon resizing', async () => {
-    const page = await newE2EPage();
+  test('updates the date format upon resizing', async ({page}) => {
     await page.setContent('<salable-date date="2023-04-30" style="width: 250px;"></salable-date>');
-    const element = await page.find('salable-date >>> time');
 
-    expect(element.innerText).toMatch(/\d{2} [a-zA-Z]+ \d{4}/); // Long format initially
+    const element = page.locator('salable-date');
+    // Long format initially
+    await expect(element.locator('time')).toHaveText(/\d{2} [a-zA-Z]+ \d{4}/);
 
-    await page.$eval('salable-date', (el: any) => {
+    // Resize logic
+    await element.evaluate(el => {
       el.style.width = '150px';
     });
     await page.waitForChanges();
 
-    expect(element.innerText).toMatch(/\d{2}-\d{2}-\d{4}/); // Short format after resize
+    // Short format after resize
+    await expect(element.locator('time')).toHaveText(/\d{2}-\d{2}-\d{4}/);
   });
 });

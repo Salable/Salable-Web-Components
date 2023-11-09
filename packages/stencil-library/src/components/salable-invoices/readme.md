@@ -1,18 +1,14 @@
 # salable-invoices
 
-
-
 <!-- Auto Generated Below -->
-
 
 ## Properties
 
 | Property           | Attribute           | Description | Type     | Default     |
-| ------------------ | ------------------- | ----------- | -------- | ----------- |
+|--------------------|---------------------|-------------|----------|-------------|
 | `apiKey`           | `api-key`           |             | `string` | `undefined` |
 | `limit`            | `limit`             |             | `number` | `25`        |
 | `subscriptionUuid` | `subscription-uuid` |             | `string` | `undefined` |
-
 
 ## Dependencies
 
@@ -22,6 +18,7 @@
 - [salable-date](../common/salable-date)
 
 ### Graph
+
 ```mermaid
 graph TD;
   salable-invoices --> salable-status

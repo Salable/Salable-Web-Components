@@ -1,5 +1,5 @@
-import { newSpecPage } from '@stencil/core/testing';
-import { SalableSearch } from '../salable-search';
+import {newSpecPage} from '@stencil/core/testing';
+import {SalableSearch} from '../salable-search';
 
 describe('salable-search', () => {
   it('renders', async () => {

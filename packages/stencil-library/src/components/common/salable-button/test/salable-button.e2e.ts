@@ -1,20 +1,21 @@
-import { newE2EPage } from '@stencil/core/testing';
+import {test} from 'stencil-playwright';
+import {expect} from '@playwright/test';
 
-describe('salable-button', () => {
-  it('renders', async () => {
-    const page = await newE2EPage();
+test.describe('salable-button', () => {
+  test('renders', async ({page}) => {
     await page.setContent('<salable-button></salable-button>');
 
-    const element = await page.find('salable-button');
-    expect(element).toHaveClass('hydrated');
+    const element = await page.locator('salable-button');
+    await expect(element).toBeVisible();
+    await expect(element).toHaveClass('hydrated');
+    await expect(page).toHaveScreenshot();
   });
 
-  it('displays slot content correctly', async () => {
+  test('displays slot content correctly', async ({page}) => {
     const testContent = 'Click me!';
-    const page = await newE2EPage();
     await page.setContent(`<salable-button>${testContent}</salable-button>`);
 
-    const slotContent = await page.find('salable-button button');
-    expect(slotContent.textContent).toBe(testContent);
+    const slotContent = await page.locator('salable-button button');
+    await expect(slotContent).toContainText(testContent);
   });
 });

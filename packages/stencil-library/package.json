@@ -4,6 +4,7 @@
   "description": "Stencil Component Starter",
   "author": "Sean Cooper <scooper@adaptavist.com>",
   "license": "MIT",
+  "type": "module",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "es2015": "dist/esm/index.js",
@@ -29,6 +30,7 @@
     "test:watch": "stencil test --spec --e2e --watchAll",
     "test:e2e:watch": "stencil test --e2e --watchAll",
     "test:spec:watch": "stencil test --spec --watchAll",
+    "test:serve": "serve -p 3333",
     "generate": "stencil generate"
   },
   "dependencies": {
@@ -39,6 +41,7 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",
+    "@playwright/test": "^1.39.0",
     "@stencil-community/postcss": "^2.2.0",
     "@stencil/react-output-target": "^0.5.3",
     "@types/jest": "^29.5.6",
@@ -49,6 +52,8 @@
     "jest-cli": "^29.7.0",
     "postcss-import": "^15.1.0",
     "puppeteer": "21.1.1",
+    "serve": "^14.2.1",
+    "stencil-playwright": "^0.3.0",
     "tailwindcss": "^3.3.5"
   },
   "publishConfig": {

@@ -1,5 +1,5 @@
-import { newSpecPage } from '@stencil/core/testing';
-import { SalableButton } from '../salable-button';
+import {newSpecPage} from '@stencil/core/testing';
+import {SalableButton} from '../salable-button';
 
 describe('salable-button', () => {
   it('renders', async () => {

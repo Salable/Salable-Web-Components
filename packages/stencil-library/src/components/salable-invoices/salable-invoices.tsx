@@ -1,6 +1,6 @@
-import { Component, h, Host, Prop, State } from '@stencil/core';
-import { StatusType } from '../common/salable-status/salable-status';
-import { apiUrl } from '../../../../../constants';
+import {Component, h, Host, Prop, State} from '@stencil/core';
+import {StatusType} from '../common/salable-status/salable-status';
+import {apiUrl} from '../../../../../constants';
 
 export enum InvoiceStatus {
   PAID = 'paid',
@@ -34,33 +34,6 @@ export class SalableInvoices {
     await this.fetchInvoices(this.limit);
   }
 
-  private async fetchInvoices(limit: number, cursor?: string) {
-    try {
-      const params = new URLSearchParams();
-      params.set('take', limit.toString());
-
-      if (cursor) {
-        params.set('cursor', cursor);
-      }
-
-      const response = await fetch(
-        `${apiUrl}/subscriptions/${this.subscriptionUuid}/invoices?${params.toString()}`,
-        { headers: { 'x-api-key': `${this.apiKey}` } },
-      );
-
-      if (!response.ok) {
-        // Todo: handle errors, display failure message, refresh options
-        console.error('Failed to fetch data:', response.statusText);
-        return;
-      }
-
-      this.data = await response.json();
-    } catch (error) {
-      // Todo: handle errors, display failure message, refresh options
-      console.error('Error fetching data:', error);
-    }
-  }
-
   getStatus(status: InvoiceStatus) {
     switch (status) {
       case InvoiceStatus.PAID:
@@ -79,13 +52,13 @@ export class SalableInvoices {
   }
 
   getNextPage = async () => {
-    if(!this.data) return;
+    if (!this.data) return;
     this.currentPage++;
     await this.fetchInvoices(this.limit, this.data.last);
   };
 
   getPrevPage = async () => {
-    if(!this.data) return;
+    if (!this.data) return;
     this.currentPage--;
     await this.fetchInvoices(-this.limit, this.data.first);
   };
@@ -155,9 +128,9 @@ export class SalableInvoices {
                                      fill='currentColor' viewBox='0 0 16 16'>
                                   <title>Download PDF</title>
                                   <path
-                                    d='M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z' />
+                                    d='M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z'/>
                                   <path
-                                    d='M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z' />
+                                    d='M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z'/>
                                 </svg>
                               </a>
                             </div>
@@ -177,7 +150,7 @@ export class SalableInvoices {
                           <svg class='w-3 h-3' xmlns='http://www.w3.org/2000/svg' width='16' height='16'
                                fill='currentColor' viewBox='0 0 16 16'>
                             <path fill-rule='evenodd'
-                                  d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z' />
+                                  d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/>
                           </svg>
                           Prev
                         </button>
@@ -190,7 +163,7 @@ export class SalableInvoices {
                           <svg class='w-3 h-3' xmlns='http://www.w3.org/2000/svg' width='16' height='16'
                                fill='currentColor' viewBox='0 0 16 16'>
                             <path fill-rule='evenodd'
-                                  d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z' />
+                                  d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/>
                           </svg>
                         </button>
                       ) : null}
@@ -203,5 +176,32 @@ export class SalableInvoices {
         </section>
       </Host>
     );
+  }
+
+  private async fetchInvoices(limit: number, cursor?: string) {
+    try {
+      const params = new URLSearchParams();
+      params.set('take', limit.toString());
+
+      if (cursor) {
+        params.set('cursor', cursor);
+      }
+
+      const response = await fetch(
+        `${apiUrl}/subscriptions/${this.subscriptionUuid}/invoices?${params.toString()}`,
+        {headers: {'x-api-key': `${this.apiKey}`}},
+      );
+
+      if (!response.ok) {
+        // Todo: handle errors, display failure message, refresh options
+        console.error('Failed to fetch data:', response.statusText);
+        return;
+      }
+
+      this.data = await response.json();
+    } catch (error) {
+      // Todo: handle errors, display failure message, refresh options
+      console.error('Error fetching data:', error);
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { SalableStatus, StatusType } from '../salable-status';
+import {SalableStatus, StatusType} from '../salable-status';
 
 describe('salable-status', () => {
   let salableStatus: SalableStatus;
