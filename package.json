@@ -4,11 +4,17 @@
   "scripts": {
     "watch": "lerna run watch --parallel",
     "build": "lerna run build --stream",
+    "test": "lerna run test --scope @salable/stencil-library --scope @salable/react-library",
+    "jest": "jest",
     "publish": "lerna publish --force-publish"
   },
   "devDependencies": {
+    "@playwright/test": "^1.39.0",
     "@types/node": "^20.8.10",
     "lerna": "^7.4.2",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "stencil-playwright": "^0.3.0"
   }
 }

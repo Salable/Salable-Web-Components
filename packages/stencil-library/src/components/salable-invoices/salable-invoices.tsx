@@ -17,7 +17,7 @@ export enum InvoiceStatus {
 })
 export class SalableInvoices {
   @State()
-  data: any = null;
+  data: any = null; // Todo: define type
 
   @Prop()
   apiKey: string;
