@@ -1,6 +1,6 @@
 import {test} from 'stencil-playwright';
-import InvoiceRepository from "../../../../../utilities/mock-data/respository/invoice-repository";
-import {salableInvoiceTests, setUpInvoicePagination} from "../../../../../utilities/tests/salable-invoice-tests";
+import InvoiceRepository from "../../../../../utilities/respository/invoice-repository";
+import {salableInvoicePaginationTests, setUpInvoicePagination} from "../../../../../utilities/tests/salable-invoice-tests";
 import {mockInvoices} from "../../../../../utilities/mock-data/invoice.mock";
 
 test.describe('salable-invoices Stencil E2E Tests', () => {
@@ -20,7 +20,7 @@ test.describe('salable-invoices Stencil E2E Tests', () => {
         ></salable-invoices>
       `);
 
-      await salableInvoiceTests(page, invoiceRepository);
+      await salableInvoicePaginationTests(page, invoiceRepository);
     });
   });
 });

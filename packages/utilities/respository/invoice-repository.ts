@@ -1,4 +1,4 @@
-import {paginate, PaginatedResult} from '../../paginate/paginate';
+import {paginate, PaginatedResult} from '../paginate/paginate';
 
 export type Invoice = {
     number: string;

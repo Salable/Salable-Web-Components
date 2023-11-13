@@ -1,5 +1,5 @@
 import {expect, Locator, Page} from "@playwright/test";
-import InvoiceRepository, {Invoice} from "../mock-data/respository/invoice-repository";
+import InvoiceRepository, {Invoice} from "../respository/invoice-repository";
 
 export async function setUpInvoicePagination(page: Page, invoiceRepository: InvoiceRepository) {
     const url = /^https:\/\/api.salable.app\/subscriptions\/.*?\/invoices/;
@@ -18,7 +18,7 @@ export async function setUpInvoicePagination(page: Page, invoiceRepository: Invo
     });
 }
 
-export async function salableInvoiceTests(page: Page, invoiceRepository: InvoiceRepository) {
+export async function salableInvoicePaginationTests(page: Page, invoiceRepository: InvoiceRepository) {
     const pageOneRows = invoiceRepository.invoices.slice(0, 2);
     const pageTwoRows = invoiceRepository.invoices.slice(2, 4);
     const pageThreeRows = invoiceRepository.invoices.slice(4, 6);

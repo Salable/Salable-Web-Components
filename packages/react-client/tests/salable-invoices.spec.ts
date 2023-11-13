@@ -1,6 +1,6 @@
 import {test} from '@playwright/test';
-import {salableInvoiceTests, setUpInvoicePagination} from "../../utilities/tests/salable-invoice-tests";
-import InvoiceRepository from "../../utilities/mock-data/respository/invoice-repository";
+import {salableInvoicePaginationTests, setUpInvoicePagination} from "../../utilities/tests/salable-invoice-tests";
+import InvoiceRepository from "../../utilities/respository/invoice-repository";
 import {mockInvoices} from "../../utilities/mock-data/invoice.mock";
 
 test.describe('salable-invoices React Client E2E Tests', () => {
@@ -12,7 +12,7 @@ test.describe('salable-invoices React Client E2E Tests', () => {
 
             await page.goto('http://localhost:5173/test/salable-invoices');
 
-            await salableInvoiceTests(page, invoiceRepository);
+            await salableInvoicePaginationTests(page, invoiceRepository);
         });
     });
 });
