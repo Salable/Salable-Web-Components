@@ -1,5 +1,5 @@
 import {test} from '@playwright/test';
-import {invoiceTests, setUpInvoicePagination} from "../../utilities/invoice-helpers";
+import {invoiceTests, setUpInvoicePagination} from "../../utilities/tests/invoice-helpers";
 import InvoiceRepository from "../../utilities/mock-data/respository/invoice-repository";
 
 test.describe('salable-invoices React Client E2E Tests', () => {

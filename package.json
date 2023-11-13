@@ -4,8 +4,8 @@
   "scripts": {
     "lerna:watch": "lerna run watch --parallel",
     "lerna:build": "lerna run build --stream",
-    "lerna:version": "lerna version",
     "lerna:test": "lerna run test --scope @salable/stencil-library --scope react-client",
+    "lerna:version": "lerna version",
     "lerna:publish": "lerna publish --force-publish"
   },
   "devDependencies": {
