@@ -81,33 +81,35 @@ Our project's testing framework leverages Playwright for end-to-end testing and 
 
 End-to-end testing ensures our components function correctly in a real browser environment:
 
-1. **For Core Components (e.g., `salable-invoice`):**
-   - **Location**: `stencil-library`.
-   - **Running Tests**:
-      - Run: `pnpm test:e2e`.
-      - Focus: Confirm the component renders correctly, interactions work as expected, and perform visual regression testing to ensure styles (provided by Tailwind CSS) are correctly applied.
+Location: `stencil-library` package.
+Run: `pnpm test:e2e` or `pnpm test:e2e:ui`
 
-2. **For Common Components (e.g., `salable-button`, `salable-status`):**
+#### For Core Components (e.g., `salable-invoice`):
+   - Mock any data responses using Playwright routes.
+   - Confirm the component renders correctly
+   - Ensure data is displayed in the expected locations
+   - Make sure any user interactions work as expected
+   - Perform visual regression testing to ensure styles (provided by Tailwind CSS) are correctly applied.
+
+#### For Common Components (e.g., `salable-button`, `salable-status`):
+   - Ensure the component renders
+   - Check the content is displayed correctly
+   - Test any user interactions that affect the component state or trigger events
+   - If there are various combinations of props make sure they're tested sensibly
    - As these components are used within core components and don't have a shadow DOM, they are not subjected to individual visual regression testing.
-   - Focus on ensuring they render correctly and respond to user interactions within the context of core components.
 
 ### Unit Testing with Stencil Spec Tests
 
 Unit testing is targeted at verifying the functionality of individual components, we will limit unit tests to common components only to avoid having mock data there:
 
-1. **Location**: `stencil-library` directory.
-2. **Running Tests**:
-   - Run: `pnpm test:spec`.
-   - Focus on testing specific class methods and functionalities, ensuring they operate as expected when used within core components.
+- Focus on testing specific class methods and functionalities, ensuring they operate as expected when used within core components.
 
 ### Testing React-Wrapped Components
 
-Ensuring React integration:
+Location: `react-client` package.
+Run: `pnpm test` or `pnpm test:ui`
 
-1. **Location**: `react-client` package.
-2. **Running Tests**:
-   - Execute: `pnpm test`.
-   - This validates the integration and operation of components within the React framework.
+- React client tests share the same setup and testing scripts as Stencil library e2e tests. The next section explains more
 
 ## End-to-End Testing Strategy
 The project integrates multiple front-end frameworks like Stencil and React. We've adopted a specific testing strategy to ensure consistency, efficiency, and maintainability. Here's how we approach it:
@@ -121,11 +123,9 @@ The project integrates multiple front-end frameworks like Stencil and React. We'
 
 By adopting this approach, we've created a robust testing environment that supports multiple frameworks while maintaining the integrity and consistency of our application across different technologies. This strategy enhances our development process and ensures a high-quality end product.
 
-#### Example Stencil and React End-to-End tests
+#### Example Stencil and React Shared End-to-End Tests
 
-Our testing strategy is exemplified in how we handle end-to-end testing in both Stencil and React components. Here's a closer look at these implementations, highlighting how our unified approach translates into practice:
-
-#### Stencil Component Testing: 'stencil-library'
+##### Stencil Component Testing: 'stencil-library'
 
 ```javascript
 import {test} from 'stencil-playwright';
@@ -160,7 +160,7 @@ test.describe('salable-invoices Stencil E2E Tests', () => {
 - **Shared Resources**: Implements `InvoiceRepository` with `mockInvoices`.
 - **Test Scenario**: Validates the rendering and pagination of invoices using shared test methods.
 
-#### React Component Testing: 'react-client'
+##### React Component Testing: 'react-client'
 
 ```javascript
 import {test} from '@playwright/test';
