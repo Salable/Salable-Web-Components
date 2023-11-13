@@ -2,20 +2,21 @@
 
 <!-- Auto Generated Below -->
 
+
 ## Properties
 
 | Property | Attribute | Description | Type               | Default     |
-|----------|-----------|-------------|--------------------|-------------|
+| -------- | --------- | ----------- | ------------------ | ----------- |
 | `date`   | `date`    |             | `number \| string` | `undefined` |
+
 
 ## Dependencies
 
 ### Used by
 
-- [salable-invoices](../../salable-invoices)
+ - [salable-invoices](../../salable-invoices)
 
 ### Graph
-
 ```mermaid
 graph TD;
   salable-invoices --> salable-date

@@ -1,4 +1,4 @@
-import {paginate, PaginatedResult} from './paginate';
+import {paginate, PaginatedResult} from '../../paginate/paginate';
 import {mockInvoices} from "../invoice.mock";
 
 export type Invoice = {

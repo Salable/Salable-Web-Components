@@ -1,4 +1,4 @@
-import objectBuilder from './object-builder/object-builder';
+import objectBuilder from '../object-builder/object-builder';
 
 export const getPaidAt = (day: number, month: number, year: number) => (~~(+new Date(year, month - 1, day) / 1000)).toString()
 

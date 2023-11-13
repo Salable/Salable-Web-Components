@@ -8,8 +8,7 @@
   "module": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "directories": {
-    "lib": "lib",
-    "test": "__tests__"
+    "lib": "lib"
   },
   "files": [
     "dist"
@@ -19,7 +18,8 @@
     "dev": "npm run tsc:watch",
     "watch": "npm run tsc:watch",
     "tsc": "tsc --outDir ./dist",
-    "tsc:watch": "tsc --watch --outDir ./dist"
+    "tsc:watch": "tsc --watch --outDir ./dist",
+    "test-ct": "playwright test -c playwright-ct.config.ts"
   },
   "devDependencies": {
     "@types/node": "^20.9.0",

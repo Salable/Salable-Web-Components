@@ -15,8 +15,10 @@ const config: PlaywrightTestConfig = {
   },
   webServer: {
     command: 'pnpm test:serve',
-    port: 3333,
-    reuseExistingServer: !process.env.CI
+    url: 'http://localhost:3333',
+    reuseExistingServer: !process.env.CI,
+    stdout: 'ignore',
+    stderr: 'pipe',
   },
 };
 

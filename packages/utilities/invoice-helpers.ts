@@ -1,5 +1,5 @@
 import {expect, Locator, Page} from "@playwright/test";
-import InvoiceRepository, {Invoice} from "../mock-data/respository/invoice-repository";
+import InvoiceRepository, {Invoice} from "./mock-data/respository/invoice-repository";
 
 export async function setUpInvoicePagination(page: Page, invoiceRepository: InvoiceRepository) {
     const url = /^https:\/\/api.salable.app\/subscriptions\/.*?\/invoices/;
