@@ -2,12 +2,11 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "watch": "lerna run watch --parallel",
-    "build": "lerna run build --stream",
+    "lerna:watch": "lerna run watch --parallel",
+    "lerna:build": "lerna run build --stream",
     "lerna:version": "lerna version",
-    "test": "lerna run test --scope @salable/stencil-library --scope react-client",
-    "jest": "jest",
-    "publish": "lerna publish --force-publish"
+    "lerna:test": "lerna run test --scope @salable/stencil-library --scope react-client",
+    "lerna:publish": "lerna publish --force-publish"
   },
   "devDependencies": {
     "@playwright/test": "^1.39.0",
