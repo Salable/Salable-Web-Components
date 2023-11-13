@@ -6,7 +6,6 @@ import {Component, h, Host} from '@stencil/core';
   shadow: false,
 })
 export class SalableButton {
-
   render() {
     return (
       <Host>
@@ -17,5 +16,4 @@ export class SalableButton {
       </Host>
     );
   }
-
 }

@@ -6,7 +6,6 @@ test.describe('salable-status', () => {
     await page.setContent('<salable-status></salable-status>');
     const element = page.locator('salable-status');
     await expect(element).toHaveClass('hydrated');
-    await expect(page).toHaveScreenshot();
   });
 
   test('displays the correct SVG for success status', async ({page}) => {

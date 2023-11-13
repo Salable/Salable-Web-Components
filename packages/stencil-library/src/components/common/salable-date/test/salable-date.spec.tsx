@@ -35,7 +35,6 @@ describe('SalableDate', () => {
   it('should provide the correct date format', () => {
     salableDate.isLongFormat = false;
     salableDate.date = '2023-04-30';
-
     expect(salableDate.getDateFormat()).toEqual(format(new Date('2023-04-30'), 'dd-MM-Y'));
 
     salableDate.isLongFormat = true;

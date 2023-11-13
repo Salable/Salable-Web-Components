@@ -1,6 +1,6 @@
 import {test} from 'stencil-playwright';
 import InvoiceRepository from "../../../../../utilities/mock-data/respository/invoice-repository";
-import {invoiceTests, setUpInvoicePagination} from "../../../../../utilities/invoice-helpers";
+import {invoiceTests, setUpInvoicePagination} from "../../../../../utilities/tests/invoice-helpers";
 
 test.describe('salable-invoices Stencil E2E Tests', () => {
   const mockApiKey = 'mock_api_key';
