@@ -75,11 +75,9 @@ Understood! I'll adjust the testing strategy section to reflect the nuances of t
 
 ## Testing Strategy
 
-### Testing Strategy
-
 Our project's testing framework leverages Playwright for end-to-end testing and Stencil spec tests for unit testing, with specific focus areas for different types of components:
 
-#### End-to-End Testing with Playwright (Stencil Library)
+### End-to-End Testing with Playwright (Stencil Library)
 
 End-to-end testing ensures our components function correctly in a real browser environment:
 
@@ -93,7 +91,7 @@ End-to-end testing ensures our components function correctly in a real browser e
    - As these components are used within core components and don't have a shadow DOM, they are not subjected to individual visual regression testing.
    - Focus on ensuring they render correctly and respond to user interactions within the context of core components.
 
-#### Unit Testing with Stencil Spec Tests
+### Unit Testing with Stencil Spec Tests
 
 Unit testing is targeted at verifying the functionality of individual components, we will limit unit tests to common components only to avoid having mock data there:
 
@@ -102,7 +100,7 @@ Unit testing is targeted at verifying the functionality of individual components
    - Run: `pnpm test:spec`.
    - Focus on testing specific class methods and functionalities, ensuring they operate as expected when used within core components.
 
-#### Testing React-Wrapped Components
+### Testing React-Wrapped Components
 
 Ensuring React integration:
 
@@ -111,10 +109,10 @@ Ensuring React integration:
    - Execute: `pnpm test`.
    - This validates the integration and operation of components within the React framework.
 
-### End-to-End Testing Strategy
+## End-to-End Testing Strategy
 The project integrates multiple front-end frameworks like Stencil and React. We've adopted a specific testing strategy to ensure consistency, efficiency, and maintainability. Here's how we approach it:
 
-#### Unified End-to-End Test Suites and Shared Resources
+### Unified End-to-End Test Suites and Shared Resources
  - **We Share Test Utilities**: We have developed a suite of standard test utilities applicable across both frameworks. They include setup routines, simulations of user actions, and assertion functions.
  - **We Use Common Mock Data**: We maintain a centralized repository of mock data, ensuring all tests across frameworks are using the same datasets for consistency.
  - **We Design Abstract Test Scenarios**: Our test scenarios should be independent of the specificities of any framework, allowing us to apply the same test logic in both Stencil and React environments.
@@ -157,7 +155,7 @@ test.describe('salable-invoices Stencil E2E Tests', () => {
    });
 });
 ```
-*Notes:*
+*Notes*:
 - **Framework Specifics**: Uses `stencil-playwright` for E2E testing.
 - **Shared Resources**: Implements `InvoiceRepository` with `mockInvoices`.
 - **Test Scenario**: Validates the rendering and pagination of invoices using shared test methods.
