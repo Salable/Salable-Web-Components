@@ -28,7 +28,7 @@ importers:
   packages/react-client:
     dependencies:
       '@salable/react-library':
-        specifier: '*'
+        specifier: ^0.0.1-alpha.0
         version: link:../react-library
       react:
         specifier: ^18.2.0
@@ -80,7 +80,7 @@ importers:
   packages/react-library:
     dependencies:
       '@salable/stencil-library':
-        specifier: '*'
+        specifier: ^0.0.1-alpha.0
         version: link:../stencil-library
     devDependencies:
       '@types/node':
