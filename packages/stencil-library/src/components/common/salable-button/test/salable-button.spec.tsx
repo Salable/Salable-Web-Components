@@ -6,7 +6,7 @@ describe('salable-button', () => {
     const buttonText = 'Button Text';
     const page = await newSpecPage({
       components: [SalableButton],
-      html: `<salable-button></salable-button>`,
+      html: `<salable-button>${buttonText}</salable-button>`,
     });
     const button = page.root.querySelector('button');
     expect(button).toBeTruthy();

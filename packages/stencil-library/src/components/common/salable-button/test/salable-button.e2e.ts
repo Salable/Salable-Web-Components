@@ -4,7 +4,7 @@ import {expect} from '@playwright/test';
 test.describe('salable-button', () => {
   test('renders and displays slot content', async ({page}) => {
     const buttonText = 'Button Text';
-    await page.setContent('<salable-button>Button Text</salable-button>');
+    await page.setContent(`<salable-button>${buttonText}</salable-button>`);
     const element = page.locator('salable-button');
     await expect(element).toBeVisible();
     await expect(element).toHaveClass('hydrated');

@@ -18,7 +18,7 @@ export async function setUpInvoicePagination(page: Page, invoiceRepository: Invo
     });
 }
 
-export async function invoiceTests(page: Page, invoiceRepository: InvoiceRepository) {
+export async function salableInvoiceTests(page: Page, invoiceRepository: InvoiceRepository) {
     const pageOneRows = invoiceRepository.invoices.slice(0, 2);
     const pageTwoRows = invoiceRepository.invoices.slice(2, 4);
     const pageThreeRows = invoiceRepository.invoices.slice(4, 6);

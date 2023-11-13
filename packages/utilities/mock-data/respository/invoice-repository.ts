@@ -1,5 +1,4 @@
 import {paginate, PaginatedResult} from '../../paginate/paginate';
-import {mockInvoices} from "../invoice.mock";
 
 export type Invoice = {
     number: string;
@@ -16,7 +15,7 @@ interface StatusTransitions {
 class InvoiceRepository {
     private readonly _invoices: Invoice[];
 
-    constructor() {
+    constructor(mockInvoices: Invoice[]) {
         this._invoices = [...mockInvoices];
     }
 
