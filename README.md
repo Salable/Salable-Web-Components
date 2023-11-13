@@ -77,51 +77,51 @@ Understood! I'll adjust the testing strategy section to reflect the nuances of t
 
 Our project's testing framework leverages Playwright for end-to-end testing and Stencil spec tests for unit testing, with specific focus areas for different types of components:
 
+To enhance the detail and clarity of each section in your testing strategy, I'll provide expanded explanations and specifics for each bullet point. This will make each section more informative and straightforward.
+
 ### End-to-End Testing with Playwright (Stencil Library)
 
-End-to-end testing ensures our components function correctly in a real browser environment:
-
-Location: `stencil-library` package.
-Run: `pnpm test:e2e` or `pnpm test:e2e:ui`
+**General Overview:**
+End-to-end testing in our `stencil-library` package is performed using Playwright. This simulates real-world scenarios to ensure that our components function correctly within a browser environment. These tests can be run using `pnpm test:e2e` or `pnpm test:e2e:ui`.
 
 #### For Core Components (e.g., `salable-invoice`):
-   - Mock any data responses using Playwright routes.
-   - Confirm the component renders correctly
-   - Ensure data is displayed in the expected locations
-   - Make sure any user interactions work as expected
-   - Perform visual regression testing to ensure styles (provided by Tailwind CSS) are correctly applied.
+- **Mock Data Responses:** Utilize Playwright routes to mock backend data responses. This is critical for testing components in isolation from the backend.
+- **Rendering Verification:** Check if the component, such as `salable-invoice`, renders correctly in the browser environment, ensuring all elements are present and visible.
+- **Data Display:** Verify that data fetched or passed to the component is displayed correctly in the appropriate locations within the component.
+- **User Interaction Testing:** Simulate user interactions like clicks, input, and form submissions to ensure the component behaves as expected.
+- **Visual Regression Testing:** Use visual comparison tools to verify that the Tailwind CSS styles are applied correctly and consistently across updates.
 
 #### For Common Components (e.g., `salable-button`, `salable-status`):
-   - Ensure the component renders
-   - Check the content is displayed correctly
-   - Test any user interactions that affect the component state or trigger events
-   - If there are various combinations of props make sure they're tested sensibly
-   - As these components are used within core components and don't have a shadow DOM, they are not subjected to individual visual regression testing.
+- **Component Rendering:** Ensure these common components render correctly, verifying basic functionality and visibility.
+- **Content Accuracy:** Check that the content within these components (text, icons, etc.) is displayed as expected.
+- **Interaction Testing:** Test interactions (clicks, hovers, etc.) that may change the state of the component or trigger events.
+- **Props Combination Testing:** Assess different combinations of properties (props) these components accept to ensure they work under various configurations.
+- **Exclusion from Visual Regression Testing:** Since these components are part of the core components and lack an independent shadow DOM, they are not individually subjected to visual regression tests.
 
 ### Unit Testing with Stencil Spec Tests
 
-Unit testing is targeted at verifying the functionality of individual components, we will limit unit tests to common components only to avoid having mock data there:
+**Scope and Limitations:**
+In unit testing, we focus on the functionality of individual components, specifically the common components, to avoid complications with mock data. We use Stencil spec tests for this purpose.
 
-- Focus on testing specific class methods and functionalities, ensuring they operate as expected when used within core components.
+- **Method and Functionality Testing:** Examine specific class methods and functionalities within common components to ensure they perform as expected, especially when integrated within core components.
 
 ### Testing React-Wrapped Components
 
-Location: `react-client` package.
-Run: `pnpm test` or `pnpm test:ui`
+**Location and Execution:**
+These tests are located in the `react-client` package and can be executed using `pnpm test` or `pnpm test:ui`.
 
-- React client tests share the same setup and testing scripts as Stencil library e2e tests. The next section explains more
+- **Shared Testing Approach:** React client tests align with the Stencil library e2e tests in terms of setup and execution. This ensures consistency across different frameworks.
 
-## End-to-End Testing Strategy
-The project integrates multiple front-end frameworks like Stencil and React. We've adopted a specific testing strategy to ensure consistency, efficiency, and maintainability. Here's how we approach it:
+### End-to-End Testing Strategy for Multiple Frameworks
 
-### Unified End-to-End Test Suites and Shared Resources
- - **We Share Test Utilities**: We have developed a suite of standard test utilities applicable across both frameworks. They include setup routines, simulations of user actions, and assertion functions.
- - **We Use Common Mock Data**: We maintain a centralized repository of mock data, ensuring all tests across frameworks are using the same datasets for consistency.
- - **We Design Abstract Test Scenarios**: Our test scenarios should be independent of the specificities of any framework, allowing us to apply the same test logic in both Stencil and React environments.
- - **We Focus on Component Interactions**: Our e2e tests are more about how components interact with the shared utilities and mock data than their internal implementation specifics.
- - **We Address Framework-Specific Features Separately**: If features are unique to a particular framework, we create additional, targeted tests for those aspects. These complement our shared tests and ensure comprehensive coverage. 
+**Integrated Approach:**
+Our project combines multiple front-end frameworks, like Stencil and React, necessitating a unified and efficient testing strategy.
 
-By adopting this approach, we've created a robust testing environment that supports multiple frameworks while maintaining the integrity and consistency of our application across different technologies. This strategy enhances our development process and ensures a high-quality end product.
+- **Shared Test Utilities:** We utilize a suite of standard test utilities that are applicable across both Stencil and React. These include shared setup routines, user action simulations, and standard assertion functions.
+- **Common Mock Data Repository:** A centralized mock data repository is maintained to ensure consistency across all framework tests.
+- **Abstract Test Scenarios:** We design test scenarios that are framework-agnostic, enabling the application of the same testing logic in both Stencil and React environments.
+- **Focus on Component Interactions:** The primary aim of our e2e tests is to evaluate how components interact with shared utilities and mock data, rather than delving into the internal specifics of their implementation.
+- **Framework-Specific Testing:** Where features are unique to a specific framework, we develop targeted tests to address these unique aspects. This approach complements our shared tests and ensures comprehensive coverage.
 
 #### Example Stencil and React Shared End-to-End Tests
 
