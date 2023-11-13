@@ -1,13 +1,14 @@
-
 # Salable Component Library
 
-The Salable Component Library is a robust and versatile collection of web components designed to enhance the functionality and visual appeal of Salable dashboards. This library includes a range of components such as pricing tables, invoice lists, checkouts, and payment methods, each meticulously crafted to integrate seamlessly into a variety of web applications. Built using StencilJS and optimized for React, these components offer a blend of performance, customization, and ease of use, making them an ideal choice for developers looking to create intuitive and interactive user interfaces for financial and e-commerce platforms.
+The Salable Component Library is a versatile collection of web components for all your billing and checkout needs. It contains various components such as pricing tables, invoice lists, checkouts, and payment methods and will integrate seamlessly into your web application.
+
+Built using StencilJS and optimised for React, these Web Components offer a blend of performance, customisation, and ease of use. They make them ideal for developers looking to create intuitive and interactive user interfaces for SaaS products.
 
 ## Installation Instructions
 
 ---
 
-To integrate the Salable Component Library into your project, you can install the packages directly from npm. Ensure you have Node.js installed on your system, and then run the following commands in your project directory:
+You can install the packages directly from npm to integrate the Salable Component Library into your project. Ensure you have Node.js installed on your system, and then run the following commands in your project directory:
 
 For Stencil components:
 ```bash
@@ -19,7 +20,7 @@ For React components:
 pnpm add @salable/react-library
 ```
 
-These commands will install the respective libraries and add them as dependencies in your `package.json` file.
+These commands will install and add the respective libraries as dependencies in your `package.json` file.
 
 ## Usage Examples
 
@@ -67,9 +68,7 @@ export default function SalableInvoicesDemo() {
 }
 ```
 
-This example demonstrates how to render the `SalableInvoices` component with React, passing in the necessary props.
-
-Understood! I'll adjust the testing strategy section to reflect the nuances of testing common components versus core components, especially considering the use of Tailwind CSS and the absence of shadow DOM in common components. Here's the revised section:
+This example demonstrates rendering the `SalableInvoices` component with React, passing in the necessary props.
 
 ---
 
@@ -77,51 +76,50 @@ Understood! I'll adjust the testing strategy section to reflect the nuances of t
 
 Our project's testing framework leverages Playwright for end-to-end testing and Stencil spec tests for unit testing, with specific focus areas for different types of components:
 
-To enhance the detail and clarity of each section in your testing strategy, I'll provide expanded explanations and specifics for each bullet point. This will make each section more informative and straightforward.
-
 ### End-to-End Testing with Playwright (Stencil Library)
 
-**General Overview:**
-End-to-end testing in our `stencil-library` package is performed using Playwright. This simulates real-world scenarios to ensure that our components function correctly within a browser environment. These tests can be run using `pnpm test:e2e` or `pnpm test:e2e:ui`.
+**General Overview**:
+End-to-end testing in our `stencil-library` package uses Playwright. To simulate real-world scenarios to ensure our components function correctly within a browser environment. Run the tests using `pnpm test:e2e` or `pnpm test:e2e:ui`.
 
 #### For Core Components (e.g., `salable-invoice`):
-- **Mock Data Responses:** Utilize Playwright routes to mock backend data responses. This is critical for testing components in isolation from the backend.
-- **Rendering Verification:** Check if the component, such as `salable-invoice`, renders correctly in the browser environment, ensuring all elements are present and visible.
-- **Data Display:** Verify that data fetched or passed to the component is displayed correctly in the appropriate locations within the component.
-- **User Interaction Testing:** Simulate user interactions like clicks, input, and form submissions to ensure the component behaves as expected.
-- **Visual Regression Testing:** Use visual comparison tools to verify that the Tailwind CSS styles are applied correctly and consistently across updates.
+- **Mock Data Responses**: Utilise Playwright routes to mock backend data responses; this is critical for testing components in isolation from the backend.
+- **Rendering Verification**: Check if the component, such as `salable-invoice`, renders correctly in the browser environment, ensuring all elements are present and visible.
+- **Data Display**: Verify that data fetched or passed to the component is displayed correctly in the appropriate locations within the component.
+- **User Interaction Testing**: Simulate user interactions like clicks, input, and form submissions to ensure the component behaves as expected.
+- **Failure Cases**: Make sure components handle failed requests gracefully and display helpful information to end users.
+- **Visual Regression Testing**: Use visual comparison tools to verify that the Tailwind CSS styles are applied correctly and consistently across updates.
 
 #### For Common Components (e.g., `salable-button`, `salable-status`):
-- **Component Rendering:** Ensure these common components render correctly, verifying basic functionality and visibility.
-- **Content Accuracy:** Check that the content within these components (text, icons, etc.) is displayed as expected.
-- **Interaction Testing:** Test interactions (clicks, hovers, etc.) that may change the state of the component or trigger events.
-- **Props Combination Testing:** Assess different combinations of properties (props) these components accept to ensure they work under various configurations.
-- **Exclusion from Visual Regression Testing:** Since these components are part of the core components and lack an independent shadow DOM, they are not individually subjected to visual regression tests.
+- **Component Rendering**: Ensure these common components render correctly, verifying basic functionality and visibility.
+- **Content Accuracy**: Check that the content within these components (text, icons, etc.) is displayed as expected.
+- **Interaction Testing**: Test interactions (clicks, hovers, etc.) that may change the state of the component or trigger events.
+- **Props Combination Testing**: Assess different combinations of properties (props) these components accept to ensure they work under various configurations.
+- **Exclusion from Visual Regression Testing**: Since these components are part of the core components and lack an independent shadow DOM, they will not have visual regression tests.
 
 ### Unit Testing with Stencil Spec Tests
 
-**Scope and Limitations:**
+**Scope and Limitations**:
 In unit testing, we focus on the functionality of individual components, specifically the common components, to avoid complications with mock data. We use Stencil spec tests for this purpose.
 
-- **Method and Functionality Testing:** Examine specific class methods and functionalities within common components to ensure they perform as expected, especially when integrated within core components.
+- **Method and Functionality Testing**: Examine specific class methods and functionalities within common components to ensure they perform as expected, especially when integrated within core components.
 
 ### Testing React-Wrapped Components
 
-**Location and Execution:**
-These tests are located in the `react-client` package and can be executed using `pnpm test` or `pnpm test:ui`.
+**Location and Execution**:
+These tests are in the `react-client` package. You can run them with `pnpm test` or `pnpm test:ui`.
 
-- **Shared Testing Approach:** React client tests align with the Stencil library e2e tests in terms of setup and execution. This ensures consistency across different frameworks.
+- **Shared Testing Approach**: React client tests align with the Stencil library e2e tests setup and execution; this ensures consistency across different frameworks.
 
 ### End-to-End Testing Strategy for Multiple Frameworks
 
-**Integrated Approach:**
+**Integrated Approach**:
 Our project combines multiple front-end frameworks, like Stencil and React, necessitating a unified and efficient testing strategy.
 
-- **Shared Test Utilities:** We utilize a suite of standard test utilities that are applicable across both Stencil and React. These include shared setup routines, user action simulations, and standard assertion functions.
-- **Common Mock Data Repository:** A centralized mock data repository is maintained to ensure consistency across all framework tests.
-- **Abstract Test Scenarios:** We design test scenarios that are framework-agnostic, enabling the application of the same testing logic in both Stencil and React environments.
-- **Focus on Component Interactions:** The primary aim of our e2e tests is to evaluate how components interact with shared utilities and mock data, rather than delving into the internal specifics of their implementation.
-- **Framework-Specific Testing:** Where features are unique to a specific framework, we develop targeted tests to address these unique aspects. This approach complements our shared tests and ensures comprehensive coverage.
+- **Shared Test Utilities**: We utilise a suite of standard test utilities applicable to Stencil and React. These include shared setup routines, user action simulations, and standard assertion functions.
+- **Common Mock Data Repository**: A centralised mock data repository is maintained to ensure consistency across all framework tests.
+- **Abstract Test Scenarios**: We design framework-agnostic test scenarios, enabling the application of the same testing logic in both Stencil and React environments.
+- **Focus on Component Interactions**: The primary aim of our e2e tests is to evaluate how components interact with shared utilities and mock data rather than delving into the internal specifics of their implementation.
+- **Framework-Specific Testing**: Where features are unique to a specific framework, we develop targeted tests to address these individual aspects. This approach complements our shared tests and ensures comprehensive coverage.
 
 #### Example Stencil and React Shared End-to-End Tests
 
@@ -221,6 +219,6 @@ To create a new version:
    pnpm lerna:publish
    ```
 
-   This will publish the packages to npm, ensuring that any updates are made available to users.
+This command will publish the packages to npm, ensuring that updates are available to users.
 
 Remember to document your changes in a `CHANGELOG.md` file for each package, providing clear and concise descriptions of features, fixes, and any breaking changes introduced with each release.
