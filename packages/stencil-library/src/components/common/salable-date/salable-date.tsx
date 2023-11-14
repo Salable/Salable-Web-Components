@@ -9,11 +9,11 @@ import format from 'date-fns/format';
 export class SalableDate {
   @Prop() date: string | number;
 
-  @Element() hostElement: HTMLElement;
+  @Element() hostElement: HTMLSalableDateElement;
 
   @State() isLongFormat: boolean = false;
 
-  resizeObserver: ResizeObserver;
+  private resizeObserver: ResizeObserver;
 
   constructor() {
     this.updateFormat = this.updateFormat.bind(this);
@@ -32,12 +32,12 @@ export class SalableDate {
     this.resizeObserver.disconnect();
   }
 
-  updateFormat() {
+  private updateFormat() {
     const width = this.hostElement.getBoundingClientRect().width;
     this.isLongFormat = width > 200;
   }
 
-  getDateFormat() {
+  private getDateFormat() {
     const dateFormat = this.isLongFormat ? 'dd MMMM yyyy' : 'dd-MM-Y';
     return format(new Date(this.date), dateFormat);
   }

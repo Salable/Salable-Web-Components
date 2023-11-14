@@ -1,0 +1,51 @@
+name: Release Workflow
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run Lerna Version
+        run: npx lerna version --yes --conventional-commits --no-push
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Push Changes
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git push origin main --follow-tags

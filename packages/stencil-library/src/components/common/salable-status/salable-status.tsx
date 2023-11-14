@@ -1,10 +1,5 @@
 import {Component, h, Host, Prop} from '@stencil/core';
-
-export enum StatusType {
-  SUCCESS = 'success',
-  WARNING = 'warning',
-  ERROR = 'error'
-}
+import {StatusType} from "../../../enums/status-type";
 
 @Component({
   tag: 'salable-status',
@@ -13,10 +8,9 @@ export enum StatusType {
 })
 export class SalableStatus {
 
-  @Prop()
-  statusType = StatusType.SUCCESS;
+  @Prop() statusType = StatusType.SUCCESS;
 
-  getSvg() {
+  private getSvg() {
     if (this.statusType === StatusType.SUCCESS) {
       return (
         <svg id='success-svg' class='w-2.5 h-2.5' xmlns='http://www.w3.org/2000/svg' width='16' height='16'
@@ -49,7 +43,7 @@ export class SalableStatus {
     }
   }
 
-  getColour() {
+  private getColour() {
     if (this.statusType === StatusType.SUCCESS) {
       return 'bg-green-100 text-green-800 dark:bg-green-900';
     }
@@ -72,5 +66,4 @@ export class SalableStatus {
       </Host>
     );
   }
-
 }

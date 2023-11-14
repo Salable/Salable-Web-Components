@@ -1,14 +1,7 @@
 import {Component, h, Host, Prop, State} from '@stencil/core';
-import {StatusType} from '../common/salable-status/salable-status';
 import {apiUrl} from "../../constants";
-
-export enum InvoiceStatus {
-  PAID = 'paid',
-  UNCOLLECTIBLE = 'uncollectible',
-  VOID = 'void',
-  OPEN = 'open',
-  DRAFT = 'draft',
-}
+import {StatusType} from "../../enums/status-type";
+import {InvoiceStatus} from "../../enums/invoice-status";
 
 @Component({
   tag: 'salable-invoices',
@@ -16,17 +9,13 @@ export enum InvoiceStatus {
   shadow: true,
 })
 export class SalableInvoices {
-  @State()
-  data: any = null; // Todo: define type (or not)
+  @State() data: any = null; // Todo: define type (or not)
 
-  @Prop()
-  apiKey: string;
+  @Prop() apiKey: string;
 
-  @Prop()
-  subscriptionUuid: string;
+  @Prop() subscriptionUuid: string;
 
-  @Prop()
-  limit: number = 25;
+  @Prop() limit: number = 25;
 
   private currentPage = 1;
 
@@ -34,7 +23,7 @@ export class SalableInvoices {
     await this.fetchInvoices(this.limit);
   }
 
-  getStatus(status: InvoiceStatus) {
+  private getStatus(status: InvoiceStatus) {
     switch (status) {
       case InvoiceStatus.PAID:
         return <salable-status statusType={StatusType.SUCCESS}>Paid</salable-status>;
@@ -51,13 +40,13 @@ export class SalableInvoices {
     }
   }
 
-  getNextPage = async () => {
+  private getNextPage = async () => {
     if (!this.data) return;
     this.currentPage++;
     await this.fetchInvoices(this.limit, this.data.last);
   };
 
-  getPrevPage = async () => {
+  private getPrevPage = async () => {
     if (!this.data) return;
     this.currentPage--;
     await this.fetchInvoices(-this.limit, this.data.first);
@@ -183,7 +172,7 @@ export class SalableInvoices {
       const params = new URLSearchParams();
       params.set('take', limit.toString());
 
-      if (cursor) {
+      if (Boolean(cursor)) {
         params.set('cursor', cursor);
       }
 

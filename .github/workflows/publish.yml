@@ -1,0 +1,29 @@
+name: Publish Workflow
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Packages
+        run: pnpm lerna:build
+
+      - name: Publish Packages
+        run: npx lerna publish from-package --yes
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
