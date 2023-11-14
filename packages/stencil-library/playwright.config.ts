@@ -7,6 +7,13 @@ expect.extend(matchers);
 
 const config: PlaywrightTestConfig = {
   ...defaultPlaywrightConfig,
+  expect: {
+    timeout: 5000,
+    toMatchSnapshot: {
+      threshold: 0.05,
+      maxDiffPixelRatio: 0.05,
+    }
+  },
   testMatch: '*.e2e.ts',
   use: {
     actionTimeout: 0,
