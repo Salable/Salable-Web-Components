@@ -40,8 +40,8 @@ export const defaultPlaywrightConfig: PlaywrightTestConfig = {
     expect: {
         timeout: 5000,
         toMatchSnapshot: {
-            threshold: 0.25,
-            maxDiffPixelRatio: 0.25,
+            threshold: 0.05,
+            maxDiffPixelRatio: 0.05,
         }
     },
     fullyParallel: true,
