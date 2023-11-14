@@ -1,4 +1,4 @@
-import {SalableDate} from '../salable-date';
+import {SalableDate} from './salable-date';
 import format from 'date-fns/format';
 
 describe('SalableDate', () => {

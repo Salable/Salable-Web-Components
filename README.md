@@ -182,7 +182,7 @@ test.describe('salable-invoices React Client E2E Tests', () => {
 
 ```
 *Notes:*
-- **Framework Specifics**: Utilizes `@playwright/test` for React testing.
+- **Framework Specifics**: Utilises `@playwright/test` for React testing.
 - **Shared Resources**: Uses the same `InvoiceRepository` and `mockInvoices` as in Stencil tests.
 - **Test Scenario**: Checks for similar functionalities as the Stencil tests, demonstrating consistency across frameworks.
 

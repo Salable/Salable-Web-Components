@@ -11,8 +11,8 @@ import {defaultPlaywrightConfig} from "../../default-playwright-config";
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  testDir: './tests',
   ...defaultPlaywrightConfig,
+  testMatch: '*.e2e.ts',
   use: {
     actionTimeout: 0,
     trace: 'retain-on-failure',

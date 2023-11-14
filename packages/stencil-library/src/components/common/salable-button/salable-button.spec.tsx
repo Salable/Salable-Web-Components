@@ -1,5 +1,5 @@
 import {newSpecPage} from '@stencil/core/testing';
-import {SalableButton} from '../salable-button';
+import {SalableButton} from './salable-button';
 
 describe('salable-button', () => {
   it('renders and displays slot content', async () => {

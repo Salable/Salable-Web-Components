@@ -1,7 +1,7 @@
 import {test} from 'stencil-playwright';
-import InvoiceRepository from "../../../../../utilities/respository/invoice-repository";
-import {salableInvoicePaginationTests, setUpInvoicePagination} from "../../../../../utilities/tests/salable-invoice-tests";
-import {mockInvoices} from "../../../../../utilities/mock-data/invoice.mock";
+import InvoiceRepository from "../../../../utilities/respository/invoice-repository";
+import {salableInvoicePaginationTests, setUpInvoicePagination} from "../../../../utilities/tests/salable-invoice-tests";
+import {mockInvoices} from "../../../../utilities/mock-data/invoice.mock";
 
 test.describe('salable-invoices Stencil E2E Tests', () => {
   const mockApiKey = 'mock_api_key';

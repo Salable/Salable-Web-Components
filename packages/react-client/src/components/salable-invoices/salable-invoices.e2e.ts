@@ -1,7 +1,7 @@
 import {test} from '@playwright/test';
-import {salableInvoicePaginationTests, setUpInvoicePagination} from "../../utilities/tests/salable-invoice-tests";
-import InvoiceRepository from "../../utilities/respository/invoice-repository";
-import {mockInvoices} from "../../utilities/mock-data/invoice.mock";
+import {salableInvoicePaginationTests, setUpInvoicePagination} from "../../../../utilities/tests/salable-invoice-tests.ts";
+import InvoiceRepository from "../../../../utilities/respository/invoice-repository.ts";
+import {mockInvoices} from "../../../../utilities/mock-data/invoice.mock.ts";
 
 test.describe('salable-invoices React Client E2E Tests', () => {
     const invoiceRepository = new InvoiceRepository(mockInvoices);
