@@ -8,6 +8,9 @@ import {StatusType} from "../../../enums/status-type";
 })
 export class SalableStatus {
 
+  /**
+   * The status type
+   **/
   @Prop() statusType = StatusType.SUCCESS;
 
   private getSvg() {

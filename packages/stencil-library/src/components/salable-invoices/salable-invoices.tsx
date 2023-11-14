@@ -11,10 +11,19 @@ import {InvoiceStatus} from "../../enums/invoice-status";
 export class SalableInvoices {
   @State() data: any = null; // Todo: define type (or not)
 
+  /**
+   * The publishable api key, this can be generated in the Salable dashboard
+   **/
   @Prop() apiKey: string;
 
+  /**
+   * The uuid of the subscription that you want to display invoices for.
+   **/
   @Prop() subscriptionUuid: string;
 
+  /**
+   * The number of rows to display per page
+   **/
   @Prop() limit: number = 25;
 
   private currentPage = 1;

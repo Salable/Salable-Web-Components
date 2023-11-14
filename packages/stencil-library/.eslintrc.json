@@ -6,6 +6,6 @@
     "plugin:@stencil-community/recommended"
   ],
   "rules": {
-    "@stencil-community/required-jsdoc": "off"
+//    "@stencil-community/required-jsdoc": "off"
   }
 }

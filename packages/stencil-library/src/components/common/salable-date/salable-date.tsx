@@ -7,6 +7,9 @@ import format from 'date-fns/format';
   shadow: true,
 })
 export class SalableDate {
+  /**
+   * The date to display
+   **/
   @Prop() date: string | number;
 
   @Element() hostElement: HTMLSalableDateElement;
