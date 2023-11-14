@@ -20,6 +20,9 @@ jobs:
         with:
           version: 8
 
+      - name: Install Playwright
+        run: pnpm exec playwright install
+
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
