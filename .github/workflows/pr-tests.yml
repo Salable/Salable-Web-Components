@@ -20,11 +20,11 @@ jobs:
         with:
           version: 8
 
-      - name: Install Playwright
-        run: npx playwright install --with-deps
-
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps
 
       - name: Build Packages
         run: pnpm lerna:build
