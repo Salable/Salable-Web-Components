@@ -5,9 +5,9 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type               | Default     |
-| -------- | --------- | ----------- | ------------------ | ----------- |
-| `date`   | `date`    |             | `number \| string` | `undefined` |
+| Property | Attribute | Description         | Type               | Default     |
+| -------- | --------- | ------------------- | ------------------ | ----------- |
+| `date`   | `date`    | The date to display | `number \| string` | `undefined` |
 
 
 ## Dependencies

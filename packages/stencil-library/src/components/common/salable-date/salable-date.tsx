@@ -35,12 +35,12 @@ export class SalableDate {
     this.resizeObserver.disconnect();
   }
 
-  private updateFormat() {
+  updateFormat() {
     const width = this.hostElement.getBoundingClientRect().width;
     this.isLongFormat = width > 200;
   }
 
-  private getDateFormat() {
+  getDateFormat() {
     const dateFormat = this.isLongFormat ? 'dd MMMM yyyy' : 'dd-MM-Y';
     return format(new Date(this.date), dateFormat);
   }

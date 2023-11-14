@@ -5,26 +5,45 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { StatusType } from "./components/common/salable-status/salable-status";
-export { StatusType } from "./components/common/salable-status/salable-status";
+import { StatusType } from "./enums/status-type";
+export { StatusType } from "./enums/status-type";
 export namespace Components {
+    /**
+     * button component
+     */
     interface SalableButton {
     }
     interface SalableDate {
+        /**
+          * The date to display
+         */
         "date": string | number;
     }
     interface SalableInvoices {
+        /**
+          * The publishable api key, this can be generated in the Salable dashboard
+         */
         "apiKey": string;
+        /**
+          * The number of rows to display per page
+         */
         "limit": number;
+        /**
+          * The uuid of the subscription that you want to display invoices for.
+         */
         "subscriptionUuid": string;
     }
-    interface SalableSearch {
-    }
     interface SalableStatus {
+        /**
+          * The status type
+         */
         "statusType": StatusType;
     }
 }
 declare global {
+    /**
+     * button component
+     */
     interface HTMLSalableButtonElement extends Components.SalableButton, HTMLStencilElement {
     }
     var HTMLSalableButtonElement: {
@@ -43,12 +62,6 @@ declare global {
         prototype: HTMLSalableInvoicesElement;
         new (): HTMLSalableInvoicesElement;
     };
-    interface HTMLSalableSearchElement extends Components.SalableSearch, HTMLStencilElement {
-    }
-    var HTMLSalableSearchElement: {
-        prototype: HTMLSalableSearchElement;
-        new (): HTMLSalableSearchElement;
-    };
     interface HTMLSalableStatusElement extends Components.SalableStatus, HTMLStencilElement {
     }
     var HTMLSalableStatusElement: {
@@ -59,31 +72,45 @@ declare global {
         "salable-button": HTMLSalableButtonElement;
         "salable-date": HTMLSalableDateElement;
         "salable-invoices": HTMLSalableInvoicesElement;
-        "salable-search": HTMLSalableSearchElement;
         "salable-status": HTMLSalableStatusElement;
     }
 }
 declare namespace LocalJSX {
+    /**
+     * button component
+     */
     interface SalableButton {
     }
     interface SalableDate {
+        /**
+          * The date to display
+         */
         "date"?: string | number;
     }
     interface SalableInvoices {
+        /**
+          * The publishable api key, this can be generated in the Salable dashboard
+         */
         "apiKey"?: string;
+        /**
+          * The number of rows to display per page
+         */
         "limit"?: number;
+        /**
+          * The uuid of the subscription that you want to display invoices for.
+         */
         "subscriptionUuid"?: string;
     }
-    interface SalableSearch {
-    }
     interface SalableStatus {
+        /**
+          * The status type
+         */
         "statusType"?: StatusType;
     }
     interface IntrinsicElements {
         "salable-button": SalableButton;
         "salable-date": SalableDate;
         "salable-invoices": SalableInvoices;
-        "salable-search": SalableSearch;
         "salable-status": SalableStatus;
     }
 }
@@ -91,10 +118,12 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            /**
+             * button component
+             */
             "salable-button": LocalJSX.SalableButton & JSXBase.HTMLAttributes<HTMLSalableButtonElement>;
             "salable-date": LocalJSX.SalableDate & JSXBase.HTMLAttributes<HTMLSalableDateElement>;
             "salable-invoices": LocalJSX.SalableInvoices & JSXBase.HTMLAttributes<HTMLSalableInvoicesElement>;
-            "salable-search": LocalJSX.SalableSearch & JSXBase.HTMLAttributes<HTMLSalableSearchElement>;
             "salable-status": LocalJSX.SalableStatus & JSXBase.HTMLAttributes<HTMLSalableStatusElement>;
         }
     }

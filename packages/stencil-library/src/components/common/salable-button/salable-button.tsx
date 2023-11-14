@@ -1,5 +1,9 @@
 import {Component, h, Host} from '@stencil/core';
 
+/**
+ * button component
+ * @slot The button content
+ */
 @Component({
   tag: 'salable-button',
   styleUrl: 'salable-button.css',

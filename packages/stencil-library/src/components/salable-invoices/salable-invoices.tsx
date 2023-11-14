@@ -32,7 +32,7 @@ export class SalableInvoices {
     await this.fetchInvoices(this.limit);
   }
 
-  private getStatus(status: InvoiceStatus) {
+  getStatus(status: InvoiceStatus) {
     switch (status) {
       case InvoiceStatus.PAID:
         return <salable-status statusType={StatusType.SUCCESS}>Paid</salable-status>;
@@ -49,7 +49,7 @@ export class SalableInvoices {
     }
   }
 
-  private getNextPage = async () => {
+  getNextPage = async () => {
     if (!this.data) return;
     this.currentPage++;
     await this.fetchInvoices(this.limit, this.data.last);

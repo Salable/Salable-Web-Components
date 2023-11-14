@@ -5,9 +5,9 @@
 
 ## Properties
 
-| Property     | Attribute     | Description | Type                                                           | Default              |
-| ------------ | ------------- | ----------- | -------------------------------------------------------------- | -------------------- |
-| `statusType` | `status-type` |             | `StatusType.ERROR \| StatusType.SUCCESS \| StatusType.WARNING` | `StatusType.SUCCESS` |
+| Property     | Attribute     | Description     | Type                                                           | Default              |
+| ------------ | ------------- | --------------- | -------------------------------------------------------------- | -------------------- |
+| `statusType` | `status-type` | The status type | `StatusType.ERROR \| StatusType.SUCCESS \| StatusType.WARNING` | `StatusType.SUCCESS` |
 
 
 ## Dependencies

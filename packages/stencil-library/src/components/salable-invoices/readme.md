@@ -5,11 +5,11 @@
 
 ## Properties
 
-| Property           | Attribute           | Description | Type     | Default     |
-| ------------------ | ------------------- | ----------- | -------- | ----------- |
-| `apiKey`           | `api-key`           |             | `string` | `undefined` |
-| `limit`            | `limit`             |             | `number` | `25`        |
-| `subscriptionUuid` | `subscription-uuid` |             | `string` | `undefined` |
+| Property           | Attribute           | Description                                                             | Type     | Default     |
+| ------------------ | ------------------- | ----------------------------------------------------------------------- | -------- | ----------- |
+| `apiKey`           | `api-key`           | The publishable api key, this can be generated in the Salable dashboard | `string` | `undefined` |
+| `limit`            | `limit`             | The number of rows to display per page                                  | `number` | `25`        |
+| `subscriptionUuid` | `subscription-uuid` | The uuid of the subscription that you want to display invoices for.     | `string` | `undefined` |
 
 
 ## Dependencies

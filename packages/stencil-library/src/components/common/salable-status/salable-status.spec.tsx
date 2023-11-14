@@ -1,4 +1,5 @@
-import {SalableStatus, StatusType} from './salable-status';
+import {SalableStatus} from './salable-status';
+import {StatusType} from "../../../enums/status-type";
 
 describe('salable-status', () => {
   let salableStatus: SalableStatus;

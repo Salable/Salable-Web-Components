@@ -13,7 +13,7 @@ export class SalableStatus {
    **/
   @Prop() statusType = StatusType.SUCCESS;
 
-  private getSvg() {
+  getSvg() {
     if (this.statusType === StatusType.SUCCESS) {
       return (
         <svg id='success-svg' class='w-2.5 h-2.5' xmlns='http://www.w3.org/2000/svg' width='16' height='16'
@@ -46,7 +46,7 @@ export class SalableStatus {
     }
   }
 
-  private getColour() {
+  getColour() {
     if (this.statusType === StatusType.SUCCESS) {
       return 'bg-green-100 text-green-800 dark:bg-green-900';
     }
