@@ -9,7 +9,7 @@ import {InvoiceStatus} from "../../enums/invoice-status";
   shadow: true,
 })
 export class SalableInvoices {
-  @State() data: any = null; // Todo: define type (or not)
+  @State() data: any = null; // Todo: define type
 
   /**
    * The publishable api key, this can be generated in the Salable dashboard
