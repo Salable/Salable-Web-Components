@@ -42,6 +42,10 @@ export const defaultPlaywrightConfig: PlaywrightTestConfig = {
         toMatchSnapshot: {
             threshold: 0.05,
             maxDiffPixelRatio: 0.05,
+        },
+        toHaveScreenshot: {
+            threshold: 0.05,
+            maxDiffPixelRatio: 0.05,
         }
     },
     fullyParallel: true,
