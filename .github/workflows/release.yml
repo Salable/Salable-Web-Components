@@ -52,7 +52,7 @@ jobs:
         run: npx lerna version --yes --conventional-commits --no-push --force-publish
 
       - name: Publish Packages
-        run: npx lerna publish --yes
+        run: npx lerna publish --yes from-package
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
