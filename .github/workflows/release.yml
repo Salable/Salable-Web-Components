@@ -51,6 +51,11 @@ jobs:
       - name: Version Packages
         run: npx lerna version --yes --conventional-commits --no-push --force-publish
 
+      - name: Configure npm for @salable scope
+        run: |
+          echo "@salable:registry=https://registry.npmjs.org/" >> .npmrc
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
+
       - name: Publish Packages
         run: npx lerna publish --yes from-package
         env:
