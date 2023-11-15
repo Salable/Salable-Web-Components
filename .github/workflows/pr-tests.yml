@@ -6,6 +6,10 @@ on:
 
 jobs:
   test:
+#   Note: We run on macos-latest so that the screenshots have
+#         the same os in the file names and can be compared on in the pipeline.
+#         There is still a discrepancy in the rendering, we may need to use docker
+#         to run --update-snapshots so that we can use identical os.
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
