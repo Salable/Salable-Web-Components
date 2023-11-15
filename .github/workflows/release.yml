@@ -53,6 +53,6 @@ jobs:
 
       - name: Push Tags
         run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@users.noreply.github.com"
           git push origin --tags
