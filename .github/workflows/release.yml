@@ -43,7 +43,12 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run Lerna Version
+      - name: Set up Git User
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@users.noreply.github.com"
+
+      - name: Version Packages
         run: npx lerna version --yes --conventional-commits --no-push
 
       - name: Publish Packages
@@ -52,7 +57,4 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Push Tags
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "github-actions@users.noreply.github.com"
-          git push origin --tags
+        run: git push origin --tags
