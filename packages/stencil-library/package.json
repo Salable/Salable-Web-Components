@@ -1,6 +1,6 @@
 {
   "name": "@salable/stencil-library",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Stencil Component Starter",
   "author": "Sean Cooper <scooper@adaptavist.com>",
   "license": "MIT",
@@ -60,5 +60,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "033ec30a86d84756bd80ec338a0476c0407e3c51"
+  "gitHead": "69dec1b2395acc6a4d410c7b552dd9c9841defa7"
 }
