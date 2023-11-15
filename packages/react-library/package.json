@@ -33,5 +33,6 @@
   },
   "dependencies": {
     "@salable/stencil-library": "^0.0.1-alpha.0"
-  }
+  },
+  "gitHead": "033ec30a86d84756bd80ec338a0476c0407e3c51"
 }
