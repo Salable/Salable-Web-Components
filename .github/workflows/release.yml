@@ -1,18 +1,20 @@
 name: Release Workflow
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
 
 jobs:
   release:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: main
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -47,10 +49,10 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
 
       - name: Version Packages
-        run: npx lerna version --yes --conventional-commits --no-push
+        run: npx lerna version --yes --conventional-commits --no-push --force-publish
 
       - name: Publish Packages
-        run: npx lerna publish from-package --yes
+        run: npx lerna publish --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
