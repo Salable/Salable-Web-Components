@@ -32,6 +32,8 @@
     "test:spec:watch": "stencil test --spec --watchAll",
     "test:serve": "serve -p 3333",
     "lint": "eslint src/**/*{.ts,.tsx}",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm typecheck && pnpm lint",
     "generate": "stencil generate"
   },
   "dependencies": {
