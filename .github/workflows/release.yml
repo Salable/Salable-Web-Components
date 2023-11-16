@@ -56,10 +56,18 @@ jobs:
           echo "@salable:registry=https://registry.npmjs.org/" >> .npmrc
           echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
 
+      - name: Commit Version Bumps
+        run: |
+          git add .
+          git commit -m "chore: bump package versions"
+
+      - name: Push Commit
+        run: git push origin HEAD:${{ github.head_ref }}
+
+      - name: Push Tags
+        run: git push origin --tags
+
       - name: Publish Packages
         run: npx lerna publish from-git --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Push Tags
-        run: git push origin --tags
