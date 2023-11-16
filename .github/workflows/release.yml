@@ -58,9 +58,7 @@ jobs:
         run: |
           git add .
           git commit -m "chore: bump package versions"
-
-      - name: Push Commit
-        run: git push origin HEAD:${{ github.head_ref }}
+          git push origin main
 
       - name: Push Tags
         run: git push origin --tags
