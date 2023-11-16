@@ -47,10 +47,10 @@ jobs:
       - name: Build Packages
         run: pnpm lerna:build
 
-      - name: Run Stencil Linter
+      - name: Run Stencil Checks
         run: | 
           cd packages/stencil-library
-          pnpm lint
+          pnpm check
 
       - name: Run Stencil Spec Tests
         run: | 
