@@ -50,16 +50,13 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "github-actions@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.ADMIN_GH_PAT }}@github.com/${{ github.repository }}
-
+          git checkout main
 
       - name: Version Packages
         run: npx lerna version --yes --conventional-commits --no-push --force-publish
 
-      - name: Commit Version Bumps
+      - name: Push Versions
         run: |
-          git checkout main
-          git add .
-          git commit -m "chore: bump package versions"
           git push origin main
 
       - name: Push Tags
