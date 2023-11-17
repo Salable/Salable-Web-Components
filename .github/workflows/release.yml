@@ -8,7 +8,9 @@ on:
 
 jobs:
   release:
-    if: ${{ github.event.pull_request.merged == true && !contains(github.event.pull_request.title, 'Automated Publish Release') }}
+    if: >
+      github.event.pull_request.merged == true &&
+      !contains(github.event.pull_request.title, 'Automated Publish Release')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -58,10 +60,8 @@ jobs:
       - name: Push Tags
         run: git push origin --tags
 
-      - name: Commit Version Bumps
+      - name: Push Version Bumps
         run: |
-          git add .
-          git commit -m "chore: bump package versions (AUTOMATED)"
           git push origin $RELEASE_BRANCH
 
       - name: Create Publish PR
