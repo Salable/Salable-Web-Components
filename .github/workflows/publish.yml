@@ -8,8 +8,10 @@ on:
 
 jobs:
   publish:
-    if: ${{ github.event.pull_request.merged == true && contains(github.event.pull_request.title, 'Automated Publish Release') }}
-
+    # Run only if the PR is merged and has a title indicating it's a publish PR
+    if: >
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.title, 'Automated Publish Release')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
