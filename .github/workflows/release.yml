@@ -60,6 +60,7 @@ jobs:
 
       - name: Commit Version Bumps
         run: |
+          git checkout main
           git add .
           git commit -m "chore: bump package versions"
           git push origin main
