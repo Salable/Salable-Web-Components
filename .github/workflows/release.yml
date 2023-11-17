@@ -56,8 +56,7 @@ jobs:
         run: npx lerna version --yes --conventional-commits --no-push --force-publish
 
       - name: Push Versions
-        run: |
-          git push origin main
+        run: git push origin main
 
       - name: Push Tags
         run: git push origin --tags
