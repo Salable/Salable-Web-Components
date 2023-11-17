@@ -60,10 +60,8 @@ jobs:
       - name: Push Tags
         run: git push origin --tags
 
-      - name: Commit Version Bumps
+      - name: Push Version Bumps
         run: |
-          git add .
-          git commit -m "chore: bump package versions (AUTOMATED)"
           git push origin $RELEASE_BRANCH
 
       - name: Create Publish PR
