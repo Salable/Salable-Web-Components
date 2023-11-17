@@ -64,6 +64,8 @@ jobs:
           git add .
           git commit -m "chore: bump package versions"
           git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.ADMIN_GH_PAT }}
 
       - name: Push Tags
         run: git push origin --tags
