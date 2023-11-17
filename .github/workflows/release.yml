@@ -8,9 +8,6 @@ on:
 
 jobs:
   release:
-    if: >
-      github.event.pull_request.merged == true &&
-      !contains(github.event.pull_request.title, 'Automated Publish Release')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,6 +27,7 @@ jobs:
           run_install: false
 
       - name: Get pnpm store directory
+        shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
@@ -49,25 +47,24 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "github-actions@users.noreply.github.com"
 
-      - name: Create Release Branch
-        run: |
-          RELEASE_BRANCH="release-${{ github.run_number }}"
-          git checkout -b $RELEASE_BRANCH
-
       - name: Version Packages
         run: npx lerna version --yes --conventional-commits --no-push --force-publish
 
-      - name: Push Version Bumps
+      - name: Configure npm for @salable scope
         run: |
-          git push --set-upstream origin $RELEASE_BRANCH
+          echo "@salable:registry=https://registry.npmjs.org/" >> .npmrc
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
+
+      - name: Commit Version Bumps
+        run: |
+          git add .
+          git commit -m "chore: bump package versions"
+          git push origin main
 
       - name: Push Tags
         run: git push origin --tags
 
-      - name: Create Publish PR
-        uses: repo-sync/pull-request@v2
-        with:
-          source_branch: $RELEASE_BRANCH
-          destination_branch: main
-          pr_title: "Automated Publish Release ${RELEASE_BRANCH}"
-          pr_body: "Automated PR to publish the release."
+      - name: Publish Packages
+        run: npx lerna publish from-git --yes
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
