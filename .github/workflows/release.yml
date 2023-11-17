@@ -57,12 +57,12 @@ jobs:
       - name: Version Packages
         run: npx lerna version --yes --conventional-commits --no-push --force-publish
 
-      - name: Push Tags
-        run: git push origin --tags
-
       - name: Push Version Bumps
         run: |
-          git push origin $RELEASE_BRANCH
+          git push --set-upstream origin $RELEASE_BRANCH
+
+      - name: Push Tags
+        run: git push origin --tags
 
       - name: Create Publish PR
         uses: repo-sync/pull-request@v2
