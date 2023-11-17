@@ -12,8 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: false
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref }}
+          token: ${{ secrets.ADMIN_GH_PAT }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -55,8 +57,11 @@ jobs:
       - name: Version Packages
         run: npx lerna version --yes --conventional-commits --no-push --force-publish
 
-      - name: Push Versions
-        run: git push origin main
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ADMIN_GH_PAT }}
+          force_with_lease: true
 
       - name: Push Tags
         run: git push origin --tags
