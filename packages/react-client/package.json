@@ -14,7 +14,7 @@
     "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@salable/react-library": "^0.0.6",
+    "@salable/react-library": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.18.0"
