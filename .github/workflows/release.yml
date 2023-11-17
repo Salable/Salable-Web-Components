@@ -62,7 +62,7 @@ jobs:
 
       - name: Push Version Bumps
         run: |
-          git push origin $RELEASE_BRANCH
+          git push --set-upstream origin $RELEASE_BRANCH
 
       - name: Create Publish PR
         uses: repo-sync/pull-request@v2
