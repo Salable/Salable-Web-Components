@@ -1,14 +1,12 @@
 name: Release Workflow
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
 
 jobs:
   release:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -54,7 +52,7 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
 
       - name: Version Packages
-        run: npx lerna version --yes --conventional-commits --force-publish
+        run: "npx lerna version --yes --conventional-commits --force-publish -message 'chore: version packages [skip-ci]'"
 
       - name: Push Tags
         run: git push origin --tags
