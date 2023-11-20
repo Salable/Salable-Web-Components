@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.10](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.0.9...v0.0.10) (2023-11-20)
+
+
+### Bug Fixes
+
+* add remote ([e922cc8](https://github.com/Salable/salable-web-components-stenciljs/commit/e922cc8c24b0059e5bcaf1c4651a298498870e0d))
+* commit prior to push ([1945ca2](https://github.com/Salable/salable-web-components-stenciljs/commit/1945ca262cfb44f5e17fbf2e2816082b5f908171))
+* on push to main ([1f7f800](https://github.com/Salable/salable-web-components-stenciljs/commit/1f7f80053bd20f27c592b8ec60801891287af16d))
+* rm git commit ([5988830](https://github.com/Salable/salable-web-components-stenciljs/commit/5988830d66a5bf651c2ab4a9c3ddf4e14cb0cc64))
+* rm overwrite npmrc ([55452e3](https://github.com/Salable/salable-web-components-stenciljs/commit/55452e3a7fd7eb8fa2ad6c591653856e8ea09bd1))
+
+
+
+
+
 ## [0.0.9](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.0.8...v0.0.9) (2023-11-20)
 
 **Note:** Version bump only for package root
