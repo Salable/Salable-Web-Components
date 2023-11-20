@@ -67,11 +67,6 @@ jobs:
           git commit -am "chore: bump packages"
           git push origin --tags
 
-      - name: Configure npm for @salable scope
-        run: |
-          echo "@salable:registry=https://registry.npmjs.org/" >> .npmrc
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
-
       - name: Publish Packages
         run: npx lerna publish from-git --yes
         env:
