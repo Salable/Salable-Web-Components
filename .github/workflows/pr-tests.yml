@@ -69,14 +69,6 @@ jobs:
           cd packages/react-client
           pnpm test:e2e
 
-#      1. create new branch
-#      2. version (updates the package.json versions) 0.0.1 current after version 0.0.2
-#      3. commit to branch
-#      4. push to branch
-#      5. create PR to main from new branch
-#      6. possibly push tags now (or in publish step)
-#      7. (NO) possibly auto merge pr (needs admin/special github personal access token permissions)
-
       - uses: actions/upload-artifact@v3
         if: always()
         with:
