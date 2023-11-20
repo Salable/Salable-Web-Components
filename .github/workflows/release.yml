@@ -18,7 +18,6 @@ jobs:
           ref: main
           fetch-depth: 0
           token: ${{ secrets.ADMIN_GH_PAT }}
-          persist-credentials: false
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
