@@ -8,13 +8,14 @@ on:
 
 jobs:
   release:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     env:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
+          ref: main
           persist-credentials: false
           fetch-depth: 0
           token: ${{ secrets.ADMIN_GH_PAT }}
@@ -55,16 +56,9 @@ jobs:
           git config user.name "GitHub Actions"
           git config user.email "github-actions@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.ADMIN_GH_PAT }}@github.com/${{ github.repository }}
-          git checkout main
 
       - name: Version Packages
-        run: npx lerna version --yes --conventional-commits --no-push --force-publish
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.ADMIN_GH_PAT }}
-          force_with_lease: true
+        run: npx lerna version --yes --conventional-commits --force-publish
 
       - name: Push Tags
         run: git push origin --tags
