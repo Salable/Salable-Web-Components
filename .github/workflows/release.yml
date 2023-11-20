@@ -1,25 +1,26 @@
 name: Release Workflow
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
       - main
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
-          persist-credentials: false
           fetch-depth: 0
-          token: ${{ secrets.ADMIN_GH_PAT }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v2
@@ -65,14 +66,5 @@ jobs:
       - name: Push Tags
         run: git push origin --tags
 
-      - name: Configure npm for @salable scope
-        run: |
-          echo "@salable:registry=https://registry.npmjs.org/" >> .npmrc
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Publish Packages
-        run: "npx lerna publish from-git --yes --message 'chore: release new versions'"
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx lerna publish from-git --yes
