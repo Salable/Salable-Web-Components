@@ -63,9 +63,7 @@ jobs:
           force_with_lease: true
 
       - name: Push Tags
-        run: |
-          git commit -am "chore: bump packages"
-          git push origin --tags
+        run: git push origin --tags
 
       - name: Publish Packages
         run: npx lerna publish from-git --yes
