@@ -1,8 +1,7 @@
 name: Release Workflow
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches:
       - main
 
@@ -51,7 +50,6 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git checkout main
 
       - name: Version Packages
         run: npx lerna version --yes --conventional-commits --no-push --force-publish
@@ -63,9 +61,7 @@ jobs:
           force_with_lease: true
 
       - name: Push Tags
-        run: |
-          git commit -am "chore: bump packages"
-          git push origin --tags
+        run: git push origin --tags
 
       - name: Publish Packages
         run: npx lerna publish from-git --yes
