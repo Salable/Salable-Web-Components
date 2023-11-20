@@ -51,7 +51,6 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.ADMIN_GH_PAT }}@github.com/${{ github.repository }}
           git checkout main
 
       - name: Version Packages
@@ -64,12 +63,9 @@ jobs:
           force_with_lease: true
 
       - name: Push Tags
-        run: git push origin --tags
-
-      - name: Configure npm for @salable scope
         run: |
-          echo "@salable:registry=https://registry.npmjs.org/" >> .npmrc
-          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> .npmrc
+          git commit -am "chore: bump packages"
+          git push origin --tags
 
       - name: Publish Packages
         run: npx lerna publish from-git --yes
