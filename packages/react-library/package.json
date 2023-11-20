@@ -1,0 +1,38 @@
+{
+  "name": "@salable/react-library",
+  "version": "0.0.33",
+  "description": "> TODO: description",
+  "author": "Sean Cooper <scooper@adaptavist.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "npm run tsc",
+    "dev": "npm run tsc:watch",
+    "watch": "npm run tsc:watch",
+    "tsc": "tsc --outDir ./dist",
+    "tsc:watch": "tsc --watch --outDir ./dist",
+    "test-ct": "playwright test -c playwright-ct.config.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.9.0",
+    "@types/react": "^18.2.36",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.2.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@salable/stencil-library": "^0.0.33"
+  },
+  "gitHead": "69dec1b2395acc6a4d410c7b552dd9c9841defa7"
+}

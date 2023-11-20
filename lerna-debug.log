@@ -1,0 +1,54 @@
+0 silly argv {
+0 silly argv   _: [ 'version' ],
+0 silly argv   lernaVersion: '7.4.2',
+0 silly argv   '$0': '../../Library/pnpm/global/5/node_modules/lerna/dist/cli.js'
+0 silly argv }
+1 notice cli v7.4.2
+2 verbose packageConfigs Package manager "pnpm" detected. Resolving packages using `pnpm-workspace.yaml`.
+3 verbose rootPath /Users/orderandchaos/code/salable-stencil-web-component-mono
+4 info current version 0.0.6
+5 silly isAnythingCommitted
+6 verbose isAnythingCommitted 1
+7 silly getCurrentBranch
+8 verbose currentBranch fix-publishing-issues
+9 silly remoteBranchExists
+10 silly isBehindUpstream
+11 silly isBehindUpstream fix-publishing-issues is behind origin/fix-publishing-issues by 0 commit(s) and ahead by 0
+12 silly hasTags
+13 verbose hasTags true
+14 silly git-describe.sync "57c37e3" => {"refCount":"104","sha":"57c37e3","isDirty":false}
+15 info Assuming all packages changed
+16 verbose updated react-client
+17 verbose updated @salable/react-library
+18 verbose updated @salable/stencil-library
+19 verbose git-describe undefined => "57c37e3"
+20 silly git-describe parsed => {"refCount":"104","sha":"57c37e3","isDirty":false}
+21 info execute Skipping releases
+22 silly lifecycle No script for "preversion" in "root", continuing
+23 silly lifecycle No script for "preversion" in "react-client", continuing
+24 silly lifecycle No script for "preversion" in "@salable/react-library", continuing
+25 silly lifecycle No script for "preversion" in "@salable/stencil-library", continuing
+26 verbose version react-client has no lockfile. Skipping lockfile update.
+27 verbose version @salable/react-library has no lockfile. Skipping lockfile update.
+28 verbose version @salable/stencil-library has no lockfile. Skipping lockfile update.
+29 silly lifecycle No script for "version" in "react-client", continuing
+30 silly lifecycle No script for "version" in "@salable/react-library", continuing
+31 silly lifecycle No script for "version" in "@salable/stencil-library", continuing
+32 silly lifecycle No script for "version" in "root", continuing
+33 verbose version Updating root pnpm-lock.yaml
+34 error Error: Command failed with exit code 1: pnpm install --lockfile-only --ignore-scripts
+34 error Scope: all 4 workspace projects
+34 error Progress: resolved 0, reused 1, downloaded 0, added 0
+34 error /Users/orderandchaos/code/salable-stencil-web-component-mono/packages/react-client:
+34 error  ERR_PNPM_NO_MATCHING_VERSION  No matching version found for @salable/react-library@^0.0.5
+34 error
+34 error This error happened while installing a direct dependency of /Users/orderandchaos/code/salable-stencil-web-component-mono/packages/react-client
+34 error
+34 error The latest release of @salable/react-library is "0.0.4".
+34 error
+34 error If you need the full list of all 2 published versions run "$ pnpm view @salable/react-library versions".
+34 error     at makeError (/Users/orderandchaos/Library/pnpm/global/5/.pnpm/execa@5.0.0/node_modules/execa/lib/error.js:59:11)
+34 error     at handlePromise (/Users/orderandchaos/Library/pnpm/global/5/.pnpm/execa@5.0.0/node_modules/execa/index.js:114:26)
+34 error     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+34 error     at async VersionCommand.updatePackageVersions (/Users/orderandchaos/Library/pnpm/global/5/.pnpm/lerna@7.4.2/node_modules/lerna/dist/index.js:8284:11)
+34 error     at async Promise.all (index 0)

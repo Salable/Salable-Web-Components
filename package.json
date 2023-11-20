@@ -1,0 +1,23 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "lerna:watch": "lerna run watch --parallel",
+    "lerna:build": "lerna run build --stream",
+    "lerna:test": "lerna run test --scope @salable/stencil-library --scope react-client",
+    "lerna:version": "lerna version",
+    "lerna:publish": "lerna publish --force-publish"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.1",
+    "@commitlint/config-conventional": "^18.4.0",
+    "@playwright/test": "^1.39.0",
+    "@types/node": "^20.8.10",
+    "husky": "^8.0.3",
+    "lerna": "^7.4.2",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "stencil-playwright": "^0.3.0"
+  }
+}

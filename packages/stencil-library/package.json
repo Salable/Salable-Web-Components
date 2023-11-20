@@ -1,0 +1,66 @@
+{
+  "name": "@salable/stencil-library",
+  "version": "0.0.33",
+  "description": "Stencil Component Starter",
+  "author": "Sean Cooper <scooper@adaptavist.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "es2015": "dist/esm/index.js",
+  "es2017": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "unpkg": "dist/stencil-library/stencil-library.esm.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ionic-team/stencil-component-starter.git"
+  },
+  "files": [
+    "dist/",
+    "loader/"
+  ],
+  "scripts": {
+    "build": "stencil build --docs && rimraf utilities",
+    "watch": "stencil build --watch --serve && rimraf utilities",
+    "dev": "stencil build --dev --watch --serve",
+    "test": "pnpm test:spec && pnpm test:e2e",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:spec": "stencil test --spec",
+    "test:spec:watch": "stencil test --spec --watchAll",
+    "test:serve": "serve -p 3333",
+    "lint": "eslint src/**/*{.ts,.tsx}",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm typecheck && pnpm lint",
+    "generate": "stencil generate"
+  },
+  "dependencies": {
+    "@stencil/core": "^4.7.0",
+    "date-fns": "^2.30.0"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^5.0.0",
+    "@playwright/test": "^1.39.0",
+    "@stencil-community/eslint-plugin": "^0.6.0",
+    "@stencil-community/postcss": "^2.2.0",
+    "@stencil/react-output-target": "^0.5.3",
+    "@types/jest": "^29.5.6",
+    "@types/node": "^16.18.11",
+    "autoprefixer": "^10.4.16",
+    "cssnano": "^6.0.1",
+    "jest": "^29.7.0",
+    "jest-cli": "^29.7.0",
+    "postcss-import": "^15.1.0",
+    "puppeteer": "21.1.1",
+    "rimraf": "^5.0.5",
+    "serve": "^14.2.1",
+    "stencil-playwright": "^0.3.0",
+    "tailwindcss": "^3.3.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "69dec1b2395acc6a4d410c7b552dd9c9841defa7"
+}
