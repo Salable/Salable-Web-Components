@@ -52,7 +52,7 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
 
       - name: Version Packages
-        run: "npx lerna version --yes --conventional-commits --force-publish -message 'chore: version packages [skip-ci]'"
+        run: "npx lerna version --yes --conventional-commits --force-publish --message 'chore: version packages [skip-ci]'"
 
       - name: Push Tags
         run: git push origin --tags
