@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.0.34 (2023-11-20)
+
+
+### Bug Fixes
+
+* align yaml comment ([#40](https://github.com/Salable/salable-web-components-stenciljs/issues/40)) ([0f6473e](https://github.com/Salable/salable-web-components-stenciljs/commit/0f6473eaa7e1ceeb57ece6acfdbd13d287a33c06))
+
+
+
+
+
 ## [0.0.33](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.0.32...v0.0.33) (2023-11-20)
 
 **Note:** Version bump only for package root
