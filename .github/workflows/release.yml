@@ -65,7 +65,14 @@ jobs:
       - name: Push Tags
         run: git push origin --tags
 
+      - name: Configure npm for @salable scope
+        run: |
+          echo "@salable:registry=https://registry.npmjs.org/" >> .npmrc
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish Packages
-        run: npx lerna publish from-git --yes
+        run: "npx lerna publish from-git --yes --message 'chore: release new versions'"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
