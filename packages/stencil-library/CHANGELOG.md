@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.37](https://github.com/ionic-team/stencil-component-starter/compare/v0.0.36...v0.0.37) (2023-11-21)
+
+
+### Bug Fixes
+
+* update invoice error handling ([#45](https://github.com/ionic-team/stencil-component-starter/issues/45)) ([8007847](https://github.com/ionic-team/stencil-component-starter/commit/8007847a5e121d77d0dda2ee5bbf96e66903ed05))
+
+
+
+
+
 ## [0.0.36](https://github.com/ionic-team/stencil-component-starter/compare/v0.0.35...v0.0.36) (2023-11-20)
 
 **Note:** Version bump only for package @salable/stencil-library
