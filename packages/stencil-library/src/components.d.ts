@@ -75,6 +75,18 @@ export namespace Components {
          */
         "member": string;
         /**
+          * Configure cancelUrls per plan, string format `planUuidOne:cancelUrlOne,planUuidTwo:cancelUrlTwo`
+         */
+        "perPlanCancelUrls": string;
+        /**
+          * Configure granteeIds per plan, string format `planUuidOne:granteeIdOne,planUuidTwo:granteeIdTwo`
+         */
+        "perPlanGranteeIds": string;
+        /**
+          * Configure successUrls per plan, string format `planUuidOne:successUrlOne,planUuidTwo:successUrlTwo`
+         */
+        "perPlanSuccessUrls": string;
+        /**
           * The uuid of the pricing table that you want to display.
          */
         "pricingTableUuid": string;
@@ -199,6 +211,18 @@ declare namespace LocalJSX {
           * The ID of the member who will manage the license.
          */
         "member": string;
+        /**
+          * Configure cancelUrls per plan, string format `planUuidOne:cancelUrlOne,planUuidTwo:cancelUrlTwo`
+         */
+        "perPlanCancelUrls"?: string;
+        /**
+          * Configure granteeIds per plan, string format `planUuidOne:granteeIdOne,planUuidTwo:granteeIdTwo`
+         */
+        "perPlanGranteeIds"?: string;
+        /**
+          * Configure successUrls per plan, string format `planUuidOne:successUrlOne,planUuidTwo:successUrlTwo`
+         */
+        "perPlanSuccessUrls"?: string;
         /**
           * The uuid of the pricing table that you want to display.
          */

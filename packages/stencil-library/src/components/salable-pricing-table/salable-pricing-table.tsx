@@ -1,12 +1,23 @@
 import {Component, h, Host, Prop, State, Watch} from '@stencil/core';
 import {apiUrl} from "../../constants";
 
+// TODO: featured plan style
+// TODO: show intervals/units for pricing
+// TODO: currency handling
+// TODO: add per plan query params
+// TODO: per plan config
+
 @Component({
   tag: 'salable-pricing-table',
   styleUrl: 'salable-pricing-table.css',
   shadow: true,
 })
 export class SalablePricingTable {
+  @State() planConfig:  {
+    successUrls: [string, string][];
+    granteeIds: [string, string][];
+    cancelUrls: [string, string][]
+  } = null;
   @State() state: any = null; // Todo: define type
   @State() errorMessage: string = null;
   @State() selectedBillingPeriodKey: 'monthly' | 'yearly' = 'monthly';
@@ -68,12 +79,27 @@ export class SalablePricingTable {
    * Uses the currency short name (e.g., USD). Defaults to the default currency on the Product
    * which the Plan is linked to. Currently only supported on payment integration type 'stripe_existing'.
    **/
-  @Prop() currency: string;
+  @Prop() currency: string; // if this present use it otherwise use default from plan
 
   /**
    * Automatically calculate tax on checkout based on the customer's location and your Stripe settings.
    **/
   @Prop() automaticTax: string;
+
+  /**
+   * Configure granteeIds per plan, string format `planUuidOne:granteeIdOne,planUuidTwo:granteeIdTwo`
+   **/
+  @Prop() perPlanGranteeIds: string;
+
+  /**
+   * Configure successUrls per plan, string format `planUuidOne:successUrlOne,planUuidTwo:successUrlTwo`
+   **/
+  @Prop() perPlanSuccessUrls: string;
+
+  /**
+   * Configure cancelUrls per plan, string format `planUuidOne:cancelUrlOne,planUuidTwo:cancelUrlTwo`
+   **/
+  @Prop() perPlanCancelUrls: string;
 
   @Watch('apiKey')
   @Watch('pricingTableUuid')
@@ -89,7 +115,7 @@ export class SalablePricingTable {
 
   async componentWillLoad() {
     this.validateProps();
-
+    this.initPlanConfig()
     const data = await this.fetchPricingTable();
     this.state = this.initialiseState(data);
   }
@@ -97,13 +123,8 @@ export class SalablePricingTable {
   render() {
     return (
       <Host>
+        {this.errorMessage}
         <div class="font-sans max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-          <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
-            <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Pricing</h2>
-            <p class="mt-1 text-gray-600 dark:text-gray-400">Whatever your status, our offers evolve according to your
-              needs.</p>
-          </div>
-
           {
             this.state.monthly.length > 0 && this.state.yearly.length > 0 ? (
               <div class="flex justify-center items-center">
@@ -133,7 +154,7 @@ export class SalablePricingTable {
                   <span class="mt-5 font-bold text-5xl text-gray-800 dark:text-gray-200">
                       <span class="font-bold text-2xl">{plan.currencies[0]?.currency.symbol}</span>
                     {plan.currencies[0]?.price}
-                  </span>
+                      </span>
                 ) : (
                   <span class="mt-5 font-bold text-5xl text-gray-800 dark:text-gray-200">
                       Free
@@ -157,11 +178,11 @@ export class SalablePricingTable {
                   ))}
                 </ul>
 
-                <a
+                <button
                   class="mt-5 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-blue-900 dark:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
-                  href={plan.checkoutUrl}>
-                  Sign up
-                </a>
+                  onClick={this.handlePlanSelect(plan)}>
+                  Select Plan
+                </button>
               </div>
             ))}
           </div>
@@ -211,9 +232,19 @@ export class SalablePricingTable {
       if (Boolean(this.currency)) {
         params.set('currency', this.currency);
       }
+      console.log('pc1', this.planConfig);
+
+      if (Boolean(this.planConfig)) {
+        if(this.planConfig.granteeIds.length > 0)
+          params.set('granteeIds', this.planConfig.granteeIds.flat().join(','));
+        if(this.planConfig.successUrls.length > 0)
+          params.set('successUrls', this.planConfig.successUrls.flat().join(','));
+        if(this.planConfig.cancelUrls.length > 0)
+          params.set('cancelUrls', this.planConfig.cancelUrls.flat().join(','));
+      }
 
       const response = await fetch(
-        `${apiUrl}/pricing-tables/${this.pricingTableUuid}?${params.toString()}`,
+        `${apiUrl}/pricing-tables/${this.pricingTableUuid}?${decodeURIComponent(params.toString())}`,
         {headers: {'x-api-key': `${this.apiKey}`}},
       );
 
@@ -245,6 +276,10 @@ export class SalablePricingTable {
       defaultCurrency: data?.currencies?.find((currencyOnPricingTable: any) => currencyOnPricingTable.defaultCurrency),
     };
 
+    console.log('d', data);
+    console.log('dcs', data?.currencies);
+    console.log('dc', result.defaultCurrency);
+
     for (let plan of data.plans) {
       switch (plan.plan.interval) {
         case 'year':
@@ -263,7 +298,61 @@ export class SalablePricingTable {
     return result;
   }
 
+  // private getCurrency(plan: any) {
+  //   return
+  // }
+
   private handleToggleBillingPeriod = (event: Event) => {
     this.selectedBillingPeriodKey = (event.target as HTMLInputElement).checked ? 'yearly' : 'monthly';
   };
+
+  private handlePlanSelect = (plan: any) => async (event: Event) => {
+    event.preventDefault();
+    if (plan.checkoutUrl) {
+      window.location = plan.checkoutUrl;
+    } else {
+      await this.createLicenses(plan)
+    }
+  };
+
+  private createLicenses = async (plan) => {
+    const body = Array.from({length: plan.perSeatAmount}, () => ({
+      planUuid: plan.uuid,
+      member: this.member,
+      granteeId: null,
+      ...(this.customerEmail && {email: this.customerEmail}),
+    }));
+
+    const granteeId = this.planConfig.granteeIds.find(([planUuid]) => planUuid === plan.uuid)?.[1] ?? this.globalGranteeId;
+    const successUrl = this.planConfig.successUrls.find(([planUuid]) => planUuid === plan.uuid)?.[1] ?? this.globalSuccessUrl;
+    const cancelUrl = this.planConfig.cancelUrls.find(([planUuid]) => planUuid === plan.uuid)?.[1] ?? this.globalCancelUrl;
+
+    body[0].granteeId = granteeId;
+
+    try {
+      const licensesResponse = await fetch(`${apiUrl}/licenses`, {
+        method: 'POST',
+        headers: {'x-api-key': this.apiKey},
+        body: JSON.stringify(body),
+      });
+      if (licensesResponse.status === 200) {
+        location.href = successUrl;
+      } else {
+        console.error('Salable Pricing Table Error: License create did not return a success response');
+        location.href = cancelUrl;
+      }
+    } catch (e) {
+      console.error('Salable Pricing Table Error: Failed to create license/s');
+      this.errorMessage = 'Failed to select plan';
+      location.href = cancelUrl;
+    }
+  };
+
+  private initPlanConfig() {
+    this.planConfig = {
+      granteeIds: this.perPlanGranteeIds?.split(',').map(pair => pair.split('::') as [string, string]) ?? [],
+      successUrls: this.perPlanSuccessUrls?.split(',').map(pair => pair.split('::') as [string, string]) ?? [],
+      cancelUrls: this.perPlanCancelUrls?.split(',').map(pair => pair.split('::') as [string, string]) ?? [],
+    };
+  }
 }
