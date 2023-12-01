@@ -1,12 +1,6 @@
 import {Component, h, Host, Prop, State, Watch} from '@stencil/core';
 import {apiUrl} from "../../constants";
 
-// TODO: featured plan style ✅
-// TODO: show intervals/units for pricing
-// TODO: currency handling ✅
-// TODO: add per plan query params ✅
-// TODO: per plan config ✅
-
 @Component({
   tag: 'salable-pricing-table',
   styleUrl: 'salable-pricing-table.css',
