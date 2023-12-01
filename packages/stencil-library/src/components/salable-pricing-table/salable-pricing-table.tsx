@@ -4,8 +4,8 @@ import {apiUrl} from "../../constants";
 // TODO: featured plan style
 // TODO: show intervals/units for pricing
 // TODO: currency handling
-// TODO: add per plan query params
-// TODO: per plan config
+// TODO: add per plan query params ✅
+// TODO: per plan config ✅
 
 @Component({
   tag: 'salable-pricing-table',
@@ -19,7 +19,8 @@ export class SalablePricingTable {
     cancelUrls: [string, string][]
   } = null;
   @State() state: any = null; // Todo: define type
-  @State() errorMessage: string = null;
+  @State() errorMessage: string | null = null;
+  @State() defaultCurrencyShortCode: string | null = null;
   @State() selectedBillingPeriodKey: 'monthly' | 'yearly' = 'monthly';
 
   /**
@@ -115,7 +116,7 @@ export class SalablePricingTable {
 
   async componentWillLoad() {
     this.validateProps();
-    this.initPlanConfig()
+    this.initPlanConfig();
     const data = await this.fetchPricingTable();
     this.state = this.initialiseState(data);
   }
@@ -152,8 +153,8 @@ export class SalablePricingTable {
 
                 {plan.currencies.length > 0 ? (
                   <span class="mt-5 font-bold text-5xl text-gray-800 dark:text-gray-200">
-                      <span class="font-bold text-2xl">{plan.currencies[0]?.currency.symbol}</span>
-                    {plan.currencies[0]?.price}
+                      <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
+                    {this.getCurrency(plan)?.price}
                       </span>
                 ) : (
                   <span class="mt-5 font-bold text-5xl text-gray-800 dark:text-gray-200">
@@ -232,7 +233,6 @@ export class SalablePricingTable {
       if (Boolean(this.currency)) {
         params.set('currency', this.currency);
       }
-      console.log('pc1', this.planConfig);
 
       if (Boolean(this.planConfig)) {
         if(this.planConfig.granteeIds.length > 0)
@@ -273,12 +273,8 @@ export class SalablePricingTable {
     const result = {
       monthly: [],
       yearly: [],
-      defaultCurrency: data?.currencies?.find((currencyOnPricingTable: any) => currencyOnPricingTable.defaultCurrency),
+      defaultCurrencyShortName: this.currency ?? data.product.currencies.find((currency: any) => currency.defaultCurrency)?.currency.shortName ?? null,
     };
-
-    console.log('d', data);
-    console.log('dcs', data?.currencies);
-    console.log('dc', result.defaultCurrency);
 
     for (let plan of data.plans) {
       switch (plan.plan.interval) {
@@ -298,9 +294,9 @@ export class SalablePricingTable {
     return result;
   }
 
-  // private getCurrency(plan: any) {
-  //   return
-  // }
+  private getCurrency(plan: any) {
+    return plan.currencies.find(currenciesOnPlan => currenciesOnPlan.currency.shortName === this.state.defaultCurrencyShortName);
+  }
 
   private handleToggleBillingPeriod = (event: Event) => {
     this.selectedBillingPeriodKey = (event.target as HTMLInputElement).checked ? 'yearly' : 'monthly';
