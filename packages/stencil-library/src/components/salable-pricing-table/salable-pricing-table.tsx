@@ -1,18 +1,78 @@
 import {Component, h, Host, Prop, State, Watch} from '@stencil/core';
 import {apiUrl} from "../../constants";
 
+interface PricingTableState {
+  monthly: PricingTablePlan[],
+  yearly: PricingTablePlan[],
+  featuredPlanUuid: string | null,
+  defaultCurrencyShortName: string | null,
+}
+
+interface PlanConfig {
+  successUrls: [string, string][];
+  granteeIds: [string, string][];
+  cancelUrls: [string, string][]
+}
+
+export interface PricingTable {
+  featuredPlanUuid: string;
+  product: PricingTableProduct;
+  plans: PricingTablePlan[];
+}
+
+export interface PricingTableProduct {
+  currencies: ProductCurrency[];
+}
+
+export interface ProductCurrency {
+  defaultCurrency: boolean
+  currency: Currency
+}
+
+export interface PricingTablePlan {
+  plan: Plan;
+  currencies: PlanCurrency[];
+  checkoutUrl?: string;
+  perSeatAmount?: number;
+}
+
+export interface Plan {
+  uuid: string;
+  name: string;
+  currencies: PlanCurrency[];
+  features?: Feature[];
+  interval: 'month' | 'year';
+  description: string;
+  licenseType: 'licensed' | 'metered' | 'perSeat';
+}
+
+export interface PlanCurrency {
+  currency: Currency;
+  price: number;
+}
+
+export interface Currency {
+  shortName: string;
+  symbol: string;
+  defaultCurrency?: boolean;
+}
+
+export interface Feature {
+  feature: {
+    displayName: string;
+    description: string;
+  };
+}
+
+
 @Component({
   tag: 'salable-pricing-table',
   styleUrl: 'salable-pricing-table.css',
   shadow: true,
 })
 export class SalablePricingTable {
-  @State() planConfig: {
-    successUrls: [string, string][];
-    granteeIds: [string, string][];
-    cancelUrls: [string, string][]
-  } = null;
-  @State() state: any = null; // Todo: define type
+  @State() planConfig: PlanConfig | null = null;
+  @State() state: PricingTableState | null = null; // Todo: define type
   @State() errorMessage: string | null = null;
   @State() selectedBillingPeriodKey: 'monthly' | 'yearly' = 'monthly';
 
@@ -150,7 +210,7 @@ export class SalablePricingTable {
                     <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
                         {this.getCurrency(plan)?.price}
                       </span>
-                    <span class="text-xl text-grey-500">per {this.planUnitValue(plan.licenseType, plan.interval)}</span>
+                    <span class="text-xl text-grey-500"> per {this.planUnitValue(plan.licenseType, plan.interval)}</span>
                   </div>
                 ) : (
                   <div class='mt-4'>
@@ -199,7 +259,7 @@ export class SalablePricingTable {
     this.validateProp(this.member, 'member');
   }
 
-  private async fetchPricingTable() {
+  private async fetchPricingTable(): Promise<PricingTable> {
     try {
       const params = new URLSearchParams({
         globalSuccessUrl: this.globalSuccessUrl,
@@ -267,7 +327,9 @@ export class SalablePricingTable {
     }
   }
 
-  private initialiseState(data: any) {
+  private initialiseState(data: PricingTable): PricingTableState {
+    console.log(data);
+
     const result = {
       monthly: [],
       yearly: [],

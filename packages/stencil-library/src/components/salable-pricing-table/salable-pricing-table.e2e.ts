@@ -1,11 +1,25 @@
-import { newE2EPage } from '@stencil/core/testing';
+import {test} from 'stencil-playwright';
+import {salablePricingTableTests, setUpPricingTableApi} from "../../../../utilities/tests/salable-pricing-table-tests";
 
-describe('salable-pricing-table', () => {
-  it('renders', async () => {
-    const page = await newE2EPage();
-    await page.setContent('<salable-pricing-table></salable-pricing-table>');
 
-    const element = await page.find('salable-pricing-table');
-    expect(element).toHaveClass('hydrated');
-  });
+test.describe('salable-invoices Stencil E2E Tests', () => {
+    const mockApiKey = 'mock_api_key';
+    const mockPricingTableUuid = 'mock_pricing_table_uuid';
+
+    test.describe('Fetch Success Cases', () => {
+        test('Displays first page of paginated invoice results', async ({page}) => {
+            await setUpPricingTableApi(page);
+            await page.setContent(`
+              <salable-pricing-table
+                api-key="${mockApiKey}"
+                pricing-table-uuid="${mockPricingTableUuid}"
+                  global-success-url="https://google.co.uk"
+                  global-cancel-url="https://google.co.uk"
+                  global-grantee-id="123"
+                  member="456"
+              ></salable-pricing-table>
+            `);
+            await salablePricingTableTests(page);
+        });
+    });
 });
