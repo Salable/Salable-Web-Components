@@ -1,9 +1,9 @@
 import {Component, h, Host, Prop, State, Watch} from '@stencil/core';
 import {apiUrl} from "../../constants";
 
-// TODO: featured plan style
+// TODO: featured plan style ✅
 // TODO: show intervals/units for pricing
-// TODO: currency handling
+// TODO: currency handling ✅
 // TODO: add per plan query params ✅
 // TODO: per plan config ✅
 
@@ -13,14 +13,13 @@ import {apiUrl} from "../../constants";
   shadow: true,
 })
 export class SalablePricingTable {
-  @State() planConfig:  {
+  @State() planConfig: {
     successUrls: [string, string][];
     granteeIds: [string, string][];
     cancelUrls: [string, string][]
   } = null;
   @State() state: any = null; // Todo: define type
   @State() errorMessage: string | null = null;
-  @State() defaultCurrencyShortCode: string | null = null;
   @State() selectedBillingPeriodKey: 'monthly' | 'yearly' = 'monthly';
 
   /**
@@ -148,18 +147,23 @@ export class SalablePricingTable {
           <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:items-center">
 
             {this.state[this.selectedBillingPeriodKey].map(({plan}) => (
-              <div class="flex flex-col border border-gray-200 text-center rounded-xl p-8 dark:border-gray-700">
+              <div class={this.getCardClass(plan)}>
                 <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">{plan.name}</h4>
 
                 {plan.currencies.length > 0 ? (
-                  <span class="mt-5 font-bold text-5xl text-gray-800 dark:text-gray-200">
-                      <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
-                    {this.getCurrency(plan)?.price}
+                  <div class='mt-4'>
+                    <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
+                    <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                        {this.getCurrency(plan)?.price}
                       </span>
+                    <span class="text-xl text-grey-500">per {this.planUnitValue(plan.licenseType, plan.interval)}</span>
+                  </div>
                 ) : (
-                  <span class="mt-5 font-bold text-5xl text-gray-800 dark:text-gray-200">
+                  <div class='mt-4'>
+                  <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
                       Free
                   </span>
+                  </div>
                 )}
                 <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
 
@@ -235,11 +239,11 @@ export class SalablePricingTable {
       }
 
       if (Boolean(this.planConfig)) {
-        if(this.planConfig.granteeIds.length > 0)
+        if (this.planConfig.granteeIds.length > 0)
           params.set('granteeIds', this.planConfig.granteeIds.flat().join(','));
-        if(this.planConfig.successUrls.length > 0)
+        if (this.planConfig.successUrls.length > 0)
           params.set('successUrls', this.planConfig.successUrls.flat().join(','));
-        if(this.planConfig.cancelUrls.length > 0)
+        if (this.planConfig.cancelUrls.length > 0)
           params.set('cancelUrls', this.planConfig.cancelUrls.flat().join(','));
       }
 
@@ -273,6 +277,7 @@ export class SalablePricingTable {
     const result = {
       monthly: [],
       yearly: [],
+      featuredPlanUuid: data.featuredPlanUuid,
       defaultCurrencyShortName: this.currency ?? data.product.currencies.find((currency: any) => currency.defaultCurrency)?.currency.shortName ?? null,
     };
 
@@ -296,6 +301,19 @@ export class SalablePricingTable {
 
   private getCurrency(plan: any) {
     return plan.currencies.find(currenciesOnPlan => currenciesOnPlan.currency.shortName === this.state.defaultCurrencyShortName);
+  }
+
+  private planUnitValue(licenseType, interval) {
+    switch (licenseType) {
+      case 'licensed':
+        return interval;
+      case 'metered':
+        return 'unit';
+      case 'perSeat':
+        return 'seat';
+      default:
+        return null;
+    }
   }
 
   private handleToggleBillingPeriod = (event: Event) => {
@@ -350,5 +368,11 @@ export class SalablePricingTable {
       successUrls: this.perPlanSuccessUrls?.split(',').map(pair => pair.split('::') as [string, string]) ?? [],
       cancelUrls: this.perPlanCancelUrls?.split(',').map(pair => pair.split('::') as [string, string]) ?? [],
     };
+  }
+
+  private getCardClass(plan: any) {
+    return plan.uuid === this.state.featuredPlanUuid ?
+      "flex flex-col border border-2 border-blue-600 text-center shadow-xl rounded-xl p-8 dark:border-blue-700" :
+      "flex flex-col border border-gray-200 text-center rounded-xl p-8 dark:border-gray-700";
   }
 }
