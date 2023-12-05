@@ -7,7 +7,7 @@ test.describe('salable-invoices Stencil E2E Tests', () => {
     const mockPricingTableUuid = 'mock_pricing_table_uuid';
 
     test.describe('Fetch Success Cases', () => {
-        test('Displays first page of paginated invoice results', async ({page}) => {
+        test('Displays the pricing table and toggles between monthly/yearly intervals', async ({page}) => {
             await setUpPricingTableApi(page);
             await page.setContent(`
               <salable-pricing-table

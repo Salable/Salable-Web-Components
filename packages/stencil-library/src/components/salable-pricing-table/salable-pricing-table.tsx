@@ -1,42 +1,42 @@
 import {Component, h, Host, Prop, State, Watch} from '@stencil/core';
 import {apiUrl} from "../../constants";
 
-interface PricingTableState {
+type PricingTableState = {
   monthly: PricingTablePlan[],
   yearly: PricingTablePlan[],
   featuredPlanUuid: string | null,
   defaultCurrencyShortName: string | null,
 }
 
-interface PlanConfig {
+type PlanConfig = {
   successUrls: [string, string][];
   granteeIds: [string, string][];
-  cancelUrls: [string, string][]
+  cancelUrls: [string, string][];
 }
 
-export interface PricingTable {
+export type PricingTable = {
   featuredPlanUuid: string;
   product: PricingTableProduct;
   plans: PricingTablePlan[];
 }
 
-export interface PricingTableProduct {
+export type PricingTableProduct = {
   currencies: ProductCurrency[];
 }
 
-export interface ProductCurrency {
+export type ProductCurrency = {
   defaultCurrency: boolean
   currency: Currency
 }
 
-export interface PricingTablePlan {
+export type PricingTablePlan = {
   plan: Plan;
   currencies: PlanCurrency[];
   checkoutUrl?: string;
   perSeatAmount?: number;
 }
 
-export interface Plan {
+export type Plan = {
   uuid: string;
   name: string;
   currencies: PlanCurrency[];
@@ -46,24 +46,23 @@ export interface Plan {
   licenseType: 'licensed' | 'metered' | 'perSeat';
 }
 
-export interface PlanCurrency {
+export type PlanCurrency = {
   currency: Currency;
   price: number;
 }
 
-export interface Currency {
+export type Currency = {
   shortName: string;
   symbol: string;
   defaultCurrency?: boolean;
 }
 
-export interface Feature {
+export type Feature = {
   feature: {
     displayName: string;
     description: string;
   };
 }
-
 
 @Component({
   tag: 'salable-pricing-table',
@@ -71,6 +70,8 @@ export interface Feature {
   shadow: true,
 })
 export class SalablePricingTable {
+  private toggleIntervalEl: HTMLInputElement;
+
   @State() planConfig: PlanConfig | null = null;
   @State() state: PricingTableState | null = null; // Todo: define type
   @State() errorMessage: string | null = null;
@@ -179,44 +180,48 @@ export class SalablePricingTable {
       <Host>
         {this.errorMessage}
         <div class="font-sans max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+
           {
-            this.state.monthly.length > 0 && this.state.yearly.length > 0 ? (
-              <div class="flex justify-center items-center">
-                <label class="min-w-[3.5rem] text-sm text-gray-500 me-3 dark:text-gray-400">Monthly</label>
+              <section class="flex justify-center items-center">
+                <label
+                  class="min-w-[3.5rem] text-sm text-gray-500 me-3 dark:text-gray-400"
+                  htmlfor="interval-toggle"
+                  onClick={this.handleToggleBillingPeriodMonthly}
+                >Monthly</label>
 
                 <input
                   type="checkbox"
-                  id="hs-basic-with-description"
+                  id="interval-toggle"
                   class="relative w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-600 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-white"
+                  ref={(el) => {this.toggleIntervalEl = el as HTMLInputElement}}
                   onInput={this.handleToggleBillingPeriod}
                 />
 
-                <label class="relative min-w-[3.5rem] text-sm text-gray-500 ms-3 dark:text-gray-400">
-                  Annual {Boolean(this.selectedBillingPeriodKey) ? 'y' : 'n'}
-                </label>
-              </div>
-            ) : null
+                <label
+                  class="relative min-w-[3.5rem] text-sm text-gray-500 ms-3 dark:text-gray-400"
+                  htmlfor="interval-toggle"
+                  onClick={this.handleToggleBillingPeriodYearly}
+                >Annual</label>
+              </section>
           }
 
           <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:items-center">
 
-            {this.state[this.selectedBillingPeriodKey].map(({plan}) => (
-              <div class={this.getCardClass(plan)}>
-                <h4 class="font-medium text-lg text-gray-800 dark:text-gray-200">{plan.name}</h4>
+            {this.state[this.selectedBillingPeriodKey].map(({plan}, i) => (
+              <section class={this.getCardClass(plan)} data-testid={`pricing-table-card-${i}`}>
+                <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200" id="pricing-table-card-heading">{plan.name}</h3>
 
                 {plan.currencies.length > 0 ? (
                   <div class='mt-4'>
                     <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
-                    <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                      <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
                         {this.getCurrency(plan)?.price}
                       </span>
                     <span class="text-xl text-grey-500"> per {this.planUnitValue(plan.licenseType, plan.interval)}</span>
                   </div>
                 ) : (
                   <div class='mt-4'>
-                  <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
-                      Free
-                  </span>
+                    <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">Free</span>
                   </div>
                 )}
                 <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
@@ -229,10 +234,14 @@ export class SalablePricingTable {
                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"/>
                       </svg>
-                      <span class="text-gray-800 dark:text-gray-400 text-left">
-                        {feature.feature.displayName}<br/>
-                        {feature.feature.description}
-                      </span>
+                      <div>
+                        <h4 class="text-gray-800 dark:text-gray-400 text-left">
+                          {feature.feature.displayName}
+                        </h4>
+                        <p class="text-gray-800 dark:text-gray-400 text-left">
+                          {feature.feature.description}
+                        </p>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -242,7 +251,7 @@ export class SalablePricingTable {
                   onClick={this.handlePlanSelect(plan)}>
                   Select Plan
                 </button>
-              </div>
+              </section>
             ))}
           </div>
         </div>
@@ -374,6 +383,18 @@ export class SalablePricingTable {
 
   private handleToggleBillingPeriod = (event: Event) => {
     this.selectedBillingPeriodKey = (event.target as HTMLInputElement).checked ? 'yearly' : 'monthly';
+  };
+
+  private handleToggleBillingPeriodMonthly = (event: Event) => {
+    event.preventDefault();
+    this.toggleIntervalEl.checked = false;
+    this.selectedBillingPeriodKey = 'monthly';
+  };
+
+  private handleToggleBillingPeriodYearly = (event: Event) => {
+    event.preventDefault();
+    this.toggleIntervalEl.checked = true;
+    this.selectedBillingPeriodKey = 'yearly';
   };
 
   private handlePlanSelect = (plan: any) => async (event: Event) => {

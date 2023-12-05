@@ -1,7 +1,9 @@
-import objectBuilder from "../object-builder/object-builder";
+import objectBuilder, {DeepPartial} from "../object-builder/object-builder";
 import {
-    Currency, Feature, Plan, PlanCurrency, PricingTable,
-    PricingTablePlan, PricingTableProduct, ProductCurrency
+    Currency,
+    PlanCurrency,
+    PricingTable, PricingTablePlan,
+    ProductCurrency
 } from "../../stencil-library/src/components/salable-pricing-table/salable-pricing-table";
 
 const defaultCurrency: Currency = {
@@ -14,50 +16,121 @@ const defaultProductCurrency: ProductCurrency = {
     currency: defaultCurrency,
 };
 
-const defaultFeature: Feature = {
+const defaultPlanCurrency: PlanCurrency = {
+    currency: defaultCurrency,
+    price: 10,
+};
+
+const featureOne = {
     feature: {
-        displayName: 'Sample Feature',
-        description: 'This is a sample feature description',
+        displayName: 'Feature One',
+        description: 'Something about feature one',
     },
 };
 
-const defaultPlanCurrency: PlanCurrency = {
-    currency: defaultCurrency,
-    price: 100,
+const featureTwo = {
+    feature: {
+        displayName: 'Feature Two',
+        description: 'Some slightly longer text explaining what feature two enables',
+    },
 };
 
-const defaultPlan: Plan = {
-    uuid: 'default-plan-uuid',
-    name: 'Sample Plan',
-    currencies: [defaultPlanCurrency],
-    features: [defaultFeature],
-    interval: 'month',
-    description: 'This is a sample plan',
-    licenseType: 'licensed',
+const featureThree = {
+    feature: {
+        displayName: 'Feature Three',
+        description: 'Some text describing feature three this is only available on higher tiers',
+    },
 };
 
-const defaultPricingTablePlan: PricingTablePlan = {
-    plan: defaultPlan,
+const pricingTablePlanBaseMock = objectBuilder<PricingTablePlan>({
+    plan: {
+        uuid: 'default-plan-uuid',
+        name: 'Sample Plan',
+        currencies: [defaultPlanCurrency],
+        features: [
+            {
+                feature: {
+                    displayName: 'Sample Feature',
+                    description: 'This is a sample feature one description',
+                },
+            }
+        ],
+        interval: 'month',
+        description: 'This is a sample plan',
+        licenseType: 'licensed',
+    },
     currencies: [defaultPlanCurrency],
     checkoutUrl: 'http://example.com/checkout',
     perSeatAmount: 10,
-};
+});
 
-const defaultPricingTableProduct: PricingTableProduct = {
-    currencies: [defaultProductCurrency],
-};
+const pricingTablePlanMock = (currencies: PlanCurrency[], overrides: DeepPartial<PricingTablePlan>) =>
+    pricingTablePlanBaseMock({...overrides, plan: {...overrides.plan, currencies}, currencies});
 
-const defaultPricingTable: PricingTable = {
-    featuredPlanUuid: 'default-plan-uuid',
-    product: defaultPricingTableProduct,
-    plans: [defaultPricingTablePlan],
-};
+export const pricingTableMock = objectBuilder<PricingTable>({
+    featuredPlanUuid: 'pro-monthly-plan-uuid',
+    product: {currencies: [defaultProductCurrency]},
+    plans: [
+        pricingTablePlanMock(
+            [{currency: defaultCurrency, price: 300}],
+            {
+                plan: {
+                    uuid: 'pro-monthly-plan-uuid',
+                    name: 'Pro Monthly Plan',
+                    description: 'A pro monthly plan description',
+                    features: [
+                        featureOne,
+                        featureTwo,
+                        featureThree
+                    ]
+                }
+            }
+        ),
+        pricingTablePlanMock(
+            [{currency: defaultCurrency, price: 100}],
+            {
+                plan: {
+                    uuid: 'basic-monthly-plan-uuid',
+                    name: 'Basic Monthly Plan',
+                    description: 'A basic monthly plan description',
+                    features: [
+                        featureOne,
+                        featureTwo,
+                    ]
+                }
+            }
+        ),
+        pricingTablePlanMock(
+            [{currency: defaultCurrency, price: 3000}],
+            {
+                plan: {
+                    uuid: 'pro-yearly-plan-uuid',
+                    name: 'Pro Yearly Plan',
+                    description: 'A pro yearly plan description',
+                    features: [
+                        featureOne,
+                        featureTwo,
+                        featureThree
+                    ],
+                    interval: 'year'
+                }
+            }
+        ),
+        pricingTablePlanMock(
+            [{currency: defaultCurrency, price: 1000}],
+            {
+                plan: {
+                    uuid: 'basic-yearly-plan-uuid',
+                    name: 'Basic Yearly Plan',
+                    description: 'A basic yearly plan description',
 
-export const currencyMock = objectBuilder<Currency>(defaultCurrency);
-export const productCurrencyMock = objectBuilder<ProductCurrency>(defaultProductCurrency);
-export const featureMock = objectBuilder<Feature>(defaultFeature);
-export const planCurrencyMock = objectBuilder<PlanCurrency>(defaultPlanCurrency);
-export const planMock = objectBuilder<Plan>(defaultPlan);
-export const pricingTablePlanMock = objectBuilder<PricingTablePlan>(defaultPricingTablePlan);
-export const pricingTableProductMock = objectBuilder<PricingTableProduct>(defaultPricingTableProduct);
-export const pricingTableMock = objectBuilder<PricingTable>(defaultPricingTable);
+                    features: [
+                        featureOne,
+                        featureTwo,
+                    ],
+                    interval: 'year'
+                }
+            }
+        ),
+    ],
+});
