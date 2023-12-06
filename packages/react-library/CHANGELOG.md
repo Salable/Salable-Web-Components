@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.0.37...v0.1.0) (2023-12-06)
+
+
+### Features
+
+* add draft of pricing-table ([#46](https://github.com/Salable/salable-web-components-stenciljs/issues/46)) ([d59f75b](https://github.com/Salable/salable-web-components-stenciljs/commit/d59f75baeb1c30aba46a77bd43278dfc74a8f78a))
+
+
+
+
+
 ## [0.0.37](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.0.36...v0.0.37) (2023-11-21)
 
 **Note:** Version bump only for package @salable/react-library
