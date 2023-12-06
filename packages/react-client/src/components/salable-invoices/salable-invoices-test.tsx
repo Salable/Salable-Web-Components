@@ -4,8 +4,8 @@ export default function SalableInvoicesTest() {
     return (
         <SalableInvoices
             data-testid="component"
-            api-key="xxxxx"
-            subscription-uuid="xxxxx"
+            apiKey="xxxxx"
+            subscriptionUuid="xxxxx"
             limit={2}
         />
     );

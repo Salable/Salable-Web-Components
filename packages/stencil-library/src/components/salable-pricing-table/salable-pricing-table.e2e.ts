@@ -1,7 +1,6 @@
 import {test} from 'stencil-playwright';
 import {salablePricingTableTests, setUpPricingTableApi} from "../../../../utilities/tests/salable-pricing-table-tests";
 
-
 test.describe('salable-invoices Stencil E2E Tests', () => {
     const mockApiKey = 'mock_api_key';
     const mockPricingTableUuid = 'mock_pricing_table_uuid';
