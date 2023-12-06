@@ -46,6 +46,7 @@
     "@stencil-community/eslint-plugin": "^0.6.0",
     "@stencil-community/postcss": "^2.2.0",
     "@stencil/react-output-target": "^0.5.3",
+    "@tailwindcss/forms": "^0.5.7",
     "@types/jest": "^29.5.6",
     "@types/node": "^16.18.11",
     "autoprefixer": "^10.4.16",

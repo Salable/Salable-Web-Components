@@ -9,6 +9,8 @@ import { defineCustomElements } from '@salable/react-library';
 import SalableInvoicesDemo from "./components/salable-invoices/salable-invoices-demo.tsx";
 import SalableInvoicesTest from "./components/salable-invoices/salable-invoices-test.tsx";
 import Root from "./root.tsx";
+import SalablePricingTableTest from "./components/salable-pricing-table/salable-pricing-table-test.tsx";
+import SalablePricingTableDemo from "./components/salable-pricing-table/salable-pricing-table-demo.tsx";
 
 const router = createBrowserRouter([
     {
@@ -19,11 +21,19 @@ const router = createBrowserRouter([
                 path: "/demo/salable-invoices",
                 element: <SalableInvoicesDemo/>,
             },
+            {
+                path: "/demo/salable-pricing-table",
+                element: <SalablePricingTableDemo/>,
+            },
         ],
     },
     {
         path: "/test/salable-invoices",
         element: <SalableInvoicesTest/>,
+    },
+    {
+        path: "/test/salable-pricing-table",
+        element: <SalablePricingTableTest/>,
     },
 ]);
 

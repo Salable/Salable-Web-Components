@@ -1,4 +1,4 @@
-import {Component, h, Host, Prop, State} from '@stencil/core';
+import {Component, h, Host, Prop, State, Watch} from '@stencil/core';
 import {apiUrl} from "../../constants";
 import {StatusType} from "../../enums/status-type";
 import {InvoiceStatus} from "../../enums/invoice-status";
@@ -15,17 +15,25 @@ export class SalableInvoices {
   /**
    * The publishable api key, this can be generated in the Salable dashboard
    **/
-  @Prop() apiKey: string;
+  @Prop() apiKey!: string;
 
   /**
    * The uuid of the subscription that you want to display invoices for.
    **/
-  @Prop() subscriptionUuid: string;
+  @Prop() subscriptionUuid!: string;
 
   /**
    * The number of rows to display per page
    **/
   @Prop() limit: number = 25;
+
+  @Watch('apiKey')
+  @Watch('subscriptionUuid')
+  validateProp(newValue: string, propName: string) {
+    if (typeof newValue !== 'string' || newValue.trim() === '') {
+      throw new Error(`${propName} is a required property and cannot be empty`);
+    }
+  }
 
   private currentPage = 1;
 

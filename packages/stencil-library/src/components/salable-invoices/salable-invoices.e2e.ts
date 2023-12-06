@@ -1,6 +1,6 @@
 import {test} from 'stencil-playwright';
 import InvoiceRepository from "../../../../utilities/respository/invoice-repository";
-import {salableInvoicePaginationTests, setUpInvoicePagination} from "../../../../utilities/tests/salable-invoice-tests";
+import {salableInvoiceTests, setUpInvoiceApi} from "../../../../utilities/tests/salable-invoice-tests";
 import {mockInvoices} from "../../../../utilities/mock-data/invoice.mock";
 
 test.describe('salable-invoices Stencil E2E Tests', () => {
@@ -10,7 +10,7 @@ test.describe('salable-invoices Stencil E2E Tests', () => {
 
   test.describe('Fetch Success Cases', () => {
     test('Displays first page of paginated invoice results', async ({page}) => {
-      await setUpInvoicePagination(page, invoiceRepository);
+      await setUpInvoiceApi(page, invoiceRepository);
 
       await page.setContent(`
         <salable-invoices
@@ -20,7 +20,7 @@ test.describe('salable-invoices Stencil E2E Tests', () => {
         ></salable-invoices>
       `);
 
-      await salableInvoicePaginationTests(page, invoiceRepository);
+      await salableInvoiceTests(page, invoiceRepository);
     });
   });
 });

@@ -33,6 +33,68 @@ export namespace Components {
          */
         "subscriptionUuid": string;
     }
+    interface SalablePricingTable {
+        /**
+          * Enables the promo code field in Stripe checkout. Accepts 'true' or 'false'. Cannot be used with promoCode.
+         */
+        "allowPromoCode": string;
+        /**
+          * The publishable api key, this can be generated in the Salable dashboard
+         */
+        "apiKey": string;
+        /**
+          * Automatically calculate tax on checkout based on the customer's location and your Stripe settings.
+         */
+        "automaticTax": string;
+        /**
+          * Uses the currency short name (e.g., USD). Defaults to the default currency on the Product which the Plan is linked to. Currently only supported on payment integration type 'stripe_existing'.
+         */
+        "currency": string;
+        /**
+          * Pre-fills the customer email in Stripe checkout.
+         */
+        "customerEmail": string;
+        /**
+          * The ID of an existing customer in your payment integration. This pre-fills the email, card details, and postcode at checkout.
+         */
+        "customerId": string;
+        /**
+          * The URL to send users to if the transaction fails. Must be an absolute URL.
+         */
+        "globalCancelUrl": string;
+        /**
+          * The unique identifier for the grantee for all plan checkouts links.
+         */
+        "globalGranteeId": string;
+        /**
+          * The URL to send users to after a successful purchase. Must be an absolute URL.
+         */
+        "globalSuccessUrl": string;
+        /**
+          * The ID of the member who will manage the license.
+         */
+        "member": string;
+        /**
+          * Configure cancelUrls per plan, string format `planUuidOne:cancelUrlOne,planUuidTwo:cancelUrlTwo`
+         */
+        "perPlanCancelUrls": string;
+        /**
+          * Configure granteeIds per plan, string format `planUuidOne:granteeIdOne,planUuidTwo:granteeIdTwo`
+         */
+        "perPlanGranteeIds": string;
+        /**
+          * Configure successUrls per plan, string format `planUuidOne:successUrlOne,planUuidTwo:successUrlTwo`
+         */
+        "perPlanSuccessUrls": string;
+        /**
+          * The uuid of the pricing table that you want to display.
+         */
+        "pricingTableUuid": string;
+        /**
+          * Used to pre-fill the promo code in Stripe checkout. Use the promo code ID from Stripe dashboard. Customers cannot edit this field during checkout.
+         */
+        "promoCode": string;
+    }
     interface SalableStatus {
         /**
           * The status type
@@ -62,6 +124,12 @@ declare global {
         prototype: HTMLSalableInvoicesElement;
         new (): HTMLSalableInvoicesElement;
     };
+    interface HTMLSalablePricingTableElement extends Components.SalablePricingTable, HTMLStencilElement {
+    }
+    var HTMLSalablePricingTableElement: {
+        prototype: HTMLSalablePricingTableElement;
+        new (): HTMLSalablePricingTableElement;
+    };
     interface HTMLSalableStatusElement extends Components.SalableStatus, HTMLStencilElement {
     }
     var HTMLSalableStatusElement: {
@@ -72,6 +140,7 @@ declare global {
         "salable-button": HTMLSalableButtonElement;
         "salable-date": HTMLSalableDateElement;
         "salable-invoices": HTMLSalableInvoicesElement;
+        "salable-pricing-table": HTMLSalablePricingTableElement;
         "salable-status": HTMLSalableStatusElement;
     }
 }
@@ -91,7 +160,7 @@ declare namespace LocalJSX {
         /**
           * The publishable api key, this can be generated in the Salable dashboard
          */
-        "apiKey"?: string;
+        "apiKey": string;
         /**
           * The number of rows to display per page
          */
@@ -99,7 +168,69 @@ declare namespace LocalJSX {
         /**
           * The uuid of the subscription that you want to display invoices for.
          */
-        "subscriptionUuid"?: string;
+        "subscriptionUuid": string;
+    }
+    interface SalablePricingTable {
+        /**
+          * Enables the promo code field in Stripe checkout. Accepts 'true' or 'false'. Cannot be used with promoCode.
+         */
+        "allowPromoCode"?: string;
+        /**
+          * The publishable api key, this can be generated in the Salable dashboard
+         */
+        "apiKey": string;
+        /**
+          * Automatically calculate tax on checkout based on the customer's location and your Stripe settings.
+         */
+        "automaticTax"?: string;
+        /**
+          * Uses the currency short name (e.g., USD). Defaults to the default currency on the Product which the Plan is linked to. Currently only supported on payment integration type 'stripe_existing'.
+         */
+        "currency"?: string;
+        /**
+          * Pre-fills the customer email in Stripe checkout.
+         */
+        "customerEmail"?: string;
+        /**
+          * The ID of an existing customer in your payment integration. This pre-fills the email, card details, and postcode at checkout.
+         */
+        "customerId"?: string;
+        /**
+          * The URL to send users to if the transaction fails. Must be an absolute URL.
+         */
+        "globalCancelUrl": string;
+        /**
+          * The unique identifier for the grantee for all plan checkouts links.
+         */
+        "globalGranteeId": string;
+        /**
+          * The URL to send users to after a successful purchase. Must be an absolute URL.
+         */
+        "globalSuccessUrl": string;
+        /**
+          * The ID of the member who will manage the license.
+         */
+        "member": string;
+        /**
+          * Configure cancelUrls per plan, string format `planUuidOne:cancelUrlOne,planUuidTwo:cancelUrlTwo`
+         */
+        "perPlanCancelUrls"?: string;
+        /**
+          * Configure granteeIds per plan, string format `planUuidOne:granteeIdOne,planUuidTwo:granteeIdTwo`
+         */
+        "perPlanGranteeIds"?: string;
+        /**
+          * Configure successUrls per plan, string format `planUuidOne:successUrlOne,planUuidTwo:successUrlTwo`
+         */
+        "perPlanSuccessUrls"?: string;
+        /**
+          * The uuid of the pricing table that you want to display.
+         */
+        "pricingTableUuid": string;
+        /**
+          * Used to pre-fill the promo code in Stripe checkout. Use the promo code ID from Stripe dashboard. Customers cannot edit this field during checkout.
+         */
+        "promoCode"?: string;
     }
     interface SalableStatus {
         /**
@@ -111,6 +242,7 @@ declare namespace LocalJSX {
         "salable-button": SalableButton;
         "salable-date": SalableDate;
         "salable-invoices": SalableInvoices;
+        "salable-pricing-table": SalablePricingTable;
         "salable-status": SalableStatus;
     }
 }
@@ -124,6 +256,7 @@ declare module "@stencil/core" {
             "salable-button": LocalJSX.SalableButton & JSXBase.HTMLAttributes<HTMLSalableButtonElement>;
             "salable-date": LocalJSX.SalableDate & JSXBase.HTMLAttributes<HTMLSalableDateElement>;
             "salable-invoices": LocalJSX.SalableInvoices & JSXBase.HTMLAttributes<HTMLSalableInvoicesElement>;
+            "salable-pricing-table": LocalJSX.SalablePricingTable & JSXBase.HTMLAttributes<HTMLSalablePricingTableElement>;
             "salable-status": LocalJSX.SalableStatus & JSXBase.HTMLAttributes<HTMLSalableStatusElement>;
         }
     }

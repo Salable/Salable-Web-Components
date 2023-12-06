@@ -8,6 +8,9 @@ export default function Root() {
                     <li>
                         <a href={`/demo/salable-invoices`}>Salable Invoices</a>
                     </li>
+                    <li>
+                        <a href={`/demo/salable-pricing-table`}>Salable Pricing Table</a>
+                    </li>
                 </ul>
             </nav>
             <div id="detail">
