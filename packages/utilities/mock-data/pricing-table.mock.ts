@@ -1,22 +1,16 @@
-import objectBuilder, {DeepPartial} from "../object-builder/object-builder";
-import {
-    Currency,
-    PlanCurrency,
-    PricingTable, PricingTablePlan,
-    ProductCurrency
-} from "../../stencil-library/src/components/salable-pricing-table/salable-pricing-table";
+import objectBuilder from "../object-builder/object-builder";
 
-const defaultCurrency: Currency = {
+const defaultCurrency = {
     shortName: 'USD',
     symbol: '$',
 };
 
-const defaultProductCurrency: ProductCurrency = {
+const defaultProductCurrency = {
     defaultCurrency: true,
     currency: defaultCurrency,
 };
 
-const defaultPlanCurrency: PlanCurrency = {
+const defaultPlanCurrency = {
     currency: defaultCurrency,
     price: 10,
 };
@@ -42,7 +36,7 @@ const featureThree = {
     },
 };
 
-const pricingTablePlanBaseMock = objectBuilder<PricingTablePlan>({
+const pricingTablePlanBaseMock = objectBuilder({
     plan: {
         uuid: 'default-plan-uuid',
         name: 'Sample Plan',
@@ -64,10 +58,10 @@ const pricingTablePlanBaseMock = objectBuilder<PricingTablePlan>({
     perSeatAmount: 10,
 });
 
-const pricingTablePlanMock = (currencies: PlanCurrency[], overrides: DeepPartial<PricingTablePlan>) =>
+const pricingTablePlanMock = (currencies: any, overrides: any) =>
     pricingTablePlanBaseMock({...overrides, plan: {...overrides.plan, currencies}, currencies});
 
-export const pricingTableMock = objectBuilder<PricingTable>({
+export const pricingTableMock = objectBuilder({
     featuredPlanUuid: 'pro-monthly-plan-uuid',
     product: {currencies: [defaultProductCurrency]},
     plans: [
