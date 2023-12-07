@@ -4,7 +4,7 @@ export default function SalablePricingTableDemo() {
     return (
         <SalablePricingTable
             apiKey="q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
-            pricingTableUuid="aec06de8-3a3e-46eb-bd09-f1094c1b1b8d"
+            uuid="aec06de8-3a3e-46eb-bd09-f1094c1b1b8d"
             globalSuccessUrl="https://google.co.uk"
             globalCancelUrl="https://google.co.uk"
             globalGranteeId="123"
