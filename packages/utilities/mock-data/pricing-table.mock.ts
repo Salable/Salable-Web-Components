@@ -145,6 +145,22 @@ export const pricingTableMock = objectBuilder({
                 }
             }
         ),
+        pricingTablePlanMock(
+            [{currency: defaultCurrency, price: 3000}],
+            {
+                plan: {
+                    uuid: 'ultra-yearly-plan-uuid',
+                    name: 'Ultra Yearly Plan',
+                    description: 'A ultra yearly plan description',
+                    features: [
+                        featureOne,
+                        featureTwo,
+                        featureThree
+                    ],
+                    interval: 'year'
+                }
+            }
+        ),
     ],
 });
 
@@ -187,6 +203,18 @@ export const productPricingTableMock = objectBuilder({
             uuid: 'pro-yearly-plan-uuid',
             name: 'Pro Yearly Plan',
             description: 'A pro yearly plan description',
+            features: [
+                featureOne,
+                featureTwo,
+                featureThree
+            ],
+            currencies: [{currency: defaultCurrency, price: 3000}],
+            interval: 'year'
+        }),
+        productPricingTablePlanMock({
+            uuid: 'ultra-yearly-plan-uuid',
+            name: 'Ultra Yearly Plan',
+            description: 'A ultra yearly plan description',
             features: [
                 featureOne,
                 featureTwo,

@@ -187,9 +187,9 @@ export class SalablePricingTable {
     return (
       <Host>
         {this.errorMessage}
-        <div class="font-sans max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+        <div class="font-sans max-w-[85rem] mx-auto">
           {this.state.monthly.length > 0 && this.state.yearly.length > 0 ? (
-            <section class="flex justify-center items-center">
+            <section class="flex justify-center items-center mb-12">
               <label
                 class="min-w-[3.5rem] text-sm text-gray-500 me-3 dark:text-gray-400"
                 htmlfor="interval-toggle"
@@ -214,7 +214,7 @@ export class SalablePricingTable {
             </section>
           ) : null}
 
-          <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:items-center">
+          <div class={`grid sm:grid-cols-2 ${this.getColumnCount()} gap-6 lg:items-center`}>
             {this.state[this.selectedBillingPeriodKey].map(({plan}, i) => (
               <section class={this.getCardClass(plan)} data-testid={`pricing-table-card-${i}`}>
                 <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200"
@@ -222,7 +222,7 @@ export class SalablePricingTable {
                 {plan.currencies.length > 0 ? (
                   <div class='mt-4'>
                     <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
-                    <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                      <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
                         {this.getCurrency(plan)?.price}
                       </span>
                     <span
@@ -235,7 +235,7 @@ export class SalablePricingTable {
                 )}
                 <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
 
-                <ul class="mt-7 space-y-2.5 text-sm mx-auto">
+                <ul class="mt-7 mb-5 space-y-2.5 text-sm mx-auto">
                   {plan.features?.map(feature => (
                     <li class="flex space-x-2">
                       <svg class="flex-shrink-0 mt-0.5 h-4 w-4 text-blue-600 dark:text-blue-500"
@@ -256,7 +256,7 @@ export class SalablePricingTable {
                 </ul>
 
                 <button
-                  class="mt-5 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-blue-900 dark:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                  class="mt-auto py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-blue-900 dark:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
                   onClick={this.handlePlanSelect(plan)}>
                   Select Plan
                 </button>
@@ -462,8 +462,8 @@ export class SalablePricingTable {
 
   private getCardClass(plan: any) {
     return plan.uuid === this.state.featuredPlanUuid ?
-      "flex flex-col border border-2 border-blue-600 text-center shadow-xl rounded-xl p-8 dark:border-blue-700" :
-      "flex flex-col border border-gray-200 text-center rounded-xl p-8 dark:border-gray-700";
+      "flex flex-col h-full border border-2 border-blue-600 text-center shadow-xl rounded-xl p-8 dark:border-blue-700" :
+      "flex flex-col h-full border border-gray-200 text-center rounded-xl p-8 dark:border-gray-700";
   }
 
   private pricingTableFactory(pricingTable: any) {
@@ -476,4 +476,21 @@ export class SalablePricingTable {
     }
     return pricingTable
   }
+
+  private getColumnCount = () => {
+    const columnLookup = {
+      1: 'lg:grid-cols-1',
+      2: 'lg:grid-cols-2',
+      3: 'lg:grid-cols-3',
+      4: 'lg:grid-cols-4',
+    };
+    switch (this.selectedBillingPeriodKey) {
+      case 'monthly':
+        return columnLookup[this.calculateColumnCount(this.state.monthly.length)];
+      case 'yearly':
+        return columnLookup[this.calculateColumnCount(this.state.yearly.length)];
+    }
+  };
+
+  private calculateColumnCount = (length: number): number => length <= 4 ? length : length % 4 === 0 ? 4 : 3;
 }
