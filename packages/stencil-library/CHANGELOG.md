@@ -11,7 +11,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * add support for providing product uuid or pricing table uuid ([#47](https://github.com/ionic-team/stencil-component-starter/issues/47)) ([5c8abc3](https://github.com/ionic-team/stencil-component-starter/commit/5c8abc37444a9b87a8ad9cdc41b8038721551600))
 
 
-z
+
 
 
 # [0.1.0](https://github.com/ionic-team/stencil-component-starter/compare/v0.0.37...v0.1.0) (2023-12-06)
