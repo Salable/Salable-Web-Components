@@ -146,7 +146,7 @@ export const pricingTableMock = objectBuilder({
             }
         ),
         pricingTablePlanMock(
-            [{currency: defaultCurrency, price: 3000}],
+            [{currency: defaultCurrency, price: 5000}],
             {
                 plan: {
                     uuid: 'ultra-yearly-plan-uuid',
@@ -220,7 +220,7 @@ export const productPricingTableMock = objectBuilder({
                 featureTwo,
                 featureThree
             ],
-            currencies: [{currency: defaultCurrency, price: 3000}],
+            currencies: [{currency: defaultCurrency, price: 5000}],
             interval: 'year'
         }),
     ],

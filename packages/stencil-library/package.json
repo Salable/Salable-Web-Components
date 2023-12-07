@@ -28,6 +28,7 @@
     "test": "pnpm test:spec && pnpm test:e2e",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
+    "test:e2e:update-snapshots": "playwright test --update-snapshots",
     "test:spec": "stencil test --spec",
     "test:spec:watch": "stencil test --spec --watchAll",
     "test:serve": "serve -p 3333",
