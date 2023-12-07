@@ -17,7 +17,6 @@ export async function setUpProductPricingTableApi(page: Page) {
     const url = /^.*?\/pricingtable/;
 
     await page.route(url, async (route) => {
-        console.log(productPricingTableMock());
         await route.fulfill({
             status: 200,
             contentType: 'application/json',

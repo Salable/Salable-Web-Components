@@ -41,7 +41,7 @@ export const config: Config = {
         require("tailwindcss")("./tailwind.config.js"),
         autoprefixer(),
         ...(process.env.NODE_ENV === "production"
-            ? [purgecss, require("cssnano")]
+            ? [purgecss, require('cssnano')]
             : [])
       ]
     })
