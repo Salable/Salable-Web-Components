@@ -14,29 +14,29 @@ type PlanConfig = {
   cancelUrls: [string, string][];
 }
 
-export type PricingTable = {
+type PricingTable = {
   featuredPlanUuid: string;
   product: PricingTableProduct;
   plans: PricingTablePlan[];
 }
 
-export type PricingTableProduct = {
+type PricingTableProduct = {
   currencies: ProductCurrency[];
 }
 
-export type ProductCurrency = {
+type ProductCurrency = {
   defaultCurrency: boolean
   currency: Currency
 }
 
-export type PricingTablePlan = {
+type PricingTablePlan = {
   plan: Plan;
   currencies: PlanCurrency[];
   checkoutUrl?: string;
   perSeatAmount?: number;
 }
 
-export type Plan = {
+type Plan = {
   uuid: string;
   name: string;
   currencies: PlanCurrency[];
@@ -46,18 +46,18 @@ export type Plan = {
   licenseType: 'licensed' | 'metered' | 'perSeat';
 }
 
-export type PlanCurrency = {
+type PlanCurrency = {
   currency: Currency;
   price: number;
 }
 
-export type Currency = {
+type Currency = {
   shortName: string;
   symbol: string;
   defaultCurrency?: boolean;
 }
 
-export type Feature = {
+type Feature = {
   feature: {
     displayName: string;
     description: string;
@@ -214,7 +214,7 @@ export class SalablePricingTable {
             </section>
           ) : null}
 
-          <div class={`grid sm:grid-cols-2 ${this.getColumnCount()} gap-6 lg:items-center`}>
+          <div class={`grid ${this.getColumnCount()} gap-6 lg:items-center`}>
             {this.state[this.selectedBillingPeriodKey].map(({plan}, i) => (
               <section class={this.getCardClass(plan)} data-testid={`pricing-table-card-${i}`}>
                 <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200"
@@ -479,10 +479,10 @@ export class SalablePricingTable {
 
   private getColumnCount = () => {
     const columnLookup = {
-      1: 'lg:grid-cols-1',
-      2: 'lg:grid-cols-2',
-      3: 'lg:grid-cols-3',
-      4: 'lg:grid-cols-4',
+      1: 'sm:grid-cols-1 lg:grid-cols-1',
+      2: 'sm:grid-cols-2 lg:grid-cols-2',
+      3: 'sm:grid-cols-2 lg:grid-cols-3',
+      4: 'sm:grid-cols-2 lg:grid-cols-4',
     };
     switch (this.selectedBillingPeriodKey) {
       case 'monthly':
