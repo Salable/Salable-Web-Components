@@ -85,7 +85,12 @@ export class SalablePricingTable {
   /**
    * The uuid of the pricing table that you want to display.
    **/
-  @Prop() pricingTableUuid!: string;
+  @Prop() uuid!: string;
+
+  /**
+   * If this you provided the uuid of a custom pricing table set this to true
+   **/
+  @Prop() isCustomPricingTable: boolean = false;
 
   /**
    * The URL to send users to after a successful purchase. Must be an absolute URL.
@@ -157,7 +162,7 @@ export class SalablePricingTable {
   @Prop() perPlanCancelUrls: string;
 
   @Watch('apiKey')
-  @Watch('pricingTableUuid')
+  @Watch('uuid')
   @Watch('globalSuccessUrl')
   @Watch('globalCancelUrl')
   @Watch('globalGranteeId')
@@ -172,7 +177,10 @@ export class SalablePricingTable {
     this.validateProps();
     this.initPlanConfig();
     const data = await this.fetchPricingTable();
-    this.state = this.initialiseState(data);
+    if (Boolean(data)) {
+      const normalisedData = this.pricingTableFactory(data);
+      this.state = this.initialiseState(normalisedData)
+    }
   }
 
   render() {
@@ -180,44 +188,45 @@ export class SalablePricingTable {
       <Host>
         {this.errorMessage}
         <div class="font-sans max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+          {this.state.monthly.length > 0 && this.state.yearly.length > 0 ? (
+            <section class="flex justify-center items-center">
+              <label
+                class="min-w-[3.5rem] text-sm text-gray-500 me-3 dark:text-gray-400"
+                htmlfor="interval-toggle"
+                onClick={this.handleToggleBillingPeriodMonthly}
+              >Monthly</label>
 
-          {
-              <section class="flex justify-center items-center">
-                <label
-                  class="min-w-[3.5rem] text-sm text-gray-500 me-3 dark:text-gray-400"
-                  htmlfor="interval-toggle"
-                  onClick={this.handleToggleBillingPeriodMonthly}
-                >Monthly</label>
+              <input
+                type="checkbox"
+                id="interval-toggle"
+                class="relative w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-600 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-white"
+                ref={(el) => {
+                  this.toggleIntervalEl = el as HTMLInputElement
+                }}
+                onInput={this.handleToggleBillingPeriod}
+              />
 
-                <input
-                  type="checkbox"
-                  id="interval-toggle"
-                  class="relative w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-600 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-white"
-                  ref={(el) => {this.toggleIntervalEl = el as HTMLInputElement}}
-                  onInput={this.handleToggleBillingPeriod}
-                />
-
-                <label
-                  class="relative min-w-[3.5rem] text-sm text-gray-500 ms-3 dark:text-gray-400"
-                  htmlfor="interval-toggle"
-                  onClick={this.handleToggleBillingPeriodYearly}
-                >Annual</label>
-              </section>
-          }
+              <label
+                class="relative min-w-[3.5rem] text-sm text-gray-500 ms-3 dark:text-gray-400"
+                htmlfor="interval-toggle"
+                onClick={this.handleToggleBillingPeriodYearly}
+              >Annual</label>
+            </section>
+          ) : null}
 
           <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:items-center">
-
             {this.state[this.selectedBillingPeriodKey].map(({plan}, i) => (
               <section class={this.getCardClass(plan)} data-testid={`pricing-table-card-${i}`}>
-                <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200" id="pricing-table-card-heading">{plan.name}</h3>
-
+                <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200"
+                    id="pricing-table-card-heading">{plan.name}</h3>
                 {plan.currencies.length > 0 ? (
                   <div class='mt-4'>
                     <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
-                      <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                    <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
                         {this.getCurrency(plan)?.price}
                       </span>
-                    <span class="text-xl text-grey-500"> per {this.planUnitValue(plan.licenseType, plan.interval)}</span>
+                    <span
+                      class="text-xl text-grey-500"> per {this.planUnitValue(plan.licenseType, plan.interval)}</span>
                   </div>
                 ) : (
                   <div class='mt-4'>
@@ -261,14 +270,14 @@ export class SalablePricingTable {
 
   private validateProps() {
     this.validateProp(this.apiKey, 'apiKey');
-    this.validateProp(this.pricingTableUuid, 'pricingTableUuid');
+    this.validateProp(this.uuid, 'uuid');
     this.validateProp(this.globalSuccessUrl, 'globalSuccessUrl');
     this.validateProp(this.globalCancelUrl, 'globalCancelUrl');
     this.validateProp(this.globalGranteeId, 'globalGranteeId');
     this.validateProp(this.member, 'member');
   }
 
-  private async fetchPricingTable(): Promise<PricingTable> {
+  private async fetchPricingTable(): Promise<PricingTable | null> {
     try {
       const params = new URLSearchParams({
         globalSuccessUrl: this.globalSuccessUrl,
@@ -310,21 +319,22 @@ export class SalablePricingTable {
           params.set('cancelUrls', this.planConfig.cancelUrls.flat().join(','));
       }
 
-      const response = await fetch(
-        `${apiUrl}/pricing-tables/${this.pricingTableUuid}?${decodeURIComponent(params.toString())}`,
-        {headers: {'x-api-key': `${this.apiKey}`}},
-      );
+      const pricingTableUrl = this.isCustomPricingTable
+        ? `${apiUrl}/pricing-tables/${this.uuid}?${decodeURIComponent(params.toString())}`
+        : `${apiUrl}/products/${this.uuid}/pricingtable?${decodeURIComponent(params.toString())}`
+
+      const response = await fetch(pricingTableUrl, {headers: {'x-api-key': `${this.apiKey}`}});
 
       if (!response.ok) {
         // Todo: add refresh/retry option
         // Todo: 401 Unauthenticated | 403 Unauthorised (when API is fixed)
         if (response.status === 401 || response.status === 403) {
           this.errorMessage = 'Unauthorised';
-          return
+          return null
         }
         if (response.status === 404) {
           this.errorMessage = 'Not found';
-          return
+          return null
         }
       }
 
@@ -333,26 +343,25 @@ export class SalablePricingTable {
       // Todo: add refresh/retry option
       console.error('Fetch error:', error);
       this.errorMessage = 'Error fetching data';
+      return null
     }
   }
 
   private initialiseState(data: PricingTable): PricingTableState {
-    console.log(data);
-
     const result = {
       monthly: [],
       yearly: [],
       featuredPlanUuid: data.featuredPlanUuid,
-      defaultCurrencyShortName: this.currency ?? data.product.currencies.find((currency: any) => currency.defaultCurrency)?.currency.shortName ?? null,
+      defaultCurrencyShortName: this.getPricingTableDefaultCurrency(data),
     };
 
     for (let plan of data.plans) {
       switch (plan.plan.interval) {
         case 'year':
-          result.yearly.unshift(plan);
+          result.yearly.push(plan);
           break;
         case 'month':
-          result.monthly.unshift(plan);
+          result.monthly.push(plan);
           break;
       }
     }
@@ -362,6 +371,10 @@ export class SalablePricingTable {
     }
 
     return result;
+  }
+
+  private getPricingTableDefaultCurrency(data: PricingTable) {
+    return this.currency ?? data.product.currencies.find((currency: any) => currency.defaultCurrency)?.currency.shortName ?? null;
   }
 
   private getCurrency(plan: any) {
@@ -451,5 +464,16 @@ export class SalablePricingTable {
     return plan.uuid === this.state.featuredPlanUuid ?
       "flex flex-col border border-2 border-blue-600 text-center shadow-xl rounded-xl p-8 dark:border-blue-700" :
       "flex flex-col border border-gray-200 text-center rounded-xl p-8 dark:border-gray-700";
+  }
+
+  private pricingTableFactory(pricingTable: any) {
+    if (!this.isCustomPricingTable) {
+      return {
+        featuredPlanUuid: '',
+        product: {currencies: pricingTable.currencies},
+        plans: pricingTable.plans.map((plan: Plan) => ({plan}))
+      }
+    }
+    return pricingTable
   }
 }

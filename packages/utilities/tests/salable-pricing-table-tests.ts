@@ -1,7 +1,7 @@
 import {expect, Locator, Page} from "@playwright/test";
-import {pricingTableMock} from "../mock-data/pricing-table.mock";
+import {pricingTableMock, productPricingTableMock} from "../mock-data/pricing-table.mock";
 
-export async function setUpPricingTableApi(page: Page) {
+export async function setUpCustomPricingTableApi(page: Page) {
     const url = /^.*?\/pricing-tables\/.*?/;
 
     await page.route(url, async (route) => {
@@ -13,8 +13,21 @@ export async function setUpPricingTableApi(page: Page) {
     });
 }
 
+export async function setUpProductPricingTableApi(page: Page) {
+    const url = /^.*?\/pricingtable/;
+
+    await page.route(url, async (route) => {
+        console.log(productPricingTableMock());
+        await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify(productPricingTableMock()),
+        });
+    });
+}
+
 export async function salablePricingTableTests(page: Page) {
-    const pricingTable = page.locator('salable-pricing-table')
+    const pricingTable = page.locator('salable-pricing-table');
     const intervalToggle = pricingTable.locator('#interval-toggle');
     await expect(intervalToggle).toBeVisible();
     await expect(intervalToggle).not.toBeChecked();

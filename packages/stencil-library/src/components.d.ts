@@ -71,6 +71,10 @@ export namespace Components {
          */
         "globalSuccessUrl": string;
         /**
+          * If this you provided the uuid of a custom pricing table set this to true
+         */
+        "isCustomPricingTable": boolean;
+        /**
           * The ID of the member who will manage the license.
          */
         "member": string;
@@ -87,13 +91,13 @@ export namespace Components {
          */
         "perPlanSuccessUrls": string;
         /**
-          * The uuid of the pricing table that you want to display.
-         */
-        "pricingTableUuid": string;
-        /**
           * Used to pre-fill the promo code in Stripe checkout. Use the promo code ID from Stripe dashboard. Customers cannot edit this field during checkout.
          */
         "promoCode": string;
+        /**
+          * The uuid of the pricing table that you want to display.
+         */
+        "uuid": string;
     }
     interface SalableStatus {
         /**
@@ -208,6 +212,10 @@ declare namespace LocalJSX {
          */
         "globalSuccessUrl": string;
         /**
+          * If this you provided the uuid of a custom pricing table set this to true
+         */
+        "isCustomPricingTable"?: boolean;
+        /**
           * The ID of the member who will manage the license.
          */
         "member": string;
@@ -224,13 +232,13 @@ declare namespace LocalJSX {
          */
         "perPlanSuccessUrls"?: string;
         /**
-          * The uuid of the pricing table that you want to display.
-         */
-        "pricingTableUuid": string;
-        /**
           * Used to pre-fill the promo code in Stripe checkout. Use the promo code ID from Stripe dashboard. Customers cannot edit this field during checkout.
          */
         "promoCode"?: string;
+        /**
+          * The uuid of the pricing table that you want to display.
+         */
+        "uuid": string;
     }
     interface SalableStatus {
         /**
