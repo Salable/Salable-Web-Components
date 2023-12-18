@@ -13,6 +13,28 @@ export namespace Components {
      */
     interface SalableButton {
     }
+    interface SalableCheckout {
+        /**
+          * A unique identifier to authenticate HTTP calls to Salable API
+         */
+        "apiKey": string;
+        /**
+          * A unique identifier used in licensing that represents the entity to which a license is granted
+         */
+        "granteeId": string;
+        /**
+          * A unique identifier for a member or user
+         */
+        "member": string;
+        /**
+          * A unique identifier for a specific plan
+         */
+        "planUuid": string;
+        /**
+          * The URL the user is sent to if they successfully completed a payment
+         */
+        "successUrl": string;
+    }
     interface SalableDate {
         /**
           * The date to display
@@ -116,6 +138,12 @@ declare global {
         prototype: HTMLSalableButtonElement;
         new (): HTMLSalableButtonElement;
     };
+    interface HTMLSalableCheckoutElement extends Components.SalableCheckout, HTMLStencilElement {
+    }
+    var HTMLSalableCheckoutElement: {
+        prototype: HTMLSalableCheckoutElement;
+        new (): HTMLSalableCheckoutElement;
+    };
     interface HTMLSalableDateElement extends Components.SalableDate, HTMLStencilElement {
     }
     var HTMLSalableDateElement: {
@@ -142,6 +170,7 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "salable-button": HTMLSalableButtonElement;
+        "salable-checkout": HTMLSalableCheckoutElement;
         "salable-date": HTMLSalableDateElement;
         "salable-invoices": HTMLSalableInvoicesElement;
         "salable-pricing-table": HTMLSalablePricingTableElement;
@@ -153,6 +182,28 @@ declare namespace LocalJSX {
      * button component
      */
     interface SalableButton {
+    }
+    interface SalableCheckout {
+        /**
+          * A unique identifier to authenticate HTTP calls to Salable API
+         */
+        "apiKey": string;
+        /**
+          * A unique identifier used in licensing that represents the entity to which a license is granted
+         */
+        "granteeId": string;
+        /**
+          * A unique identifier for a member or user
+         */
+        "member": string;
+        /**
+          * A unique identifier for a specific plan
+         */
+        "planUuid": string;
+        /**
+          * The URL the user is sent to if they successfully completed a payment
+         */
+        "successUrl": string;
     }
     interface SalableDate {
         /**
@@ -248,6 +299,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "salable-button": SalableButton;
+        "salable-checkout": SalableCheckout;
         "salable-date": SalableDate;
         "salable-invoices": SalableInvoices;
         "salable-pricing-table": SalablePricingTable;
@@ -262,6 +314,7 @@ declare module "@stencil/core" {
              * button component
              */
             "salable-button": LocalJSX.SalableButton & JSXBase.HTMLAttributes<HTMLSalableButtonElement>;
+            "salable-checkout": LocalJSX.SalableCheckout & JSXBase.HTMLAttributes<HTMLSalableCheckoutElement>;
             "salable-date": LocalJSX.SalableDate & JSXBase.HTMLAttributes<HTMLSalableDateElement>;
             "salable-invoices": LocalJSX.SalableInvoices & JSXBase.HTMLAttributes<HTMLSalableInvoicesElement>;
             "salable-pricing-table": LocalJSX.SalablePricingTable & JSXBase.HTMLAttributes<HTMLSalablePricingTableElement>;
