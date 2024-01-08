@@ -3,7 +3,7 @@ import { expect, Page } from "@playwright/test";
 export async function setUpCheckoutFetch(page: Page, data: any) {
 
     await page.route('**/plans/**', async (route) => {
-        // const planData = checkoutRepository.plan();
+
         await route.fulfill({
             status: 200,
             contentType: 'application/json',
@@ -12,15 +12,25 @@ export async function setUpCheckoutFetch(page: Page, data: any) {
     });
 }
 
-export async function salableCheckoutPropsTests(page: Page) {
-    const element = page.locator('salable-checkout');
-    await expect(element).toBeVisible();
 
-    const missingPropsTextElement = await page.waitForSelector("salable-checkout");
-    expect(missingPropsTextElement).not.toBeNull();
+export async function setUpPaymentIntent(page: Page, data: any) {
 
-    const missingPropsText = await missingPropsTextElement.textContent();
-    expect(missingPropsText).toContain('Missing required props')
+
+    await page.route('**/create-subscription-intent', async (route) => {
+
+        if (route.request().method() === 'POST') {
+
+            await route.fulfill({
+                status: 200,
+                contentType: 'application/json',
+                body: JSON.stringify(data),
+            });
+            return;
+        }
+
+        route.continue();
+
+    });
 }
 
 export async function salableCheckoutPaymentIntentTest(page: Page) {
@@ -36,21 +46,19 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
     expect(elementContent).toContain('Email');
     expect(elementContent).toContain('$9.99 / month');
 
-    // Ensure email input field returns an error
-    // await page.click('button:has-text("continue")')
-    // elementContent = await elementContainer.textContent()
-    // expect(elementContent).toContain('A valid email is required')
     await page.click('label:has-text("email")');
     await page.keyboard.type('testuser@e');
     await page.click('button:has-text("continue")');
     elementContent = await elementContainer.textContent();
     expect(elementContent).toContain('A valid email is required')
 
-    // const emailInput = page.getByLabel('Email')
-    // await page.fill('', 'testuser@email.com')
-    // await page.getByText('Continue').click();
+    await page.click('label:has-text("email")')
+    await page.keyboard.type('mail.com');
+    await setUpPaymentIntent(page, { clientSecret: 'pi_3OWNqkQNgztiveVE1l59ncLn_secret_FZkUMqdnBnUIPwwB96rI7tZR0' })
 
-    // await page.
-
-    // Ensure form submits
+    await page.click('button:has-text("continue")');
+    elementContent = await elementContainer.textContent();
+    expect(elementContent).not.toContain('A valid email is required')
+    await page.waitForTimeout(10000)
+    expect(elementContent).toContain("Pay")
 }

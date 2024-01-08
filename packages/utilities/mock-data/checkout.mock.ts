@@ -8,6 +8,7 @@ export const mockCheckout = objectBuilder({
             accountId: "account_xxxxx",
         }
     },
+    pricingType: 'paid',
     currencies: [
         {
             planUuid: "plan_xxxxx",
