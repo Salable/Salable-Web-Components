@@ -8,6 +8,7 @@ import type { JSX } from '@salable/stencil-library';
 
 
 export const SalableButton = /*@__PURE__*/createReactComponent<JSX.SalableButton, HTMLSalableButtonElement>('salable-button');
+export const SalableCheckout = /*@__PURE__*/createReactComponent<JSX.SalableCheckout, HTMLSalableCheckoutElement>('salable-checkout');
 export const SalableDate = /*@__PURE__*/createReactComponent<JSX.SalableDate, HTMLSalableDateElement>('salable-date');
 export const SalableInvoices = /*@__PURE__*/createReactComponent<JSX.SalableInvoices, HTMLSalableInvoicesElement>('salable-invoices');
 export const SalablePricingTable = /*@__PURE__*/createReactComponent<JSX.SalablePricingTable, HTMLSalablePricingTableElement>('salable-pricing-table');

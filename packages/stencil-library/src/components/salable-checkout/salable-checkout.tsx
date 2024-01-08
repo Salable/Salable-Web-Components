@@ -1,6 +1,6 @@
-import {Component, h, Prop, State, Watch} from '@stencil/core';
-import {loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement} from '@stripe/stripe-js'
-import {apiUrl, stripeKey} from "../../constants";
+import { Component, h, Prop, State, Watch } from '@stencil/core';
+import { loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js'
+import { apiUrl, stripeKey } from "../../constants";
 
 type IOrganisationPaymentIntegration = {
   accountId: string;
@@ -145,7 +145,7 @@ export class SalableCheckout {
     if (Boolean(this.state.componentError)) {
       return (
         <div class="w-full p-4 border bg-white dark:bg-slate-800 dark:text-white text-gray-900">
-          <ErrorMessage message={this.state.componentError}/>
+          <ErrorMessage message={this.state.componentError} />
         </div>
       )
     }
@@ -153,22 +153,22 @@ export class SalableCheckout {
     if (Boolean(this.clientSecret)) {
       return (
         <div class="w-full p-4 border bg-white dark:bg-slate-800 dark:text-white text-gray-900">
-          <PriceTag plan={this.state.plan}/>
+          <PriceTag plan={this.state.plan} />
           <form onSubmit={this.handlePayment}>
-            <div id="slb_payment_element" class="mb-6"/>
+            <div id="slb_payment_element" class="mb-6" />
             <button type="submit"
-                    class="w-full py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+              class="w-full py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
               Pay
             </button>
           </form>
-          <ErrorMessage message={this.formState.formError}/>
+          <ErrorMessage message={this.formState.formError} />
         </div>
       )
     }
 
     return (
       <div class="w-full p-4 border bg-white dark:bg-slate-800 dark:text-white text-gray-900">
-        <PriceTag plan={this.state.plan}/>
+        <PriceTag plan={this.state.plan} />
         <form onSubmit={this.handleCreatePaymentIntent}>
           <div class="mb-6">
             <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
@@ -181,11 +181,11 @@ export class SalableCheckout {
             <p class="text-sm text-red-600 mt-2">{this.formState.userEmailError}</p>
           </div>
           <button type="submit"
-                  class="w-full py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+            class="w-full py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
             Continue
           </button>
         </form>
-        <ErrorMessage message={this.formState.formError}/>
+        <ErrorMessage message={this.formState.formError} />
       </div>
     );
   }
@@ -295,7 +295,7 @@ export class SalableCheckout {
       isSubmitting: true,
     };
 
-    const {error} = await this.stripe.confirmPayment({
+    const { error } = await this.stripe.confirmPayment({
       elements: this.elements,
       confirmParams: {
         payment_method_data: {
@@ -315,7 +315,7 @@ export class SalableCheckout {
      * be redirected to an intermediate site first to authorize the payment, then
      * redirected to the `return_url`.
      */
-    if(error) {
+    if (Boolean(error)) {
       let formError: string;
       if (error.type === 'card_error' || error.type === 'validation_error') {
         formError = error.message ?? 'A card or validation error has occurred. Please try again or with a different card';
@@ -335,7 +335,7 @@ export class SalableCheckout {
     try {
       const response = await fetch(
         `${apiUrl}/plans/${this.planUuid}?expand=[product.organisationPaymentIntegration,currencies.currency]`,
-        {method: 'GET', headers: {'x-api-key': `${this.apiKey}`}},
+        { method: 'GET', headers: { 'x-api-key': `${this.apiKey}` } },
       );
       if (!response.ok) {
         // Todo: handle errors, display failure message, refresh options
@@ -361,7 +361,7 @@ export class SalableCheckout {
   }
 }
 
-const PriceTag = ({plan}: { plan: IPlan }) => {
+const PriceTag = ({ plan }: { plan: IPlan }) => {
   const planCurrency = plan.currencies[0];
   return (
     <div class="flex justify-between mb-6">
@@ -371,19 +371,19 @@ const PriceTag = ({plan}: { plan: IPlan }) => {
           ? `${new Intl.NumberFormat(planCurrency.currency.shortName, {
             style: 'currency',
             currency: planCurrency.currency.shortName,
-          }).format(planCurrency.price / 100)} / ${plan?.interval[0]}`
+          }).format(planCurrency.price / 100)} / ${plan?.interval}`
           : 'Free'
       }</p>
     </div>
   )
 };
 
-const ErrorMessage = ({message}: { message?: string | null }) => {
+const ErrorMessage = ({ message }: { message?: string | null }) => {
   if (!Boolean(message)) return null;
   return (
     <div id="alert-additional-content-2"
-         class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
-         role="alert">
+      class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+      role="alert">
       <div class="flex items-center">
         <span class="sr-only">Info</span>
         <h3 class="text-base font-medium"> {message}</h3>
