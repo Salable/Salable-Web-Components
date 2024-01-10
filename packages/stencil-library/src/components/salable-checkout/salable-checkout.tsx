@@ -1,6 +1,6 @@
 import { Component, h, Prop, State, Watch } from '@stencil/core';
 import { loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js'
-import { apiUrl, stripeKey } from "../../constants";
+import { apiUrl, stripePublicKey } from "../../constants";
 
 type IOrganisationPaymentIntegration = {
   accountId: string;
@@ -108,15 +108,13 @@ export class SalableCheckout {
   @Watch('clientSecret')
   async watchClientSecret() {
     if (!Boolean(this.clientSecret)) return;
-
     const paymentIntegration = this.state.plan?.product.organisationPaymentIntegration;
-    this.stripe = await loadStripe(stripeKey, {
+    this.stripe = await loadStripe(stripePublicKey, {
       stripeAccount: paymentIntegration.accountId,
     });
     const options: StripeElementsOptions = {
       clientSecret: this.clientSecret,
       appearance: {
-        theme: 'night',
         variables: {
           borderRadius: '4px',
           colorPrimary: 'rgb(37, 99, 235)',
@@ -124,7 +122,6 @@ export class SalableCheckout {
       },
     };
     this.elements = this.stripe.elements(options);
-
     this.paymentElement = this.elements.create('payment', {
       layout: 'tabs',
     });
@@ -169,7 +166,7 @@ export class SalableCheckout {
     return (
       <div class="w-full p-4 border bg-white dark:bg-slate-800 dark:text-white text-gray-900">
         <PriceTag plan={this.state.plan} />
-        <form onSubmit={this.handleCreatePaymentIntent}>
+        <form onSubmit={this.handleCreateSubscription}>
           <div class="mb-6">
             <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
             <input
@@ -225,7 +222,7 @@ export class SalableCheckout {
     }
   };
 
-  private handleCreatePaymentIntent = async (event: Event) => {
+  private handleCreateSubscription = async (event: Event) => {
     event.preventDefault();
     if (Boolean(this.formState.userEmailError)) return;
 
@@ -236,7 +233,7 @@ export class SalableCheckout {
 
     try {
       const response = await fetch(
-        `${apiUrl}/checkout/create-subscription-intent`,
+        `${apiUrl}/checkout/create-subscription`,
         {
           method: 'POST',
           headers: {
@@ -334,7 +331,7 @@ export class SalableCheckout {
   private async fetchPlan() {
     try {
       const response = await fetch(
-        `${apiUrl}/plans/${this.planUuid}?expand=[product.organisationPaymentIntegration,currencies.currency]`,
+        `${apiUrl}/plans/${this.planUuid}?expand=product.organisationPaymentIntegration,currencies.currency`,
         { method: 'GET', headers: { 'x-api-key': `${this.apiKey}` } },
       );
       if (!response.ok) {
