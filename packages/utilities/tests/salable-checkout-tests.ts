@@ -12,7 +12,7 @@ export async function setUpCheckoutFetch(page: Page, data: any) {
 
 
 export async function setUpPaymentIntent(page: Page, data: any) {
-    await page.route('**/create-subscription-intent', async (route) => {
+    await page.route('**/create-subscription', async (route) => {
         await route.fulfill({
             status: 200,
             contentType: 'application/json',
@@ -44,4 +44,7 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
     await expect(error).not.toBeVisible();
 
     await page.click('button:has-text("continue")');
+
+    const payButton = page.getByRole('button', {name: /pay/i});
+    await expect(payButton).toBeVisible();
 }
