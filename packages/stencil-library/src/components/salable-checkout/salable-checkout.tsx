@@ -131,7 +131,7 @@ export class SalableCheckout {
   }
 
   /**
-   * Once component is update and client secrete is available,
+   * Once component is updated and client secrete is available,
    * mount the stripe payment element
    * This approach was taken and not done in the watch decorate
    * to allow the element with the id to be mounted in the DOM
@@ -391,4 +391,3 @@ const ErrorMessage = ({ message }: { message?: string | null }) => {
     </div>
   )
 };
-
