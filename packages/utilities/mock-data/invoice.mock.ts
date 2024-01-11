@@ -6,6 +6,7 @@ const mockInvoice = objectBuilder({
   number: 'INV-001',
   status: 'open',
   status_transitions: { paid_at: getPaidAt(4, 4, 1968) },
+  created: getPaidAt(4, 4, 1968),
   hosted_invoice_url: 'https://example.com/invoice/xxxxx',
   invoice_pdf: 'https://example.com/invoice/xxxxx.pdf'
 });
