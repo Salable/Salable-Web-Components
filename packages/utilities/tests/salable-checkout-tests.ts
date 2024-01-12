@@ -47,6 +47,7 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
     expect(elementContent).toContain('Price');
     expect(elementContent).toContain('Email');
     expect(elementContent).toContain('$9.99 / month');
+    await expect(page).toHaveScreenshot();
 
     // Testing to ensure email has @ symbol
     await page.click('label:has-text("email")');
@@ -54,6 +55,7 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
     await page.click('button:has-text("continue")');
     elementContent = await elementContainer.textContent();
     expect(elementContent).toContain('A valid email is required')
+    await expect(page).toHaveScreenshot();
 
     // Testing for a value after @ symbol in email
     await page.click('label:has-text("email")');
@@ -61,6 +63,7 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
     await page.click('button:has-text("continue")');
     elementContent = await elementContainer.textContent();
     expect(elementContent).toContain('A valid email is required')
+    await expect(page).toHaveScreenshot();
 
     // Testing for a dot in email
     await page.click('label:has-text("email")');
@@ -68,17 +71,20 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
     await page.click('button:has-text("continue")');
     elementContent = await elementContainer.textContent();
     expect(elementContent).toContain('A valid email is required')
+    await expect(page).toHaveScreenshot();
 
     await page.click('label:has-text("email")')
     await page.keyboard.type('mail.com');
     // mock create payment intent endpoint
     await setUpPaymentIntent(page, { clientSecret })
+    await expect(page).toHaveScreenshot();
 
     await page.click('button:has-text("continue")');
     elementContent = await elementContainer.textContent();
     expect(elementContent).not.toContain('A valid email is required')
     await page.waitForTimeout(10000)
     expect(elementContent).toContain("Pay")
+    await expect(page).toHaveScreenshot();
 }
 
 
@@ -93,6 +99,7 @@ export async function salableCheckoutInvalidEmailPrefillTest(page: Page) {
 
     elementContent = await elementContainer.textContent();
     expect(elementContent).toContain('A valid email is required')
+    await expect(page).toHaveScreenshot();
 }
 
 export async function salableCheckoutPrefillWithEmailTest(page: Page) {
@@ -103,10 +110,7 @@ export async function salableCheckoutPrefillWithEmailTest(page: Page) {
     const elementContainer = await page.waitForSelector("salable-checkout");
     expect(elementContainer).not.toBeNull();
 
-    let elementContent = await elementContainer.textContent();
-
-
-
-    elementContent = await elementContainer.textContent();
+    const elementContent = await elementContainer.textContent();
     expect(elementContent).toContain("Pay")
+    await expect(page).toHaveScreenshot();
 }
