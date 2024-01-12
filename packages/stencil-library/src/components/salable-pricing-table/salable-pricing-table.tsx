@@ -256,7 +256,7 @@ export class SalablePricingTable {
                 </ul>
 
                 <button
-                  class="mt-auto py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-100 text-blue-800 hover:bg-blue-200 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-blue-900 dark:text-blue-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600"
+                  class="mt-auto text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900"
                   onClick={this.handlePlanSelect(plan)}>
                   Select Plan
                 </button>
@@ -462,8 +462,8 @@ export class SalablePricingTable {
 
   private getCardClass(plan: any) {
     return plan.uuid === this.state.featuredPlanUuid ?
-      "flex flex-col h-full border border-2 border-blue-600 text-center shadow-xl rounded-xl p-8 dark:border-blue-700" :
-      "flex flex-col h-full border border-gray-200 text-center rounded-xl p-8 dark:border-gray-700";
+      "flex flex-col p-6 text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white shadow-xl border-2" :
+      "flex flex-col p-6 text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white";
   }
 
   private pricingTableFactory(pricingTable: any) {
