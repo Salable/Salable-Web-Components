@@ -91,6 +91,13 @@ export class SalableCheckout {
    */
   @Prop() successUrl!: string;
 
+  /**
+   * A user's email address to be used for the checkout. 
+   * 
+   * Providing the user's email skips the provide email step during checkout
+   */
+  @Prop() email: string;
+
   private stripe: Stripe;
   private elements: StripeElements;
   private paymentElement: StripePaymentElement;
@@ -98,6 +105,24 @@ export class SalableCheckout {
   async componentWillLoad() {
     this.validateProps();
     await this.fetchPlan()
+
+    await this.handleEmailPrefill()
+  }
+
+  private async handleEmailPrefill() {
+    if (!Boolean(this.email)) return;
+
+    const validEmail = this.validateEmail(this.email)
+
+    this.formState = {
+      ...this.formState,
+      userEmail: this.email,
+      userEmailError: !validEmail ? 'A valid email is required' : null,
+    }
+
+    if (!validEmail) return;
+
+    await this.createPaymentIntent()
   }
 
   /**
@@ -225,8 +250,7 @@ export class SalableCheckout {
     }
   };
 
-  private handleCreatePaymentIntent = async (event: Event) => {
-    event.preventDefault();
+  private createPaymentIntent = async () => {
     if (Boolean(this.formState.userEmailError)) return;
 
     this.formState = {
@@ -276,6 +300,11 @@ export class SalableCheckout {
         isSubmitting: false,
       }
     }
+  }
+
+  private handleCreatePaymentIntent = async (event: Event) => {
+    event.preventDefault();
+    await this.createPaymentIntent()
   };
 
   private handlePayment = async (event: Event) => {

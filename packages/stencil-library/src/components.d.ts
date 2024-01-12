@@ -19,6 +19,10 @@ export namespace Components {
          */
         "apiKey": string;
         /**
+          * A user's email address to be used for the checkout.   Providing the user's email skips the provide email step during checkout
+         */
+        "email": string;
+        /**
           * A unique identifier used in licensing that represents the entity to which a license is granted
          */
         "granteeId": string;
@@ -188,6 +192,10 @@ declare namespace LocalJSX {
           * A unique identifier to authenticate HTTP calls to Salable API
          */
         "apiKey": string;
+        /**
+          * A user's email address to be used for the checkout.   Providing the user's email skips the provide email step during checkout
+         */
+        "email"?: string;
         /**
           * A unique identifier used in licensing that represents the entity to which a license is granted
          */

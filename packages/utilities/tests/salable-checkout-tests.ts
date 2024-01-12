@@ -33,6 +33,8 @@ export async function setUpPaymentIntent(page: Page, data: any) {
     });
 }
 
+export const clientSecret = 'pi_3OWNqkQNgztiveVE1l59ncLn_secret_FZkUMqdnBnUIPwwB96rI7tZR0'
+
 export async function salableCheckoutPaymentIntentTest(page: Page) {
     const element = page.locator('salable-checkout');
     await expect(element).toBeVisible();
@@ -46,19 +48,65 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
     expect(elementContent).toContain('Email');
     expect(elementContent).toContain('$9.99 / month');
 
+    // Testing to ensure email has @ symbol
     await page.click('label:has-text("email")');
-    await page.keyboard.type('testuser@e');
+    await page.keyboard.type('testuser@');
+    await page.click('button:has-text("continue")');
+    elementContent = await elementContainer.textContent();
+    expect(elementContent).toContain('A valid email is required')
+
+    // Testing for a value after @ symbol in email
+    await page.click('label:has-text("email")');
+    await page.keyboard.type('e');
+    await page.click('button:has-text("continue")');
+    elementContent = await elementContainer.textContent();
+    expect(elementContent).toContain('A valid email is required')
+
+    // Testing for a dot in email
+    await page.click('label:has-text("email")');
+    await page.keyboard.type('mail.');
     await page.click('button:has-text("continue")');
     elementContent = await elementContainer.textContent();
     expect(elementContent).toContain('A valid email is required')
 
     await page.click('label:has-text("email")')
     await page.keyboard.type('mail.com');
-    await setUpPaymentIntent(page, { clientSecret: 'pi_3OWNqkQNgztiveVE1l59ncLn_secret_FZkUMqdnBnUIPwwB96rI7tZR0' })
+    // mock create payment intent endpoint
+    await setUpPaymentIntent(page, { clientSecret })
 
     await page.click('button:has-text("continue")');
     elementContent = await elementContainer.textContent();
     expect(elementContent).not.toContain('A valid email is required')
     await page.waitForTimeout(10000)
+    expect(elementContent).toContain("Pay")
+}
+
+
+export async function salableCheckoutInvalidEmailPrefillTest(page: Page) {
+    const element = page.locator('salable-checkout');
+    await expect(element).toBeVisible();
+
+    const elementContainer = await page.waitForSelector("salable-checkout");
+    expect(elementContainer).not.toBeNull();
+
+    let elementContent = await elementContainer.textContent();
+
+    elementContent = await elementContainer.textContent();
+    expect(elementContent).toContain('A valid email is required')
+}
+
+export async function salableCheckoutPrefillWithEmailTest(page: Page) {
+
+    const element = page.locator('salable-checkout');
+    await expect(element).toBeVisible();
+
+    const elementContainer = await page.waitForSelector("salable-checkout");
+    expect(elementContainer).not.toBeNull();
+
+    let elementContent = await elementContainer.textContent();
+
+
+
+    elementContent = await elementContainer.textContent();
     expect(elementContent).toContain("Pay")
 }

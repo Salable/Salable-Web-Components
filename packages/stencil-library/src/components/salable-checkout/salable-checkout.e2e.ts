@@ -1,5 +1,5 @@
 import { test } from 'stencil-playwright';
-import { salableCheckoutPaymentIntentTest, setUpCheckoutFetch } from "../../../../utilities/tests/salable-checkout-tests";
+import { clientSecret, salableCheckoutInvalidEmailPrefillTest, salableCheckoutPaymentIntentTest, salableCheckoutPrefillWithEmailTest, setUpCheckoutFetch, setUpPaymentIntent } from "../../../../utilities/tests/salable-checkout-tests";
 import { mockCheckout } from "../../../../utilities/mock-data/checkout.mock";
 
 test.describe('salable-checkout Stencil E2E Tests', () => {
@@ -35,5 +35,34 @@ test.describe('salable-checkout Stencil E2E Tests', () => {
       `);
 
     await salableCheckoutPaymentIntentTest(page);
+  });
+  test('Prefill checkout with invalid email', async ({ page }) => {
+    await setUpCheckoutFetch(page, mockCheckout());
+
+    await page.setContent(`
+        <salable-checkout
+          api-key="${mockApiKey}"
+          plan-uuid="${mockPlanUuid}"
+          member=${mockMember} grantee-id=${mockGrantee} success-url=${mockSuccessUrl} email="johndoe@email"
+        ></salable-checkout>
+      `);
+
+    await salableCheckoutInvalidEmailPrefillTest(page);
+  });
+
+  test('Prefill checkout with email', async ({ page }) => {
+    await setUpCheckoutFetch(page, mockCheckout());
+    // mock create payment intent endpoint
+    await setUpPaymentIntent(page, { clientSecret })
+
+    await page.setContent(`
+        <salable-checkout
+          api-key="${mockApiKey}"
+          plan-uuid="${mockPlanUuid}"
+          member=${mockMember} grantee-id=${mockGrantee} success-url=${mockSuccessUrl} email="johndoe@email.com"
+        ></salable-checkout>
+      `);
+
+    await salableCheckoutPrefillWithEmailTest(page);
   });
 });
