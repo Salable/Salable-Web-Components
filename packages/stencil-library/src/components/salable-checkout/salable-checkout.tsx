@@ -51,7 +51,6 @@ type IFormState = {
   shadow: false,
 })
 export class SalableCheckout {
-
   @State() clientSecret: string | null = null;
 
   @State() state: IState = {
