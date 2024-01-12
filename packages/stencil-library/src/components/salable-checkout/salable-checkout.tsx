@@ -260,7 +260,7 @@ export class SalableCheckout {
 
     try {
       const response = await fetch(
-        `${apiUrl}/checkout/create-subscription-intent`,
+        `${apiUrl}/checkout/create-subscription`,
         {
           method: 'POST',
           headers: {
@@ -279,7 +279,7 @@ export class SalableCheckout {
         // Todo: handle errors, display failure message, refresh options
         this.state = {
           ...this.state,
-          componentError: 'Failed to create subscription intent'
+          componentError: 'Failed to create subscription'
         };
         console.error('Failed to fetch data:', response.statusText);
         return;
