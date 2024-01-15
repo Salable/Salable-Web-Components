@@ -38,7 +38,7 @@ importers:
     dependencies:
       '@salable/react-library':
         specifier: ^0.1.5
-        version: link:../react-library
+        version: 0.1.6
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -90,7 +90,7 @@ importers:
     dependencies:
       '@salable/stencil-library':
         specifier: ^0.1.5
-        version: link:../stencil-library
+        version: 0.1.6
     devDependencies:
       '@types/node':
         specifier: ^20.9.0
@@ -1740,6 +1740,20 @@ packages:
   /@remix-run/router@1.11.0:
     resolution: {integrity: sha512-BHdhcWgeiudl91HvVa2wxqZjSHbheSgIiDvxrF1VjFzBzpTtuDPkOdOi3Iqvc08kXtFkLjhbS+ML9aM8mJS+wQ==}
     engines: {node: '>=14.0.0'}
+    dev: false
+
+  /@salable/react-library@0.1.6:
+    resolution: {integrity: sha512-i84jwoJ8pA/AcYOGBYugpTOChHZa1nH44mB/iDIcJBO0V/HJpmUzd9OAFqDNIEKQo6f1/KPWGtddEtJKBnJpGQ==}
+    dependencies:
+      '@salable/stencil-library': 0.1.6
+    dev: false
+
+  /@salable/stencil-library@0.1.6:
+    resolution: {integrity: sha512-BJKrARLhKfS7A0HAw1EsWvRZwk6GgjZJdCelSfHgmcqDMSqWcwaqj93pY+pXxwh2BGYPq4BEY1wYH1tL8QVj+w==}
+    dependencies:
+      '@stencil/core': 4.7.0
+      '@stripe/stripe-js': 2.2.1
+      date-fns: 2.30.0
     dev: false
 
   /@sigstore/bundle@1.1.0:
