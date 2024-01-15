@@ -19,7 +19,7 @@ export namespace Components {
          */
         "apiKey": string;
         /**
-          * A user's email address to be used for the checkout.   Providing the user's email skips the provide email step during checkout
+          * A user's email address to be used for the checkout.  Providing the user's email skips the provide email step during checkout
          */
         "email": string;
         /**
@@ -193,7 +193,7 @@ declare namespace LocalJSX {
          */
         "apiKey": string;
         /**
-          * A user's email address to be used for the checkout.   Providing the user's email skips the provide email step during checkout
+          * A user's email address to be used for the checkout.  Providing the user's email skips the provide email step during checkout
          */
         "email"?: string;
         /**

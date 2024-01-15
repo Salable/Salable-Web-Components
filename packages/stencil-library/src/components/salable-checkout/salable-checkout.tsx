@@ -1,6 +1,6 @@
-import { Component, h, Prop, State, Watch } from '@stencil/core';
-import { loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js'
-import { apiUrl, stripeKey } from "../../constants";
+import {Component, h, Prop, State, Watch} from '@stencil/core';
+import {loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement} from '@stripe/stripe-js'
+import {apiUrl, stripePublicKey} from "../../constants";
 
 type IOrganisationPaymentIntegration = {
   accountId: string;
@@ -92,8 +92,8 @@ export class SalableCheckout {
   @Prop() successUrl!: string;
 
   /**
-   * A user's email address to be used for the checkout. 
-   * 
+   * A user's email address to be used for the checkout.
+   *
    * Providing the user's email skips the provide email step during checkout
    */
   @Prop() email: string;
@@ -104,25 +104,8 @@ export class SalableCheckout {
 
   async componentWillLoad() {
     this.validateProps();
-    await this.fetchPlan()
-
-    await this.handleEmailPrefill()
-  }
-
-  private async handleEmailPrefill() {
-    if (!Boolean(this.email)) return;
-
-    const validEmail = this.validateEmail(this.email)
-
-    this.formState = {
-      ...this.formState,
-      userEmail: this.email,
-      userEmailError: !validEmail ? 'A valid email is required' : null,
-    }
-
-    if (!validEmail) return;
-
-    await this.createPaymentIntent()
+    await this.fetchPlan();
+    await this.handleEmailPrefill();
   }
 
   /**
@@ -135,13 +118,12 @@ export class SalableCheckout {
     if (!Boolean(this.clientSecret)) return;
 
     const paymentIntegration = this.state.plan?.product.organisationPaymentIntegration;
-    this.stripe = await loadStripe(stripeKey, {
+    this.stripe = await loadStripe(stripePublicKey, {
       stripeAccount: paymentIntegration.accountId,
     });
     const options: StripeElementsOptions = {
       clientSecret: this.clientSecret,
       appearance: {
-        theme: 'night',
         variables: {
           borderRadius: '4px',
           colorPrimary: 'rgb(37, 99, 235)',
@@ -156,7 +138,7 @@ export class SalableCheckout {
   }
 
   /**
-   * Once component is update and client secrete is available,
+   * Once component is updated and client secrete is available,
    * mount the stripe payment element
    * This approach was taken and not done in the watch decorate
    * to allow the element with the id to be mounted in the DOM
@@ -170,7 +152,7 @@ export class SalableCheckout {
     if (Boolean(this.state.componentError)) {
       return (
         <div class="w-full p-4 border bg-white dark:bg-slate-800 dark:text-white text-gray-900">
-          <ErrorMessage message={this.state.componentError} />
+          <ErrorMessage message={this.state.componentError}/>
         </div>
       )
     }
@@ -178,23 +160,23 @@ export class SalableCheckout {
     if (Boolean(this.clientSecret)) {
       return (
         <div class="w-full p-4 border bg-white dark:bg-slate-800 dark:text-white text-gray-900">
-          <PriceTag plan={this.state.plan} />
+          <PriceTag plan={this.state.plan}/>
           <form onSubmit={this.handlePayment}>
-            <div id="slb_payment_element" class="mb-6" />
+            <div id="slb_payment_element" class="mb-6"/>
             <button type="submit"
-              class="w-full py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+                    class="w-full py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
               Pay
             </button>
           </form>
-          <ErrorMessage message={this.formState.formError} />
+          <ErrorMessage message={this.formState.formError}/>
         </div>
       )
     }
 
     return (
       <div class="w-full p-4 border bg-white dark:bg-slate-800 dark:text-white text-gray-900">
-        <PriceTag plan={this.state.plan} />
-        <form onSubmit={this.handleCreatePaymentIntent}>
+        <PriceTag plan={this.state.plan}/>
+        <form onSubmit={this.handleCreateSubscription}>
           <div class="mb-6">
             <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
             <input
@@ -206,11 +188,11 @@ export class SalableCheckout {
             <p class="text-sm text-red-600 mt-2">{this.formState.userEmailError}</p>
           </div>
           <button type="submit"
-            class="w-full py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+                  class="w-full py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
             Continue
           </button>
         </form>
-        <ErrorMessage message={this.formState.formError} />
+        <ErrorMessage message={this.formState.formError}/>
       </div>
     );
   }
@@ -224,6 +206,22 @@ export class SalableCheckout {
     if (typeof newValue !== 'string' || newValue.trim() === '') {
       throw new Error(`${propName} is a required property and cannot be empty`);
     }
+  }
+
+  private async handleEmailPrefill() {
+    if (!Boolean(this.email)) return;
+
+    const validEmail = this.validateEmail(this.email)
+
+    this.formState = {
+      ...this.formState,
+      userEmail: this.email,
+      userEmailError: !validEmail ? 'A valid email is required' : null,
+    };
+
+    if (!validEmail) return;
+
+    await this.createSubscription()
   }
 
   private validateProps() {
@@ -250,7 +248,12 @@ export class SalableCheckout {
     }
   };
 
-  private createPaymentIntent = async () => {
+  private handleCreateSubscription = async (event: Event) => {
+    event.preventDefault();
+    await this.createSubscription()
+  };
+
+  private createSubscription = async () => {
     if (Boolean(this.formState.userEmailError)) return;
 
     this.formState = {
@@ -279,7 +282,7 @@ export class SalableCheckout {
         // Todo: handle errors, display failure message, refresh options
         this.state = {
           ...this.state,
-          componentError: 'Failed to create subscription'
+          componentError: 'Failed to create subscription intent'
         };
         console.error('Failed to fetch data:', response.statusText);
         return;
@@ -300,11 +303,6 @@ export class SalableCheckout {
         isSubmitting: false,
       }
     }
-  }
-
-  private handleCreatePaymentIntent = async (event: Event) => {
-    event.preventDefault();
-    await this.createPaymentIntent()
   };
 
   private handlePayment = async (event: Event) => {
@@ -324,7 +322,7 @@ export class SalableCheckout {
       isSubmitting: true,
     };
 
-    const { error } = await this.stripe.confirmPayment({
+    const {error} = await this.stripe.confirmPayment({
       elements: this.elements,
       confirmParams: {
         payment_method_data: {
@@ -363,8 +361,8 @@ export class SalableCheckout {
   private async fetchPlan() {
     try {
       const response = await fetch(
-        `${apiUrl}/plans/${this.planUuid}?expand=[product.organisationPaymentIntegration,currencies.currency]`,
-        { method: 'GET', headers: { 'x-api-key': `${this.apiKey}` } },
+        `${apiUrl}/plans/${this.planUuid}?expand=product.organisationPaymentIntegration,currencies.currency`,
+        {method: 'GET', headers: {'x-api-key': `${this.apiKey}`}},
       );
       if (!response.ok) {
         // Todo: handle errors, display failure message, refresh options
@@ -390,7 +388,7 @@ export class SalableCheckout {
   }
 }
 
-const PriceTag = ({ plan }: { plan: IPlan }) => {
+const PriceTag = ({plan}: { plan: IPlan }) => {
   const planCurrency = plan.currencies[0];
   return (
     <div class="flex justify-between mb-6">
@@ -407,12 +405,12 @@ const PriceTag = ({ plan }: { plan: IPlan }) => {
   )
 };
 
-const ErrorMessage = ({ message }: { message?: string | null }) => {
+const ErrorMessage = ({message}: { message?: string | null }) => {
   if (!Boolean(message)) return null;
   return (
     <div id="alert-additional-content-2"
-      class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
-      role="alert">
+         class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+         role="alert">
       <div class="flex items-center">
         <span class="sr-only">Info</span>
         <h3 class="text-base font-medium"> {message}</h3>
@@ -420,4 +418,3 @@ const ErrorMessage = ({ message }: { message?: string | null }) => {
     </div>
   )
 };
-
