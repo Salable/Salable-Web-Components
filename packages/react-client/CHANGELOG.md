@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.5](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.4...v0.1.5) (2024-01-15)
+
+
+### Bug Fixes
+
+* tweak styles to be more consistent with flowbite, mainly changed… ([#54](https://github.com/Salable/salable-web-components-stenciljs/issues/54)) ([269d407](https://github.com/Salable/salable-web-components-stenciljs/commit/269d40783554af14cdde75ced06339ed1c2aaa2a))
+
+
+
+
+
 ## [0.1.4](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.3...v0.1.4) (2023-12-07)
 
 
