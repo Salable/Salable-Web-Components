@@ -113,6 +113,9 @@ importers:
       '@stencil/core':
         specifier: ^4.7.0
         version: 4.7.0
+      '@stripe/stripe-js':
+        specifier: ^2.2.1
+        version: 2.2.1
       date-fns:
         specifier: ^2.30.0
         version: 2.30.0
@@ -1828,6 +1831,10 @@ packages:
     dependencies:
       '@stencil/core': 4.7.0
     dev: true
+
+  /@stripe/stripe-js@2.2.1:
+    resolution: {integrity: sha512-Wd81A0u8EwT3cf+Xv1mpMI18RbXVhgh19MtPcF9ojNTlG3kl36B1+XFe1KQfnJxD3WRnVfDuI0rNCK53mcGm6g==}
+    dev: false
 
   /@tailwindcss/forms@0.5.7(tailwindcss@3.3.5):
     resolution: {integrity: sha512-QE7X69iQI+ZXwldE+rzasvbJiyV/ju1FGHH0Qn2W3FKbuYtqp8LKcy6iSw79fVUT5/Vvf+0XgLCeYVG+UV6hOw==}
