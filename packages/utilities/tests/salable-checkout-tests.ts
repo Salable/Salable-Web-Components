@@ -30,21 +30,25 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
 
     const label = page.getByLabel(/email/i);
     await expect(label).toBeVisible();
+    await expect(page).toHaveScreenshot();
 
-    await page.click('label:has-text("email")');
+
+    await label.click();
     await page.keyboard.type('testuser@e');
     await page.click('button:has-text("continue")');
 
     const error = page.getByText('A valid email is required');
     await expect(error).toBeVisible();
+    await expect(page).toHaveScreenshot();
 
-    await page.click('label:has-text("email")');
+    await label.click();
     await page.keyboard.type('mail.com');
-
     await expect(error).not.toBeVisible();
+    await expect(page).toHaveScreenshot();
 
-    await page.click('button:has-text("continue")');
-
+    const continueButton = page.getByRole('button', { name: 'Continue' });
+    await continueButton.click();
     const payButton = page.getByRole('button', {name: /pay/i});
     await expect(payButton).toBeVisible();
+    await expect(page).toHaveScreenshot();
 }
