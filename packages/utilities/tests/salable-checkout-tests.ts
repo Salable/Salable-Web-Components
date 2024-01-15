@@ -58,25 +58,16 @@ export async function salableCheckoutInvalidEmailPrefillTest(page: Page) {
     const element = page.locator('salable-checkout');
     await expect(element).toBeVisible();
 
-    const elementContainer = await page.waitForSelector("salable-checkout");
-    expect(elementContainer).not.toBeNull();
-
-    let elementContent = await elementContainer.textContent();
-
-    elementContent = await elementContainer.textContent();
-    expect(elementContent).toContain('A valid email is required')
+    const errorMessage= page.getByText('A valid email is required');
+    await expect(errorMessage).toBeVisible();
     await expect(page).toHaveScreenshot();
 }
 
 export async function salableCheckoutPrefillWithEmailTest(page: Page) {
-
     const element = page.locator('salable-checkout');
     await expect(element).toBeVisible();
 
-    const elementContainer = await page.waitForSelector("salable-checkout");
-    expect(elementContainer).not.toBeNull();
-
-    const elementContent = await elementContainer.textContent();
-    expect(elementContent).toContain("Pay")
+    const payButton = page.getByRole('button', { name: /pay/i });
+    await expect(payButton).toBeVisible();
     await expect(page).toHaveScreenshot();
 }

@@ -1,5 +1,3 @@
 // Todo: use env
-// export const apiUrl = 'https://api.salable.app';
-// export const apiUrl = 'https://sxvf9yuedh.execute-api.eu-west-1.amazonaws.com/dev';
-export const apiUrl = 'https://gsn58u22o0.execute-api.us-east-1.amazonaws.com/dev';
-export const stripeKey = 'pk_test_51M1oo0Ku6oAVKC6A5cXnsTcvd7uEhvZcHlOp9RipUPxXLputaEA0FaTeqonlRILOSCUJpOdlZkx62Kibx1b21IZ700fb3fIPHp';
+export const apiUrl = 'https://sxvf9yuedh.execute-api.eu-west-1.amazonaws.com/dev';
+export const stripePublicKey = 'pk_test_51HCiJkK6c2cgdGEwjuchRQ9t6qbFxQY5qGaSVq0a7rMhk3H5snpb4BDTdPSZvD4JOzpSZqFdYdwSg58yc0skGdLZ00JkJE4IPF';

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.7](https://github.com/ionic-team/stencil-component-starter/compare/v0.1.6...v0.1.7) (2024-01-15)
+
+
+### Bug Fixes
+
+* clean up checkout tests ([#59](https://github.com/ionic-team/stencil-component-starter/issues/59)) ([6b994f0](https://github.com/ionic-team/stencil-component-starter/commit/6b994f095f1152818188276ae4fad5d5bcf02c20))
+
+
+
+
+
+## [0.1.6](https://github.com/ionic-team/stencil-component-starter/compare/v0.1.5...v0.1.6) (2024-01-15)
+
+**Note:** Version bump only for package @salable/stencil-library
+
+
+
+
+
 ## [0.1.5](https://github.com/ionic-team/stencil-component-starter/compare/v0.1.4...v0.1.5) (2024-01-15)
 
 
