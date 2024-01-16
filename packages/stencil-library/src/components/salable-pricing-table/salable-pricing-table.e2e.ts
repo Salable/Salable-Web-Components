@@ -12,6 +12,7 @@ test.describe('salable-invoices Stencil E2E Tests', () => {
     test.describe('Fetch Success Cases', () => {
       test('Displays a product pricing table and toggles between monthly/yearly intervals', async ({page}) => {
         await setUpProductPricingTableApi(page);
+
         await page.setContent(`
                 <salable-pricing-table
                     api-key="${mockApiKey}"
@@ -23,6 +24,7 @@ test.describe('salable-invoices Stencil E2E Tests', () => {
                     member="456"
                 ></salable-pricing-table>
             `);
+
         await salablePricingTableTests(page);
       });
 

@@ -3,9 +3,9 @@ import {SalableInvoices} from "@salable/react-library";
 export default function SalableInvoicesDemo() {
     return (
         <SalableInvoices
-            apiKey="live_6c93207e7a06015f8cfd9169613fd43a65fb9dfc"
-            subscriptionUuid="6491cfdb-e3b1-4749-bd26-eefa7bcb6fc3"
-            limit={5}
+            apiKey="rQLiYnXRAjndJbijbz2WalGvtL7oeeq1Am5cCDva"
+            subscriptionUuid="4ffe5998-77af-49b0-815b-66b8269c4abd"
+            limit={3}
         />
     )
 }
