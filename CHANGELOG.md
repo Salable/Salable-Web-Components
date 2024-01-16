@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.9](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.8...v0.1.9) (2024-01-16)
+
+
+### Bug Fixes
+
+* use dev api data for react client demos ([#61](https://github.com/Salable/salable-web-components-stenciljs/issues/61)) ([cbbb4c4](https://github.com/Salable/salable-web-components-stenciljs/commit/cbbb4c42fc5b35a532e3935ab7bd81adc95caa10))
+
+
+
+
+
 ## [0.1.8](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.7...v0.1.8) (2024-01-15)
 
 
