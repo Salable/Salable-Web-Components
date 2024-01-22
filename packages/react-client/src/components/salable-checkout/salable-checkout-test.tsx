@@ -1,6 +1,6 @@
 import { SalableCheckout } from "@salable/react-library";
 
-export default function SalableCheckoutTest() {
+export default function SalableCheckoutTest({ email }: { email?: string }) {
     return (
         <SalableCheckout
             data-testid="component"
@@ -9,6 +9,7 @@ export default function SalableCheckoutTest() {
             granteeId="xxxxx"
             member="xxxxx"
             successUrl="xxxxx"
+            email={email}
         />
     );
 }

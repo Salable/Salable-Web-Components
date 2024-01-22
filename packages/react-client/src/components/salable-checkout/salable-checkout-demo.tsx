@@ -1,6 +1,6 @@
 import { SalableCheckout } from "@salable/react-library";
 
-export default function SalableCheckoutDemo() {
+export default function SalableCheckoutDemo({ email }: { email?: string }) {
     return (
         <SalableCheckout
             apiKey="rQLiYnXRAjndJbijbz2WalGvtL7oeeq1Am5cCDva"
@@ -8,6 +8,7 @@ export default function SalableCheckoutDemo() {
             member='example-member-123'
             granteeId='example-grantee-123'
             successUrl="https://www.google.com"
+            email={email}
         />
     )
 }
