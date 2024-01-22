@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.11](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.10...v0.1.11) (2024-01-22)
+
+
+### Bug Fixes
+
+* add env for api key, change api to seeder default ([#63](https://github.com/Salable/salable-web-components-stenciljs/issues/63)) ([ce3347c](https://github.com/Salable/salable-web-components-stenciljs/commit/ce3347ccfbf53597ad95a7f11e455e6a1ffc7515))
+
+
+
+
+
+## [0.1.10](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.9...v0.1.10) (2024-01-22)
+
+
+### Bug Fixes
+
+* bump vite version ([#62](https://github.com/Salable/salable-web-components-stenciljs/issues/62)) ([bae781e](https://github.com/Salable/salable-web-components-stenciljs/commit/bae781e37f0f41fe2d73c0c293865420bdc4c1e1))
+
+
+
+
+
 ## [0.1.9](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.8...v0.1.9) (2024-01-16)
 
 
