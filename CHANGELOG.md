@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.12](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.11...v0.1.12) (2024-01-24)
+
+
+### Bug Fixes
+
+* clean up and align styles + set styles to scoped for checkout ([#65](https://github.com/Salable/salable-web-components-stenciljs/issues/65)) ([2b55712](https://github.com/Salable/salable-web-components-stenciljs/commit/2b5571244ab4a262c31f98e1b668899f35c100f7))
+
+
+
+
+
 ## [0.1.11](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.10...v0.1.11) (2024-01-22)
 
 
