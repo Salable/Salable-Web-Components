@@ -88,7 +88,7 @@ export class SalablePricingTable {
   @Prop() uuid!: string;
 
   /**
-   * If this you provided the uuid of a custom pricing table set this to true
+   * If you provided the uuid of a custom pricing table set this to true
    **/
   @Prop() isCustomPricingTable: boolean = false;
 
@@ -199,10 +199,8 @@ export class SalablePricingTable {
               <input
                 type="checkbox"
                 id="interval-toggle"
-                class="relative w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-600 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-white"
-                ref={(el) => {
-                  this.toggleIntervalEl = el as HTMLInputElement
-                }}
+                class="relative w-[3.25rem] h-7 p-px bg-gray-200 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-primary-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-primary-600 checked:border-primary-600 focus:checked:border-primary-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-primary-500 dark:checked:border-primary-500 dark:focus:ring-offset-gray-600 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-white"
+                ref={(el) => {this.toggleIntervalEl = el as HTMLInputElement}}
                 onInput={this.handleToggleBillingPeriod}
               />
 
@@ -238,7 +236,7 @@ export class SalablePricingTable {
                 <ul class="mt-7 mb-5 space-y-2.5 text-sm mx-auto">
                   {plan.features?.map(feature => (
                     <li class="flex space-x-2">
-                      <svg class="flex-shrink-0 mt-0.5 h-4 w-4 text-blue-600 dark:text-blue-500"
+                      <svg class="flex-shrink-0 mt-0.5 h-4 w-4 text-primary-600 dark:text-primary-500"
                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <polyline points="20 6 9 17 4 12"/>

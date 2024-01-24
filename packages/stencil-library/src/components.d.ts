@@ -97,7 +97,7 @@ export namespace Components {
          */
         "globalSuccessUrl": string;
         /**
-          * If this you provided the uuid of a custom pricing table set this to true
+          * If you provided the uuid of a custom pricing table set this to true
          */
         "isCustomPricingTable": boolean;
         /**
@@ -271,7 +271,7 @@ declare namespace LocalJSX {
          */
         "globalSuccessUrl": string;
         /**
-          * If this you provided the uuid of a custom pricing table set this to true
+          * If you provided the uuid of a custom pricing table set this to true
          */
         "isCustomPricingTable"?: boolean;
         /**

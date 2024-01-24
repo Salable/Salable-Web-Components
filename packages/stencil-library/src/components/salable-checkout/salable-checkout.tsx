@@ -48,6 +48,7 @@ type IFormState = {
 @Component({
   tag: 'salable-checkout',
   styleUrl: 'salable-checkout.css',
+  scoped: true,
   shadow: false,
 })
 export class SalableCheckout {
@@ -151,7 +152,7 @@ export class SalableCheckout {
   render() {
     if (Boolean(this.state.componentError)) {
       return (
-        <div class="w-full p-4 border bg-white dark:bg-slate-800 dark:text-white text-gray-900">
+        <div class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
           <ErrorMessage message={this.state.componentError}/>
         </div>
       )
@@ -159,12 +160,12 @@ export class SalableCheckout {
 
     if (Boolean(this.clientSecret)) {
       return (
-        <div class="w-full p-4 border bg-white dark:bg-slate-800 dark:text-white text-gray-900">
+        <div class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
           <PriceTag plan={this.state.plan}/>
           <form onSubmit={this.handlePayment}>
             <div id="slb_payment_element" class="mb-6"/>
             <button type="submit"
-                    class="w-full py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+                    class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
               Pay
             </button>
           </form>
@@ -174,21 +175,21 @@ export class SalableCheckout {
     }
 
     return (
-      <div class="w-full p-4 border bg-white dark:bg-slate-800 dark:text-white text-gray-900">
+      <div class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
         <PriceTag plan={this.state.plan}/>
         <form onSubmit={this.handleCreateSubscription}>
           <div class="mb-6">
             <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
             <input
               id="email"
-              class="bg-gray-50 dark:bg-gray-700 border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 dark:text-white focus:ring-blue-500 dark:focus:ring-blue-500 focus:border-blue-500 border-gray-300 dark:focus:border-blue-500 dark:border-gray-600"
+              class="bg-gray-50 dark:bg-gray-700 border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 dark:text-white focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 border-gray-300 dark:focus:border-primary-500 dark:border-gray-600"
               value={this.formState.userEmail}
               onInput={this.handleEmailChange}
             />
             <p class="text-sm text-red-600 mt-2">{this.formState.userEmailError}</p>
           </div>
           <button type="submit"
-                  class="w-full py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800">
+                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
             Continue
           </button>
         </form>
