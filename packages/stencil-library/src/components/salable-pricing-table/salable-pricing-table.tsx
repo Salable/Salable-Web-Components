@@ -88,7 +88,7 @@ export class SalablePricingTable {
   @Prop() uuid!: string;
 
   /**
-   * If this you provided the uuid of a custom pricing table set this to true
+   * If you provided the uuid of a custom pricing table set this to true
    **/
   @Prop() isCustomPricingTable: boolean = false;
 

@@ -10,19 +10,15 @@ export default defineConfig({
 				github: 'https://github.com/Salable/salable-web-components-stenciljs',
 			},
 			sidebar: [
-				{
-					label: 'Start Here',
-					items: [
-						// Each item here is one entry in the navigation menu.
-						{ label: 'Getting Started', link: '/guides/getting-started/' },
-					],
-				},
+				{label: 'Getting Started', link: '/'},
 				{
 					label: 'Components',
 					items: [
+						{label: 'Pricing Table', link: '/components/pricing-table'},
+						{label: 'Checkout', link: '/components/checkout'},
 						{label: 'Invoices', link: '/components/invoices'}
 					]
-				},
+				}
 			],
 		}),
 	],
