@@ -5,4 +5,15 @@
 :host {
   display: block;
   text-align: left;
+  --primary-50: #BCCAFD;
+  --primary-100: #A8BBFC;
+  --primary-200: #819BFB;
+  --primary-300: #597CF9;
+  --primary-400: #325DF8;
+  --primary-500: #0B3EF7;
+  --primary-600: #0733D1;
+  --primary-700: #0629AA;
+  --primary-800: #042082;
+  --primary-900: #03165B;
+  --primary-950: #021147;
 }
