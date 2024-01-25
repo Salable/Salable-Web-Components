@@ -21,24 +21,29 @@ jobs:
           node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: false
+      # Todo: we can re-enable cached pnpm once https://github.com/pnpm/action-setup/issues/99 is resolved
+      #      - name: Set up pnpm
+      #        uses: pnpm/action-setup@v2
+      #        with:
+      #          version: 8
+      #          run_install: false
+      #
+      #      - name: Get pnpm store directory
+      #        shell: bash
+      #        run: |
+      #          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      #
+      #      - uses: actions/cache@v4
+      #        name: Setup pnpm cache
+      #        with:
+      #          path: ${{ env.STORE_PATH }}
+      #          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+      #          restore-keys: |
+      #            ${{ runner.os }}-pnpm-store-
 
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+      # Todo: remove this pnpm install once pnpm/action-setup@v2 is back
+      - name: Install pnpm
+        run: npm install pnpm@8 -g
 
       - name: Install Dependencies
         run: pnpm install
