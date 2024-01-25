@@ -55,7 +55,7 @@ importers:
   packages/react-client:
     dependencies:
       '@salable/react-library':
-        specifier: ^0.1.16
+        specifier: ^0.1.17
         version: link:../react-library
       react:
         specifier: ^18.2.0
@@ -107,7 +107,7 @@ importers:
   packages/react-library:
     dependencies:
       '@salable/stencil-library':
-        specifier: ^0.1.16
+        specifier: ^0.1.17
         version: link:../stencil-library
     devDependencies:
       '@types/node':
