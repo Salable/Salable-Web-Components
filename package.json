@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "lerna:watch": "lerna run watch --parallel",
-    "lerna:build": "lerna run build --stream --scope @salable/stencil-library --scope react-client",
+    "lerna:build": "lerna run build --stream --scope @salable/stencil-library --scope @salable/react-library --scope react-client",
     "lerna:build:docs": "lerna run build --scope salable-web-component-docs",
     "lerna:test": "lerna run test --scope @salable/stencil-library --scope react-client",
     "lerna:version": "lerna version",
