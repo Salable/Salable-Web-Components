@@ -40,7 +40,9 @@
   "dependencies": {
     "@stencil/core": "^4.7.0",
     "@stripe/stripe-js": "^2.2.1",
-    "date-fns": "^2.30.0"
+    "date-fns": "^2.30.0",
+    "dotenv": "^16.4.1",
+    "stripe": "^14.14.0"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",

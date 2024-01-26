@@ -70,96 +70,79 @@ type Feature = {
   shadow: true,
 })
 export class SalablePricingTable {
-  private toggleIntervalEl: HTMLInputElement;
-
   @State() planConfig: PlanConfig | null = null;
   @State() state: PricingTableState | null = null; // Todo: define type
   @State() errorMessage: string | null = null;
   @State() selectedBillingPeriodKey: 'monthly' | 'yearly' = 'monthly';
-
   /**
    * The publishable api key, this can be generated in the Salable dashboard
    **/
   @Prop() apiKey!: string;
-
   /**
    * The uuid of the pricing table that you want to display.
    **/
   @Prop() uuid!: string;
-
   /**
    * If you provided the uuid of a custom pricing table set this to true
    **/
   @Prop() isCustomPricingTable: boolean = false;
-
   /**
    * The URL to send users to after a successful purchase. Must be an absolute URL.
    **/
   @Prop() globalSuccessUrl!: string;
-
   /**
    * The URL to send users to if the transaction fails. Must be an absolute URL.
    **/
   @Prop() globalCancelUrl!: string;
-
   /**
    * The unique identifier for the grantee for all plan checkouts links.
    **/
   @Prop() globalGranteeId!: string;
-
   /**
    * The ID of the member who will manage the license.
    **/
   @Prop() member!: string;
-
   /**
    * Used to pre-fill the promo code in Stripe checkout. Use the promo code ID from Stripe dashboard.
    * Customers cannot edit this field during checkout.
    **/
   @Prop() promoCode: string;
-
   /**
    * Enables the promo code field in Stripe checkout. Accepts 'true' or 'false'.
    * Cannot be used with promoCode.
    **/
   @Prop() allowPromoCode: string;
-
   /**
    * Pre-fills the customer email in Stripe checkout.
    **/
   @Prop() customerEmail: string;
-
   /**
    * The ID of an existing customer in your payment integration.
    * This pre-fills the email, card details, and postcode at checkout.
    **/
   @Prop() customerId: string;
-
   /**
    * Uses the currency short name (e.g., USD). Defaults to the default currency on the Product
    * which the Plan is linked to. Currently only supported on payment integration type 'stripe_existing'.
    **/
   @Prop() currency: string; // if this present use it otherwise use default from plan
-
   /**
    * Automatically calculate tax on checkout based on the customer's location and your Stripe settings.
    **/
   @Prop() automaticTax: string;
-
   /**
    * Configure granteeIds per plan, string format `planUuidOne:granteeIdOne,planUuidTwo:granteeIdTwo`
    **/
   @Prop() perPlanGranteeIds: string;
-
   /**
    * Configure successUrls per plan, string format `planUuidOne:successUrlOne,planUuidTwo:successUrlTwo`
    **/
   @Prop() perPlanSuccessUrls: string;
-
   /**
    * Configure cancelUrls per plan, string format `planUuidOne:cancelUrlOne,planUuidTwo:cancelUrlTwo`
    **/
   @Prop() perPlanCancelUrls: string;
+  private toggleIntervalEl: HTMLInputElement;
 
   @Watch('apiKey')
   @Watch('uuid')
@@ -186,8 +169,8 @@ export class SalablePricingTable {
   render() {
     return (
       <Host>
-        {this.errorMessage}
         <div class="font-sans">
+          {this.errorMessage}
           {this.state.monthly.length > 0 && this.state.yearly.length > 0 ? (
             <section class="flex justify-center items-center mb-12">
               <label
@@ -200,7 +183,9 @@ export class SalablePricingTable {
                 type="checkbox"
                 id="interval-toggle"
                 class="relative w-[3.25rem] h-7 p-px bg-gray-200 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-primary-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-primary-600 checked:border-primary-600 focus:checked:border-primary-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-primary-500 dark:checked:border-primary-500 dark:focus:ring-offset-gray-600 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-white"
-                ref={(el) => {this.toggleIntervalEl = el as HTMLInputElement}}
+                ref={(el) => {
+                  this.toggleIntervalEl = el as HTMLInputElement
+                }}
                 onInput={this.handleToggleBillingPeriod}
               />
 
@@ -220,7 +205,7 @@ export class SalablePricingTable {
                 {plan.currencies.length > 0 ? (
                   <div class='mt-4'>
                     <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
-                      <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
+                    <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
                         {this.getCurrency(plan)?.price}
                       </span>
                     <span
