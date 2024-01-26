@@ -6,6 +6,21 @@
   <title>Salable Stencil Components</title>
   <script src="/build/stencil-library.esm.js" type="module"></script>
   <script nomodule src="/build/stencil-library.js"></script>
+  <style>
+    .theme, .theme > * {
+      --primary-50: #F9C9E1;
+      --primary-100: #F8B7D7;
+      --primary-200: #F492C2;
+      --primary-300: #F06DAE;
+      --primary-400: #EC4899;
+      --primary-500: #E82384;
+      --primary-600: #CD1570;
+      --primary-700: #A8115C;
+      --primary-800: #830E48;
+      --primary-900: #5E0A33;
+      --primary-950: #4C0829;
+    }
+  </style>
 </head>
 <body>
 <div style="padding: 40px; display: flex; flex-direction: column; gap: 40px">
@@ -19,6 +34,7 @@
     is-custom-pricing-table="false"
   ></salable-pricing-table>
   <salable-pricing-table
+    class="theme"
     api-key="q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
     uuid="aec06de8-3a3e-46eb-bd09-f1094c1b1b8d"
     global-success-url="https://cataas.com/cat/cute"
@@ -30,10 +46,32 @@
     per-plan-success-urls="351eefac-9b21-4299-8cde-302249d6fb1e::https://cataas.com/cat/funny,1234::https://cataas.com/cat/cute,5a866dba-20c9-466f-88ac-e05c8980c90b::https://cataas.com/cat/tongue"
     per-plan-cancel-urls="351eefac-9b21-4299-8cde-302249d6fb1e::https://cataas.com/cat/box,1234::https://cataas.com/cat/silly,5a866dba-20c9-466f-88ac-e05c8980c90b::https://cataas.com/cat/sad"
   ></salable-pricing-table>
-  <salable-invoices api-key="q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
-                    subscription-uuid="4ffe5998-77af-49b0-815b-66b8269c4abd" limit="3"></salable-invoices>
-  <salable-checkout api-key="q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS" plan-uuid='351eefac-9b21-4299-8cde-302249d6fb1e' member='example-member-123' grantee-id='example-grantee-123' success-url="https://cataas.com/cat/cute"></salable-checkout>
-  <salable-checkout api-key="q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS" plan-uuid='351eefac-9b21-4299-8cde-302249d6fb1e' email='eee@eee.com' member='example-member-123' grantee-id='example-grantee-123' success-url="https://cataas.com/cat/cute"></salable-checkout>
+  <salable-invoices
+    api-key="q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+    subscription-uuid="4ffe5998-77af-49b0-815b-66b8269c4abd"
+  ></salable-invoices>
+  <salable-invoices
+    class="theme"
+    api-key="q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+    subscription-uuid="4ffe5998-77af-49b0-815b-66b8269c4abd"
+    limit="3"
+  ></salable-invoices>
+  <salable-checkout
+    api-key="q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+    plan-uuid='351eefac-9b21-4299-8cde-302249d6fb1e'
+    member='example-member-123'
+    grantee-id='example-grantee-123'
+    success-url="https://cataas.com/cat/cute"
+  ></salable-checkout>
+  <salable-checkout
+    class="theme"
+    api-key="q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+    plan-uuid='351eefac-9b21-4299-8cde-302249d6fb1e'
+    email='eee@eee.com'
+    member='example-member-123'
+    grantee-id='example-grantee-123'
+    success-url="https://cataas.com/cat/cute"
+  ></salable-checkout>
   </div>
 </body>
 </html>
