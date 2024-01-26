@@ -1,4 +1,4 @@
-.theme > * {
+.theme, .theme > * {
     --primary-50: #F9C9E1;
     --primary-100: #F8B7D7;
     --primary-200: #F492C2;
