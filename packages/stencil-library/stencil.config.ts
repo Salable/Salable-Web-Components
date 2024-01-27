@@ -2,6 +2,7 @@ import { Config } from '@stencil/core';
 import {reactOutputTarget} from "@stencil/react-output-target";
 import {postcss} from '@stencil-community/postcss';
 import autoprefixer from 'autoprefixer';
+import dotenv from "rollup-plugin-dotenv"
 
 const purgecss = require("@fullhuman/postcss-purgecss")({
   content: ["./src/**/*.tsx", "./src/**/*.css", "./src/index.html"],
@@ -44,6 +45,7 @@ export const config: Config = {
             ? [purgecss, require('cssnano')]
             : [])
       ]
-    })
+    }),
+    dotenv()
   ],
 };

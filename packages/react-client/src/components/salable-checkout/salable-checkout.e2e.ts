@@ -11,7 +11,7 @@ test.describe('salable-checkout React Client E2E Tests', () => {
     test.describe('Fetch Success Cases', () => {
         test('Create payment intent form', async ({ page }) => {
             await setUpCheckoutFetch(page, mockCheckout());
-            await setUpPaymentIntent(page, { clientSecret: 'xxxxx' });
+            await setUpPaymentIntent(page);
 
             await page.goto('http://localhost:5173/test/salable-checkout');
 
@@ -21,7 +21,7 @@ test.describe('salable-checkout React Client E2E Tests', () => {
 
     // test('Create payment intent form', async ({ page }) => {
     //     await setUpCheckoutFetch(page, mockCheckout());
-    //     await setUpPaymentIntent(page, { clientSecret: 'xxxxx' });
+    //     await setUpPaymentIntent(page);
 
     //     await page.goto('http://localhost:5173/test/salable-checkout');
 

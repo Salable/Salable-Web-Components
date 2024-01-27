@@ -2,9 +2,9 @@ import { expect, Page } from "@playwright/test";
 import 'dotenv/config'
 import Stripe from "stripe";
 
-const STRIPE_KEY = process.env.STRIPE_KEY;
-const STRIPE_ACCOUNT_ID = process.env.STRIPE_ACCOUNT_ID;
-const STRIPE_PLAN_ID = process.env.STRIPE_PLAN_ID;
+const STRIPE_KEY = process.env.STRIPE_KEY as string;
+const STRIPE_ACCOUNT_ID = process.env.STRIPE_ACCOUNT_ID as string;
+const STRIPE_PLAN_ID = process.env.STRIPE_PLAN_ID as string;
 
 export async function setUpCheckoutFetch(page: Page, data: any) {
     await page.route('**/plans/**', async (route) => {
@@ -39,8 +39,6 @@ export async function setUpPaymentIntent(page: Page) {
         }) as Stripe.Subscription & {
             latest_invoice: Stripe.Invoice & { payment_intent: Stripe.PaymentIntent };
         };
-
-        console.log('CLIENT SECRET', stripeBasicSubscription.latest_invoice?.payment_intent?.client_secret);
 
         await route.fulfill({
             status: 200,
