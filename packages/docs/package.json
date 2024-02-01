@@ -1,7 +1,8 @@
 {
-  "name": "docs",
+  "name": "salable-web-component-docs",
+  "private": true,
   "type": "module",
-  "version": "0.1.14",
+  "version": "0.1.19",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
