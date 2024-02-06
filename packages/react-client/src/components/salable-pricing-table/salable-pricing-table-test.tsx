@@ -1,6 +1,6 @@
 import {SalablePricingTable} from "@salable/react-library";
 
-export default function SalablePricingTableTestCustomPricingTable() {
+export default function SalablePricingTableTest() {
     return (
         <SalablePricingTable
             apiKey="xxxxx"
