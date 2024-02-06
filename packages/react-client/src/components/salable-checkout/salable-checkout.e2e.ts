@@ -9,7 +9,7 @@ import {
 } from "../../../../utilities/tests/salable-checkout-tests";
 
 test.describe('salable-checkout React Client E2E Tests', () => {
-    test('Create payment intent form', async ({page}) => {
+    test('All Cases', async ({page}) => {
         // Success Case
         await setUpCheckoutFetch(page, mockCheckout());
         await setUpPaymentIntent(page, {clientSecret: 'xxxxx'});
