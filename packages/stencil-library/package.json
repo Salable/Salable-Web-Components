@@ -38,29 +38,29 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@stencil/core": "^4.7.0",
-    "@stripe/stripe-js": "^2.2.1",
+    "@stencil/core": "^4.12.1",
+    "@stripe/stripe-js": "^2.4.0",
     "date-fns": "^2.30.0"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",
-    "@playwright/test": "^1.39.0",
+    "@playwright/test": "^1.41.2",
     "@stencil-community/eslint-plugin": "^0.6.0",
     "@stencil-community/postcss": "^2.2.0",
     "@stencil/react-output-target": "^0.5.3",
     "@tailwindcss/forms": "^0.5.7",
-    "@types/jest": "^29.5.6",
-    "@types/node": "^16.18.11",
-    "autoprefixer": "^10.4.16",
-    "cssnano": "^6.0.1",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^16.18.79",
+    "autoprefixer": "^10.4.17",
+    "cssnano": "^6.0.3",
     "jest": "^29.7.0",
     "jest-cli": "^29.7.0",
     "postcss-import": "^15.1.0",
-    "puppeteer": "21.1.1",
+    "puppeteer": "^21.11.0",
     "rimraf": "^5.0.5",
     "serve": "^14.2.1",
     "stencil-playwright": "^0.3.0",
-    "tailwindcss": "^3.3.5"
+    "tailwindcss": "^3.4.1"
   },
   "publishConfig": {
     "access": "public"
