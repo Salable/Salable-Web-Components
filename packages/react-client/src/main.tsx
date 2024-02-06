@@ -42,6 +42,14 @@ const router = createBrowserRouter([
         element: <SalableCheckoutTest />,
     },
     {
+        path: "/test/salable-checkout/invalid-email",
+        element: <SalableCheckoutTest email='johnnydoe@email' />,
+    },
+    {
+        path: "/test/salable-checkout/valid-email",
+        element: <SalableCheckoutTest email='johnnydoe@email.com' />,
+    },
+    {
         path: "/test/salable-pricing-table",
         element: <SalablePricingTableTestCustomPricingTable />,
     },
