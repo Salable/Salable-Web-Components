@@ -72,6 +72,12 @@ This example demonstrates rendering the `SalableInvoices` component with React, 
 
 ---
 
+## Build
+
+We're using Node 20 for this project so make sure that's up to date. 
+
+Checkout the package.json scripts in the root as well as each package for dev/build/test commands and various other helpers.
+
 ## Testing Strategy
 
 Our project's testing framework leverages Playwright for end-to-end testing and Stencil spec tests for unit testing, with specific focus areas for different types of components:
@@ -222,3 +228,4 @@ To create a new version:
 This command will publish the packages to npm, ensuring that updates are available to users.
 
 Remember to document your changes in a `CHANGELOG.md` file for each package, providing clear and concise descriptions of features, fixes, and any breaking changes introduced with each release.
+

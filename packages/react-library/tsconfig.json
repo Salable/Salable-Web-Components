@@ -2,10 +2,10 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "lib": ["dom", "es2015"],
-    "module": "es2015",
+    "lib": ["dom", "ESNext"],
+    "module": "es2020",
     "moduleResolution": "node",
-    "target": "es2015",
+    "target": "es2020",
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
