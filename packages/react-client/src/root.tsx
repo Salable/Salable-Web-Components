@@ -14,12 +14,6 @@ export default function Root() {
                     <li>
                         <a href={`/demo/salable-checkout`}>Salable Checkout</a>
                     </li>
-                    <li>
-                        <a href={`/demo/salable-checkout/invalid-email`}>Salable Checkout (With invalid email)</a>
-                    </li>
-                    <li>
-                        <a href={`/demo/salable-checkout/valid-email`}>Salable Checkout (With valid email)</a>
-                    </li>
                 </ul>
             </nav>
             <div id="detail">

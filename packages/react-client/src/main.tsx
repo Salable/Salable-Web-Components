@@ -31,14 +31,6 @@ const router = createBrowserRouter([
                 path: "/demo/salable-checkout",
                 element: <SalableCheckoutDemo />,
             },
-            {
-                path: "/demo/salable-checkout/invalid-email",
-                element: <SalableCheckoutDemo email='johnnydoe@email' />,
-            },
-            {
-                path: "/demo/salable-checkout/valid-email",
-                element: <SalableCheckoutDemo email='johnnydoe@email.com' />,
-            },
         ],
     },
     {
@@ -48,14 +40,6 @@ const router = createBrowserRouter([
     {
         path: "/test/salable-checkout",
         element: <SalableCheckoutTest />,
-    },
-    {
-        path: "/test/salable-checkout/invalid-email",
-        element: <SalableCheckoutTest email='johnnydoe@email' />,
-    },
-    {
-        path: "/test/salable-checkout/valid-email",
-        element: <SalableCheckoutTest email='johnnydoe@email.com' />,
     },
     {
         path: "/test/salable-pricing-table",
