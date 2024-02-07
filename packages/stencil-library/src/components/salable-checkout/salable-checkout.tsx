@@ -164,7 +164,7 @@ export class SalableCheckout {
         <div class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
           <PriceTag plan={this.state.plan}/>
           <form onSubmit={this.handlePayment}>
-            <div id="slb_payment_element" class="mb-6 p-20"/>
+            <div id="slb_payment_element" class="mb-6 py-20"/>
             <button type="submit"
                     class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
               Pay
