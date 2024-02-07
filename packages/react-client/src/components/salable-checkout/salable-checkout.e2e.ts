@@ -15,17 +15,14 @@ test.describe('salable-checkout React Client E2E Tests', () => {
         await setUpPaymentIntent(page, {clientSecret: 'xxxxx'});
 
         await page.goto('http://localhost:5173/test/salable-checkout');
-
         await salableCheckoutPaymentIntentTest(page);
 
         // Valid email provided
         await page.goto('http://localhost:5173/test/salable-checkout/valid-email');
-
         await salableCheckoutPrefillWithEmailTest(page);
 
         // Invalid email provided
         await page.goto('http://localhost:5173/test/salable-checkout/invalid-email');
-
         await salableCheckoutInvalidEmailPrefillTest(page);
     });
 });

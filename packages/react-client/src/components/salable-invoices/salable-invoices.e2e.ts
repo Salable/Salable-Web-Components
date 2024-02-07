@@ -11,7 +11,6 @@ test.describe('salable-invoices React Client E2E Tests', () => {
             await setUpInvoiceApi(page, invoiceRepository);
 
             await page.goto('http://localhost:5173/test/salable-invoices');
-
             await salableInvoiceTests(page, invoiceRepository);
         });
     });
