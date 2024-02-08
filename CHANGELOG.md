@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.24](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.23...v0.1.24) (2024-02-08)
+
+
+### Bug Fixes
+
+* use pnpm/action-setup@v3 which should support latest node versio… ([#76](https://github.com/Salable/salable-web-components-stenciljs/issues/76)) ([c2aaaf4](https://github.com/Salable/salable-web-components-stenciljs/commit/c2aaaf4a9e495b3a8f7644b3fdddf86b2feba9d6))
+
+
+
+
+
 ## [0.1.23](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.22...v0.1.23) (2024-02-07)
 
 
