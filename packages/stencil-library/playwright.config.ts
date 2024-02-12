@@ -21,7 +21,8 @@ const config: PlaywrightTestConfig = {
     command: 'pnpm test:serve',
     url: 'http://localhost:3333',
     reuseExistingServer: !process.env.CI,
-    stdout: 'ignore',
+    stdout: 'pipe',
+    // stdout: 'ignore',
     stderr: 'pipe',
   },
 };

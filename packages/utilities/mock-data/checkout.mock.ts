@@ -5,7 +5,7 @@ export const mockCheckout = objectBuilder({
     interval: "month",
     product: {
         organisationPaymentIntegration: {
-            accountId: process.env.STRIPE_ACCOUNT_ID,
+            accountId: process.env.TEST_STRIPE_ACCOUNT_ID,
         }
     },
     pricingType: 'paid',
