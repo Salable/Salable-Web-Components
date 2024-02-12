@@ -62,7 +62,7 @@ jobs:
       - name: Run Stencil e2e Tests
         run: | 
           cd packages/stencil-library
-          pnpm test:e2e
+          pnpm test:e2e:ci
 
       - name: Run React e2e Tests
         run: | 
