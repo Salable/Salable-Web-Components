@@ -2,10 +2,10 @@ import { expect, Page } from "@playwright/test";
 import 'dotenv/config'
 import Stripe from "stripe";
 
-const STRIPE_KEY = process.env.STRIPE_KEY as string;
-const STRIPE_ACCOUNT_ID = process.env.STRIPE_ACCOUNT_ID as string;
-const STRIPE_CUSTOMER_ID = process.env.STRIPE_CUSTOMER_ID as string;
-const STRIPE_PLAN_ID = process.env.STRIPE_PLAN_ID as string;
+const TEST_STRIPE_KEY = process.env.TEST_STRIPE_KEY as string;
+const TEST_STRIPE_ACCOUNT_ID = process.env.TEST_STRIPE_ACCOUNT_ID as string;
+const TEST_STRIPE_CUSTOMER_ID = process.env.TEST_STRIPE_CUSTOMER_ID as string;
+const TEST_STRIPE_PLAN_ID = process.env.TEST_STRIPE_PLAN_ID as string;
 
 export async function setUpCheckoutFetch(page: Page, data: any) {
     await page.route('**/plans/**', async (route) => {
@@ -20,16 +20,16 @@ export async function setUpCheckoutFetch(page: Page, data: any) {
 export async function setUpPaymentIntent(page: Page) {
     await page.route('**/create-subscription', async (route) => {
 
-        const stripeConnect = new Stripe(STRIPE_KEY, {
+        const stripeConnect = new Stripe(TEST_STRIPE_KEY, {
             apiVersion: '2023-10-16',
-            stripeAccount: STRIPE_ACCOUNT_ID
+            stripeAccount: TEST_STRIPE_ACCOUNT_ID
         });
 
         const stripeBasicSubscription = await stripeConnect.subscriptions.create({
-            customer: STRIPE_CUSTOMER_ID,
+            customer: TEST_STRIPE_CUSTOMER_ID,
             items: [{
                 quantity: 1,
-                price: STRIPE_PLAN_ID
+                price: TEST_STRIPE_PLAN_ID
             }],
             expand: ['latest_invoice.payment_intent'],
             payment_behavior: 'default_incomplete',

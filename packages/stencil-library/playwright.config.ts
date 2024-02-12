@@ -5,8 +5,8 @@ import {defaultPlaywrightConfig} from "../../default-playwright-config";
 expect.extend(matchers);
 
 if (process.env.CI) {
-  process.env.STRIPE_PUBLIC_KEY = process.env.STRIPE_PUBLIC_KEY_TEST;
-  process.env.API_URL = process.env.API_URL_TEST;
+  process.env.STRIPE_PUBLIC_KEY = process.env.TEST_STRIPE_PUBLIC_KEY;
+  process.env.API_URL = process.env.TEST_API_URL;
 }
 
 const config: PlaywrightTestConfig = {
