@@ -4,10 +4,6 @@ import {defaultPlaywrightConfig} from "../../default-playwright-config";
 
 expect.extend(matchers);
 
-console.log('env', process.env.TEST_STRIPE_ACCOUNT_ID);
-console.log('env', process.env.TEST_STRIPE_CUSTOMER_ID);
-console.log('env', process.env.TEST_STRIPE_PLAN_ID);
-
 const config: PlaywrightTestConfig = {
   ...defaultPlaywrightConfig,
   testMatch: '*.e2e.ts',
