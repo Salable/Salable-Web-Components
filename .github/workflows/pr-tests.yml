@@ -62,12 +62,12 @@ jobs:
       - name: Run Stencil e2e Tests
         run: | 
           cd packages/stencil-library
-          pnpm test:e2e:ci
+          pnpm test:e2e
 
       - name: Run React e2e Tests
         run: | 
           cd packages/react-client
-          pnpm test:e2e:ci
+          pnpm test:e2e
 
       - uses: actions/upload-artifact@v3
         if: always()

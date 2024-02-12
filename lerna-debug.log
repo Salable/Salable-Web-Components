@@ -1,0 +1,16 @@
+0 silly argv {
+0 silly argv   _: [ 'run' ],
+0 silly argv   scope: [ '@salable/stencil-library', 'react-client' ],
+0 silly argv   lernaVersion: '7.4.2',
+0 silly argv   '$0': 'node_modules/lerna/dist/cli.js',
+0 silly argv   script: 'test'
+0 silly argv }
+1 notice cli v7.4.2
+2 verbose packageConfigs Package manager "pnpm" detected. Resolving packages using `pnpm-workspace.yaml`.
+3 verbose rootPath /Users/orderandchaos/code/salable-web-components-stenciljs
+4 error SyntaxError: /Users/orderandchaos/code/salable-web-components-stenciljs/packages/react-client/package.json: Expected double-quoted property name in JSON at position 481
+4 error     at JSON.parse (<anonymous>)
+4 error     at _readFile (/Users/orderandchaos/code/salable-web-components-stenciljs/node_modules/.pnpm/jsonfile@6.1.0/node_modules/jsonfile/index.js:25:16)
+4 error     at async Promise.all (index 2)
+4 error     at async createProjectGraphWithPackages (/Users/orderandchaos/code/salable-web-components-stenciljs/node_modules/.pnpm/lerna@7.4.2/node_modules/lerna/dist/index.js:1337:18)
+4 error     at async detectProjects (/Users/orderandchaos/code/salable-web-components-stenciljs/node_modules/.pnpm/lerna@7.4.2/node_modules/lerna/dist/index.js:1457:24)
