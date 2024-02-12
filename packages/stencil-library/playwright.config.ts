@@ -9,6 +9,8 @@ if (process.env.CI) {
   process.env.API_URL = process.env.TEST_API_URL;
 }
 
+console.log(JSON.stringify(process.env));
+
 const config: PlaywrightTestConfig = {
   ...defaultPlaywrightConfig,
   testMatch: '*.e2e.ts',
@@ -21,8 +23,7 @@ const config: PlaywrightTestConfig = {
     command: 'pnpm test:serve',
     url: 'http://localhost:3333',
     reuseExistingServer: !process.env.CI,
-    stdout: 'pipe',
-    // stdout: 'ignore',
+    stdout: 'ignore',
     stderr: 'pipe',
   },
 };
