@@ -45,6 +45,9 @@ jobs:
 
       - name: Build Packages
         run: pnpm lerna:build
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          STRIPE_PUBLIC_KEY: ${{ secrets.API_URL }}
 
       - name: Set up Git User
         run: |
