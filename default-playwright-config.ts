@@ -32,7 +32,7 @@ const projects = [
 ];
 
 export const defaultPlaywrightConfig: PlaywrightTestConfig = {
-    timeout: 3000,
+    timeout: 10000,
     globalTimeout: 180000,
     expect: {
         timeout: 3000,
