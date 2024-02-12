@@ -1,7 +1,5 @@
 import {devices, PlaywrightTestConfig} from "@playwright/test";
 
-
-
 const projects = [
     {
         name: 'chromium',

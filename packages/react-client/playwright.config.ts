@@ -1,11 +1,10 @@
 import { defineConfig } from '@playwright/test';
 import {defaultPlaywrightConfig} from "../../default-playwright-config";
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// require('dotenv').config();
+if (process.env.CI) {
+  process.env.STRIPE_PUBLIC_KEY = process.env.STRIPE_PUBLIC_KEY_TEST;
+  process.env.API_URL = process.env.API_URL_TEST;
+}
 
 /**
  * See https://playwright.dev/docs/test-configuration.

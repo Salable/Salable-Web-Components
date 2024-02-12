@@ -4,6 +4,7 @@ import Stripe from "stripe";
 
 const STRIPE_KEY = process.env.STRIPE_KEY as string;
 const STRIPE_ACCOUNT_ID = process.env.STRIPE_ACCOUNT_ID as string;
+const STRIPE_CUSTOMER_ID = process.env.STRIPE_CUSTOMER_ID as string;
 const STRIPE_PLAN_ID = process.env.STRIPE_PLAN_ID as string;
 
 export async function setUpCheckoutFetch(page: Page, data: any) {
@@ -24,12 +25,8 @@ export async function setUpPaymentIntent(page: Page) {
             stripeAccount: STRIPE_ACCOUNT_ID
         });
 
-        const stripeCustomer = await stripeConnect.customers.create({
-            email: 'tester@domain.com',
-        });
-
         const stripeBasicSubscription = await stripeConnect.subscriptions.create({
-            customer: stripeCustomer.id,
+            customer: STRIPE_CUSTOMER_ID,
             items: [{
                 quantity: 1,
                 price: STRIPE_PLAN_ID
@@ -45,6 +42,8 @@ export async function setUpPaymentIntent(page: Page) {
             contentType: 'application/json',
             body: JSON.stringify({clientSecret: stripeBasicSubscription.latest_invoice?.payment_intent?.client_secret}),
         });
+
+        // Todo: Could delete subscription somehow?
     });
 }
 

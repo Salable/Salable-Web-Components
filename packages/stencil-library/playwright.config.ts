@@ -1,9 +1,13 @@
-import { expect, PlaywrightTestConfig } from '@playwright/test';
-
-import { matchers } from 'stencil-playwright';
+import {expect, PlaywrightTestConfig} from '@playwright/test';
+import {matchers} from 'stencil-playwright';
 import {defaultPlaywrightConfig} from "../../default-playwright-config";
 
 expect.extend(matchers);
+
+if (process.env.CI) {
+  process.env.STRIPE_PUBLIC_KEY = process.env.STRIPE_PUBLIC_KEY_TEST;
+  process.env.API_URL = process.env.API_URL_TEST;
+}
 
 const config: PlaywrightTestConfig = {
   ...defaultPlaywrightConfig,
