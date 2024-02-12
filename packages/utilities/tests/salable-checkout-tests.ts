@@ -76,9 +76,9 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
     await continueButton.click();
     const payButton = page.getByRole('button', { name: /pay/i });
     await expect(payButton).toBeVisible();
-    // const iframeElement = page.frameLocator('iframe').first();
-    // await expect(iframeElement.getByTestId('card')).toBeVisible();
-    // await expect(page).toHaveScreenshot();
+    const iframeElement = page.frameLocator('iframe').first();
+    await expect(iframeElement.getByTestId('card')).toBeVisible();
+    await expect(page).toHaveScreenshot();
 }
 
 export async function salableCheckoutInvalidEmailPrefillTest(page: Page) {
