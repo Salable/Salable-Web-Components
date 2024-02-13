@@ -44,7 +44,7 @@ jobs:
         run: pnpm install
 
       - name: Build Packages
-        run: pnpm lerna:build
+        run: export NODE_ENV=prod && pnpm lerna:build # export NODE_ENV=prod tells rollup dotenv to read from .env.prod
 
       - name: Set up Git User
         run: |
