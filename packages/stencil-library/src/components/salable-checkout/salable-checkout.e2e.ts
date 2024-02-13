@@ -8,16 +8,18 @@ import {
 } from "../../../../utilities/tests/salable-checkout-tests";
 import { mockCheckout } from "../../../../utilities/mock-data/checkout.mock";
 
+const STRIPE_PLAN_ID = process.env.STRIPE_PLAN_ID as string;
+
 test.describe('salable-checkout Stencil E2E Tests', () => {
   const mockApiKey = 'mock_api_key';
-  const mockPlanUuid = 'mock_plan_uuid';
+  const mockPlanUuid = STRIPE_PLAN_ID;
   const mockMember = 'example-member-123';
   const mockGrantee = 'example-grantee-123';
   const mockSuccessUrl = "https://www.google.com";
 
   test('Create payment intent form', async ({ page }) => {
     await setUpCheckoutFetch(page, mockCheckout());
-    await setUpPaymentIntent(page, { clientSecret: 'xxxxx' });
+    await setUpPaymentIntent(page);
 
     await page.setContent(`
         <salable-checkout
@@ -39,7 +41,10 @@ test.describe('salable-checkout Stencil E2E Tests', () => {
         <salable-checkout
           api-key="${mockApiKey}"
           plan-uuid="${mockPlanUuid}"
-          member=${mockMember} grantee-id=${mockGrantee} success-url=${mockSuccessUrl} email="johndoe@email"
+          member=${mockMember}
+          grantee-id=${mockGrantee}
+          success-url=${mockSuccessUrl}
+          email="johndoe@email"
         ></salable-checkout>
       `);
 
@@ -48,13 +53,16 @@ test.describe('salable-checkout Stencil E2E Tests', () => {
 
   test('Prefill checkout with email', async ({ page }) => {
     await setUpCheckoutFetch(page, mockCheckout());
-    await setUpPaymentIntent(page, { clientSecret: 'xxxxx' });
+    await setUpPaymentIntent(page);
 
     await page.setContent(`
         <salable-checkout
           api-key="${mockApiKey}"
           plan-uuid="${mockPlanUuid}"
-          member=${mockMember} grantee-id=${mockGrantee} success-url=${mockSuccessUrl} email="johndoe@email.com"
+          member=${mockMember}
+          grantee-id=${mockGrantee}
+          success-url=${mockSuccessUrl}
+          email="johndoe@email.com"
         ></salable-checkout>
       `);
 

@@ -33,6 +33,9 @@ importers:
       lerna:
         specifier: ^7.4.2
         version: 7.4.2
+      stripe:
+        specifier: ^14.14.0
+        version: 14.16.0
       typescript:
         specifier: ^5.3.3
         version: 5.3.3
@@ -198,6 +201,9 @@ importers:
       stencil-playwright:
         specifier: ^0.3.0
         version: 0.3.0
+      stripe:
+        specifier: ^14.14.0
+        version: 14.16.0
       tailwindcss:
         specifier: ^3.4.1
         version: 3.4.1
@@ -2787,7 +2793,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 16.18.79
+      '@types/node': 20.11.16
     dev: true
     optional: true
 
@@ -10071,6 +10077,13 @@ packages:
       postcss-selector-parser: 6.0.15
     dev: true
 
+  /qs@6.11.2:
+    resolution: {integrity: sha512-tDNIz22aBzCDxLtVH++VnTfzxlfeK5CbqohpSqpJgj1Wg/cQbStNAz3NuqCs5vV+pjBsK4x4pN9HlVh7rcYRiA==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.4
+    dev: true
+
   /queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -11106,6 +11119,14 @@ packages:
   /strip-json-comments@3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
+    dev: true
+
+  /stripe@14.16.0:
+    resolution: {integrity: sha512-1gOr2LzafWV84cPIO5Md/QPh4XVPLKULVuRpBVOV3Plq3seiHmg/eeOktX+hDl8jpNZuORHYaUJGrNqrABLwdg==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@types/node': 20.11.16
+      qs: 6.11.2
     dev: true
 
   /strong-log-transformer@2.1.0:

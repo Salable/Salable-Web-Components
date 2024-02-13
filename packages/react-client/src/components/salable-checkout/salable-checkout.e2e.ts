@@ -12,7 +12,7 @@ test.describe('salable-checkout React Client E2E Tests', () => {
     test('All Cases', async ({page}) => {
         // Success Case
         await setUpCheckoutFetch(page, mockCheckout());
-        await setUpPaymentIntent(page, {clientSecret: 'xxxxx'});
+        await setUpPaymentIntent(page);
 
         await page.goto('http://localhost:5173/test/salable-checkout');
         await salableCheckoutPaymentIntentTest(page);
