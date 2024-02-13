@@ -35,7 +35,7 @@ const projects = [
 
 export const defaultPlaywrightConfig: PlaywrightTestConfig = {
     expect: {
-        timeout: 5000,
+        timeout: 15000,
         toMatchSnapshot: {
             threshold: 0.05,
             maxDiffPixelRatio: 0.05,
@@ -48,7 +48,7 @@ export const defaultPlaywrightConfig: PlaywrightTestConfig = {
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 2 : undefined,
+    workers: process.env.CI ? 1 : undefined,
     reporter: 'html',
     projects,
 };

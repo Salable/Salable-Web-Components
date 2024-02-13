@@ -122,6 +122,7 @@ export class SalableCheckout {
     this.stripe = await loadStripe(stripePublicKey, {
       stripeAccount: paymentIntegration.accountId,
     });
+
     const options: StripeElementsOptions = {
       clientSecret: this.clientSecret,
       appearance: {
