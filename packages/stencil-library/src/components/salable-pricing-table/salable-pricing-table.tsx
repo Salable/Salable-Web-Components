@@ -169,8 +169,8 @@ export class SalablePricingTable {
   render() {
     return (
       <Host>
-        {this.errorMessage}
         <div class="font-sans">
+          {this.errorMessage}
           {this.state.monthly.length > 0 && this.state.yearly.length > 0 ? (
             <section class="flex justify-center items-center mb-12">
               <label

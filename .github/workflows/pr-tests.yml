@@ -63,11 +63,21 @@ jobs:
         run: | 
           cd packages/stencil-library
           pnpm test:e2e
+        env:
+          TEST_STRIPE_KEY: ${{ secrets.TEST_STRIPE_KEY }}
+          TEST_STRIPE_ACCOUNT_ID: ${{ secrets.TEST_STRIPE_ACCOUNT_ID }}
+          TEST_STRIPE_CUSTOMER_ID: ${{ secrets.TEST_STRIPE_CUSTOMER_ID }}
+          TEST_STRIPE_PLAN_ID: ${{ secrets.TEST_STRIPE_PLAN_ID }}
 
       - name: Run React e2e Tests
         run: | 
           cd packages/react-client
           pnpm test:e2e
+        env:
+          TEST_STRIPE_KEY: ${{ secrets.TEST_STRIPE_KEY }}
+          TEST_STRIPE_ACCOUNT_ID: ${{ secrets.TEST_STRIPE_ACCOUNT_ID }}
+          TEST_STRIPE_CUSTOMER_ID: ${{ secrets.TEST_STRIPE_CUSTOMER_ID }}
+          TEST_STRIPE_PLAN_ID: ${{ secrets.TEST_STRIPE_PLAN_ID }}
 
       - uses: actions/upload-artifact@v3
         if: always()
