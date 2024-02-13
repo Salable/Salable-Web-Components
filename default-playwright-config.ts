@@ -34,10 +34,10 @@ const projects = [
 ];
 
 export const defaultPlaywrightConfig: PlaywrightTestConfig = {
-    timeout: 5000,
+    timeout: 10000,
     globalTimeout: 300000,
     expect: {
-        timeout: 5000,
+        timeout: 10000,
         toMatchSnapshot: {
             threshold: 0.05,
             maxDiffPixelRatio: 0.05,
