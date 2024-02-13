@@ -1,11 +1,11 @@
 import { expect, Page } from "@playwright/test";
 import 'dotenv/config'
-// import Stripe from "stripe";
-//
-// const TEST_STRIPE_KEY = process.env.TEST_STRIPE_KEY as string;
-// const TEST_STRIPE_ACCOUNT_ID = process.env.TEST_STRIPE_ACCOUNT_ID as string;
-// const TEST_STRIPE_CUSTOMER_ID = process.env.TEST_STRIPE_CUSTOMER_ID as string;
-// const TEST_STRIPE_PLAN_ID = process.env.TEST_STRIPE_PLAN_ID as string;
+import Stripe from "stripe";
+
+const TEST_STRIPE_KEY = process.env.TEST_STRIPE_KEY as string;
+const TEST_STRIPE_ACCOUNT_ID = process.env.TEST_STRIPE_ACCOUNT_ID as string;
+const TEST_STRIPE_CUSTOMER_ID = process.env.TEST_STRIPE_CUSTOMER_ID as string;
+const TEST_STRIPE_PLAN_ID = process.env.TEST_STRIPE_PLAN_ID as string;
 
 export async function setUpCheckoutFetch(page: Page, data: any) {
     await page.route('**/plans/**', async (route) => {
@@ -20,28 +20,27 @@ export async function setUpCheckoutFetch(page: Page, data: any) {
 export async function setUpPaymentIntent(page: Page) {
     await page.route('**/create-subscription', async (route) => {
 
-        // const stripeConnect = new Stripe(TEST_STRIPE_KEY, {
-        //     apiVersion: '2023-10-16',
-        //     stripeAccount: TEST_STRIPE_ACCOUNT_ID
-        // });
-        //
-        // const stripeBasicSubscription = await stripeConnect.subscriptions.create({
-        //     customer: TEST_STRIPE_CUSTOMER_ID,
-        //     items: [{
-        //         quantity: 1,
-        //         price: TEST_STRIPE_PLAN_ID
-        //     }],
-        //     expand: ['latest_invoice.payment_intent'],
-        //     payment_behavior: 'default_incomplete',
-        // }) as Stripe.Subscription & {
-        //     latest_invoice: Stripe.Invoice & { payment_intent: Stripe.PaymentIntent };
-        // };
+        const stripeConnect = new Stripe(TEST_STRIPE_KEY, {
+            apiVersion: '2023-10-16',
+            stripeAccount: TEST_STRIPE_ACCOUNT_ID
+        });
+
+        const stripeBasicSubscription = await stripeConnect.subscriptions.create({
+            customer: TEST_STRIPE_CUSTOMER_ID,
+            items: [{
+                quantity: 1,
+                price: TEST_STRIPE_PLAN_ID
+            }],
+            expand: ['latest_invoice.payment_intent'],
+            payment_behavior: 'default_incomplete',
+        }) as Stripe.Subscription & {
+            latest_invoice: Stripe.Invoice & { payment_intent: Stripe.PaymentIntent };
+        };
 
         await route.fulfill({
             status: 200,
             contentType: 'application/json',
-            body: JSON.stringify({clientSecret: 'xxxxx'}),
-            // body: JSON.stringify({clientSecret: stripeBasicSubscription.latest_invoice?.payment_intent?.client_secret}),
+            body: JSON.stringify({clientSecret: stripeBasicSubscription.latest_invoice?.payment_intent?.client_secret}),
         });
 
         // Todo: Could delete subscription somehow?
