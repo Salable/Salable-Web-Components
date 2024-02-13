@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.26](https://github.com/ionic-team/stencil-component-starter/compare/v0.1.25...v0.1.26) (2024-02-13)
+
+
+### Bug Fixes
+
+* reduce playwright timeouts + clean up ([#80](https://github.com/ionic-team/stencil-component-starter/issues/80)) ([53b1f1b](https://github.com/ionic-team/stencil-component-starter/commit/53b1f1b8bef866b04cac01a7243ba4b9c5a534e7))
+
+
+
+
+
 ## [0.1.25](https://github.com/ionic-team/stencil-component-starter/compare/v0.1.24...v0.1.25) (2024-02-12)
 
 
