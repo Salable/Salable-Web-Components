@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.27](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.26...v0.1.27) (2024-02-13)
+
+
+### Bug Fixes
+
+* lower timeouts use envs for api url and stripe pub key ([#79](https://github.com/Salable/salable-web-components-stenciljs/issues/79)) ([38d457b](https://github.com/Salable/salable-web-components-stenciljs/commit/38d457b828b7de679bd30e7ad3c6d382803b1dcc))
+
+
+
+
+
 ## [0.1.26](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.25...v0.1.26) (2024-02-13)
 
 
