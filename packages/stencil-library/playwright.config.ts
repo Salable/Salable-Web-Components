@@ -1,6 +1,5 @@
-import { expect, PlaywrightTestConfig } from '@playwright/test';
-
-import { matchers } from 'stencil-playwright';
+import {expect, PlaywrightTestConfig} from '@playwright/test';
+import {matchers} from 'stencil-playwright';
 import {defaultPlaywrightConfig} from "../../default-playwright-config";
 
 expect.extend(matchers);

@@ -48,6 +48,9 @@ jobs:
 
       - name: Build Packages
         run: pnpm lerna:build
+        env:
+          API_URL: ${{ secrets.TEST_API_URL }}
+          STRIPE_PUBLIC_KEY: ${{ secrets.TEST_STRIPE_PUBLIC_KEY }}
 
       - name: Run Stencil Checks
         run: | 
@@ -63,11 +66,17 @@ jobs:
         run: | 
           cd packages/stencil-library
           pnpm test:e2e
+        env:
+          API_URL: ${{ secrets.TEST_API_URL }}
+          STRIPE_PUBLIC_KEY: ${{ secrets.TEST_STRIPE_PUBLIC_KEY }}
 
       - name: Run React e2e Tests
         run: | 
           cd packages/react-client
-          pnpm test:e2e:ci
+          pnpm test:e2e
+        env:
+          API_URL: ${{ secrets.TEST_API_URL }}
+          STRIPE_PUBLIC_KEY: ${{ secrets.TEST_STRIPE_PUBLIC_KEY }}
 
       - uses: actions/upload-artifact@v3
         if: always()

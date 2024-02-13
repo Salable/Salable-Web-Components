@@ -10,7 +10,6 @@ export async function setUpCheckoutFetch(page: Page, data: any) {
     });
 }
 
-
 export async function setUpPaymentIntent(page: Page, data: any) {
     await page.route('**/create-subscription', async (route) => {
         await route.fulfill({

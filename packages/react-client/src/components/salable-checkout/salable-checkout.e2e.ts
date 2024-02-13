@@ -10,6 +10,7 @@ import {
 
 test.describe('salable-checkout React Client E2E Tests', () => {
     test('All Cases', async ({page}) => {
+        test.setTimeout(9000);
         // Success Case
         await setUpCheckoutFetch(page, mockCheckout());
         await setUpPaymentIntent(page, {clientSecret: 'xxxxx'});
