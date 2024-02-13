@@ -38,11 +38,11 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@stencil/core": "^4.12.1",
-    "@stripe/stripe-js": "^2.4.0",
-    "date-fns": "^2.30.0"
+    "@stencil/core": "^4.12.1"
   },
   "devDependencies": {
+    "@stripe/stripe-js": "^2.4.0",
+    "date-fns": "^2.30.0",
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "@playwright/test": "^1.41.2",
     "@stencil-community/eslint-plugin": "^0.6.0",

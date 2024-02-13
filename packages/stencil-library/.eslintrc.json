@@ -5,7 +5,7 @@
   "extends": [
     "plugin:@stencil-community/recommended"
   ],
-  "ignorePatterns": ["playwright.config.ts"],
+  "ignorePatterns": ["playwright.config.ts", "stencil.config.ts"],
   "rules": {
     "@stencil-community/required-jsdoc": "warn",
     "@stencil-community/own-props-must-be-private": "warn"
