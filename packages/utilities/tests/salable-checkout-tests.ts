@@ -18,25 +18,24 @@ export async function setUpCheckoutFetch(page: Page, data: any) {
 }
 
 export async function setUpPaymentIntent(page: Page) {
+    const stripeConnect = new Stripe(TEST_STRIPE_KEY, {
+        apiVersion: '2023-10-16',
+        stripeAccount: TEST_STRIPE_ACCOUNT_ID
+    });
+
+    const stripeBasicSubscription = await stripeConnect.subscriptions.create({
+        customer: TEST_STRIPE_CUSTOMER_ID,
+        items: [{
+            quantity: 1,
+            price: TEST_STRIPE_PLAN_ID
+        }],
+        expand: ['latest_invoice.payment_intent'],
+        payment_behavior: 'default_incomplete',
+    }) as Stripe.Subscription & {
+        latest_invoice: Stripe.Invoice & { payment_intent: Stripe.PaymentIntent };
+    };
+
     await page.route('**/create-subscription', async (route) => {
-
-        const stripeConnect = new Stripe(TEST_STRIPE_KEY, {
-            apiVersion: '2023-10-16',
-            stripeAccount: TEST_STRIPE_ACCOUNT_ID
-        });
-
-        const stripeBasicSubscription = await stripeConnect.subscriptions.create({
-            customer: TEST_STRIPE_CUSTOMER_ID,
-            items: [{
-                quantity: 1,
-                price: TEST_STRIPE_PLAN_ID
-            }],
-            expand: ['latest_invoice.payment_intent'],
-            payment_behavior: 'default_incomplete',
-        }) as Stripe.Subscription & {
-            latest_invoice: Stripe.Invoice & { payment_intent: Stripe.PaymentIntent };
-        };
-
         await route.fulfill({
             status: 200,
             contentType: 'application/json',
