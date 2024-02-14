@@ -206,7 +206,7 @@ export class SalablePricingTable {
                   <div class='mt-4'>
                     <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
                     <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
-                        {this.getCurrency(plan)?.price}
+                        {this.calcPrice(this.getCurrency(plan)?.price)}
                       </span>
                     <span
                       class="text-xl text-grey-500"> per {this.planUnitValue(plan.licenseType, plan.interval)}</span>
@@ -304,7 +304,7 @@ export class SalablePricingTable {
 
       const pricingTableUrl = this.isCustomPricingTable
         ? `${apiUrl}/pricing-tables/${this.uuid}?${decodeURIComponent(params.toString())}`
-        : `${apiUrl}/products/${this.uuid}/pricingtable?${decodeURIComponent(params.toString())}`
+        : `${apiUrl}/products/${this.uuid}/pricingtable?${decodeURIComponent(params.toString())}`;
 
       const response = await fetch(pricingTableUrl, {headers: {'x-api-key': `${this.apiKey}`}});
 
@@ -476,4 +476,9 @@ export class SalablePricingTable {
   };
 
   private calculateColumnCount = (length: number): number => length <= 4 ? length : length % 4 === 0 ? 4 : 3;
+
+  private calcPrice(price: any) {
+    const decimal = price / 100;
+    return decimal % 1 === 0 ? decimal.toString() : decimal.toFixed(2);
+  }
 }
