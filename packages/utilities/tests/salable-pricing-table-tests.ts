@@ -31,8 +31,10 @@ export async function salablePricingTableTests(page: Page) {
     await expect(intervalToggle).toBeVisible();
     await expect(intervalToggle).not.toBeChecked();
     await testMonthlyLicensedPricingTable(pricingTable);
+    await expect(page).toHaveScreenshot();
     await intervalToggle.check();
     await testYearlyLicensedPricingTable(pricingTable);
+    await expect(page).toHaveScreenshot();
 }
 
 async function testMonthlyLicensedPricingTable(pricingTable: Locator) {
@@ -59,8 +61,6 @@ async function testMonthlyLicensedPricingTable(pricingTable: Locator) {
     await expect(secondCard.getByRole('heading', {name: 'Feature Three'})).toBeVisible();
     await expect(secondCard.getByText('Some text describing feature three this is only available on higher tiers')).toBeVisible();
     await expect(secondCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
-
-    await expect(pricingTable).toHaveScreenshot();
 }
 
 async function testYearlyLicensedPricingTable(pricingTable: Locator) {
@@ -87,6 +87,4 @@ async function testYearlyLicensedPricingTable(pricingTable: Locator) {
     await expect(secondCard.getByRole('heading', {name: 'Feature Three'})).toBeVisible();
     await expect(secondCard.getByText('Some text describing feature three this is only available on higher tiers')).toBeVisible();
     await expect(secondCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
-
-    await expect(pricingTable).toHaveScreenshot();
 }
