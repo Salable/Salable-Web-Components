@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.31](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.30...v0.1.31) (2024-02-14)
+
+
+### Bug Fixes
+
+* use stripe test public key for main testing account ([#84](https://github.com/Salable/salable-web-components-stenciljs/issues/84)) ([6a6b8dd](https://github.com/Salable/salable-web-components-stenciljs/commit/6a6b8ddb36d8ff802bbdba88f1a4e5b84d579250))
+
+
+
+
+
 ## [0.1.30](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.29...v0.1.30) (2024-02-14)
 
 **Note:** Version bump only for package react-client
