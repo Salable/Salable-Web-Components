@@ -8,7 +8,7 @@ import {
 } from "../../../../utilities/tests/salable-checkout-tests";
 import { mockCheckout } from "../../../../utilities/mock-data/checkout.mock";
 
-const STRIPE_PLAN_ID = process.env.STRIPE_PLAN_ID as string;
+const STRIPE_PLAN_ID = process.env.STRIPE_PLAN_ID;
 
 test.describe('salable-checkout Stencil E2E Tests', () => {
   const mockApiKey = 'mock_api_key';
