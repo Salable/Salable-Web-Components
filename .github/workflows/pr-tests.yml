@@ -84,11 +84,11 @@ jobs:
         with:
           name: stencil-playwright-report
           path: packages/stencil-library/playwright-report/
-          retention-days: 30
+          retention-days: 7
 
       - uses: actions/upload-artifact@v3
         if: always()
         with:
           name: react-playwright-report
           path: packages/react-client/playwright-report/
-          retention-days: 30
+          retention-days: 7
