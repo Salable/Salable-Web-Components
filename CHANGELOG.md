@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.33](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.32...v0.1.33) (2024-02-14)
+
+
+### Bug Fixes
+
+* use decimals for pricing table ([#86](https://github.com/Salable/salable-web-components-stenciljs/issues/86)) ([fe44c9a](https://github.com/Salable/salable-web-components-stenciljs/commit/fe44c9a641452548074c67c22da79e6d7792395d))
+
+
+
+
+
 ## [0.1.32](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.31...v0.1.32) (2024-02-14)
 
 
