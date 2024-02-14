@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.32](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.31...v0.1.32) (2024-02-14)
+
+
+### Bug Fixes
+
+* move subscription set up in stripe test to fix flakey test ([#85](https://github.com/Salable/salable-web-components-stenciljs/issues/85)) ([728d756](https://github.com/Salable/salable-web-components-stenciljs/commit/728d756242e6967ae05785321c4e991a7ebe177b))
+
+
+
+
+
 ## [0.1.31](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.30...v0.1.31) (2024-02-14)
 
 
