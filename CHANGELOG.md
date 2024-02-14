@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.29](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.28...v0.1.29) (2024-02-14)
+
+
+### Bug Fixes
+
+* reduce retention days to 7 ([#82](https://github.com/Salable/salable-web-components-stenciljs/issues/82)) ([0a4cdc1](https://github.com/Salable/salable-web-components-stenciljs/commit/0a4cdc16380d0e0c4baef5dfe15d8544549c749d))
+
+
+
+
+
 ## [0.1.28](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.27...v0.1.28) (2024-02-13)
 
 
