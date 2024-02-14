@@ -86,7 +86,7 @@ export const pricingTableMock = objectBuilder({
     product: {currencies: [defaultProductCurrency]},
     plans: [
         pricingTablePlanMock(
-            [{currency: defaultCurrency, price: 100}],
+            [{currency: defaultCurrency, price: 200}],
             {
                 plan: {
                     uuid: 'basic-monthly-plan-uuid',
@@ -100,7 +100,7 @@ export const pricingTableMock = objectBuilder({
             }
         ),
         pricingTablePlanMock(
-            [{currency: defaultCurrency, price: 300}],
+            [{currency: defaultCurrency, price: 350}],
             {
                 plan: {
                     uuid: 'pro-monthly-plan-uuid',
@@ -130,7 +130,7 @@ export const pricingTableMock = objectBuilder({
             }
         ),
         pricingTablePlanMock(
-            [{currency: defaultCurrency, price: 3000}],
+            [{currency: defaultCurrency, price: 1250}],
             {
                 plan: {
                     uuid: 'pro-yearly-plan-uuid',
@@ -146,7 +146,7 @@ export const pricingTableMock = objectBuilder({
             }
         ),
         pricingTablePlanMock(
-            [{currency: defaultCurrency, price: 5000}],
+            [{currency: defaultCurrency, price: 15000}],
             {
                 plan: {
                     uuid: 'ultra-yearly-plan-uuid',
@@ -175,7 +175,7 @@ export const productPricingTableMock = objectBuilder({
                 featureOne,
                 featureTwo,
             ],
-            currencies: [{currency: defaultCurrency, price: 100}]
+            currencies: [{currency: defaultCurrency, price: 200}]
         }),
         productPricingTablePlanMock({
             uuid: 'pro-monthly-plan-uuid',
@@ -186,7 +186,7 @@ export const productPricingTableMock = objectBuilder({
                 featureTwo,
                 featureThree
             ],
-            currencies: [{currency: defaultCurrency, price: 300}]
+            currencies: [{currency: defaultCurrency, price: 350}]
         }),
         productPricingTablePlanMock({
             uuid: 'basic-yearly-plan-uuid',
@@ -208,7 +208,7 @@ export const productPricingTableMock = objectBuilder({
                 featureTwo,
                 featureThree
             ],
-            currencies: [{currency: defaultCurrency, price: 3000}],
+            currencies: [{currency: defaultCurrency, price: 1250}],
             interval: 'year'
         }),
         productPricingTablePlanMock({
@@ -220,7 +220,7 @@ export const productPricingTableMock = objectBuilder({
                 featureTwo,
                 featureThree
             ],
-            currencies: [{currency: defaultCurrency, price: 5000}],
+            currencies: [{currency: defaultCurrency, price: 15000}],
             interval: 'year'
         }),
     ],
