@@ -60,7 +60,10 @@ type Currency = {
 type Feature = {
   feature: {
     displayName: string;
-    description: string;
+    valueType: 'numerical' | 'enum' | 'boolean',
+    defaultValue: string,
+    showUnlimited: boolean,
+    description?: string;
   };
 }
 
@@ -220,20 +223,25 @@ export class SalablePricingTable {
 
                 <ul class="mt-7 mb-5 space-y-2.5 text-sm mx-auto">
                   {plan.features?.map(feature => (
-                    <li class="flex space-x-2">
-                      <svg class="flex-shrink-0 mt-0.5 h-4 w-4 text-primary-600 dark:text-primary-500"
-                           xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      <div>
-                        <h4 class="text-gray-800 dark:text-gray-400 text-left">
-                          {feature.feature.displayName}
-                        </h4>
-                        <p class="text-gray-800 dark:text-gray-400 text-left">
-                          {feature.feature.description}
-                        </p>
-                      </div>
+                    <li class="flex space-x-2 flex-col items-center">
+                      <h4 class="text-gray-800 dark:text-gray-400 text-left flex items-center font-semibold">
+                        {feature.feature.displayName}
+                        {Boolean(feature.feature.description) ? (
+                          <div class="flex items-center group relative">
+                            <button data-tooltip-target="tooltip-dark" type="button"
+                                    class="ms-3 text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            >?</button>
+                            <div
+                              id="tooltip-dark"
+                              role="tooltip"
+                              class="absolute bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
+                            >
+                              {feature.feature.description}
+                            </div>
+                          </div>
+                        ) : null}
+                      </h4>
+                      {this.getFeatureValue(feature.feature.valueType, feature.feature.defaultValue, feature.feature.showUnlimited)}
                     </li>
                   ))}
                 </ul>
@@ -480,5 +488,28 @@ export class SalablePricingTable {
   private calcPrice(price: any) {
     const decimal = price / 100;
     return decimal % 1 === 0 ? decimal.toString() : decimal.toFixed(2);
+  }
+
+  private getFeatureValue(valueType: "numerical" | "enum" | "boolean", defaultValue: string, showUnlimited: boolean) {
+    switch (valueType) {
+      case "numerical":
+        return showUnlimited ? 'Unlimited' : defaultValue;
+      case "enum":
+        return defaultValue;
+      case "boolean":
+        return defaultValue === 'true' ? (
+          <svg class="w-6 h-6 text-primary-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+               fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m5 12 4.7 4.5 9.3-9"/>
+          </svg>
+        ) : (
+          <svg class="w-6 h-6 text-primary-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+               fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M6 18 18 6m0 12L6 6"/>
+          </svg>
+        );
+    }
   }
 }
