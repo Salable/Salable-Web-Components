@@ -201,8 +201,8 @@ export class SalablePricingTable {
           ) : null}
 
           <div class={`grid ${this.getColumnCount()} gap-6 lg:items-center`}>
-            {this.state[this.selectedBillingPeriodKey].map(({plan}, i) => (
-              <section class={this.getCardClass(plan)} data-testid={`pricing-table-card-${i}`}>
+            {this.state[this.selectedBillingPeriodKey].map(({plan}, planIndex) => (
+              <section class={this.getCardClass(plan)} data-testid={`pricing-table-card-${planIndex}`}>
                 <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200"
                     id="pricing-table-card-heading">{plan.name}</h3>
                 {plan.currencies.length > 0 ? (
@@ -222,19 +222,19 @@ export class SalablePricingTable {
                 <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
 
                 <ul class="mt-7 mb-5 space-y-2.5 text-sm mx-auto">
-                  {plan.features?.map(feature => (
+                  {plan.features?.map((feature, featureIndex) => (
                     <li class="flex space-x-2 flex-col items-center">
-                      <h4 class="text-gray-800 dark:text-gray-400 text-left flex items-center font-semibold">
+                      <h4 class="text-gray-800 dark:text-gray-400 text-left flex gap-2 items-center font-semibold">
                         {feature.feature.displayName}
                         {Boolean(feature.feature.description) ? (
-                          <div class="flex items-center group relative">
-                            <button data-tooltip-target="tooltip-dark" type="button"
-                                    class="ms-3 text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                            >?</button>
+                          <div data-testid={`info_${planIndex}_${featureIndex}`} class="grow-0 flex items-center group relative mr-4" tabindex="0">
+                            <span
+                              class="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            >?</span>
                             <div
-                              id="tooltip-dark"
+                              data-testid={`tooltip_${planIndex}_${featureIndex}`}
                               role="tooltip"
-                              class="absolute bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
+                              class="absolute bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
                             >
                               {feature.feature.description}
                             </div>
