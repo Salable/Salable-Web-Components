@@ -61,7 +61,7 @@ type Feature = {
   feature: {
     displayName: string;
     valueType: 'numerical' | 'enum' | 'boolean',
-    defaultValue: string,
+    value: string,
     showUnlimited: boolean,
     description?: string;
   };
@@ -241,7 +241,7 @@ export class SalablePricingTable {
                           </div>
                         ) : null}
                       </h4>
-                      {this.getFeatureValue(feature.feature.valueType, feature.feature.defaultValue, feature.feature.showUnlimited)}
+                      {this.getFeatureValue(feature.feature.valueType, feature.feature.value, feature.feature.showUnlimited)}
                     </li>
                   ))}
                 </ul>
@@ -490,14 +490,14 @@ export class SalablePricingTable {
     return decimal % 1 === 0 ? decimal.toString() : decimal.toFixed(2);
   }
 
-  private getFeatureValue(valueType: "numerical" | "enum" | "boolean", defaultValue: string, showUnlimited: boolean) {
+  private getFeatureValue(valueType: "numerical" | "enum" | "boolean", value: string, showUnlimited: boolean) {
     switch (valueType) {
       case "numerical":
-        return showUnlimited ? 'Unlimited' : defaultValue;
+        return showUnlimited ? 'Unlimited' : value;
       case "enum":
-        return defaultValue;
+        return value;
       case "boolean":
-        return defaultValue === 'true' ? (
+        return value === 'true' ? (
           <svg class="w-6 h-6 text-primary-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
