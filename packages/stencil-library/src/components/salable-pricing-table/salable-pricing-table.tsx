@@ -2,26 +2,26 @@ import {Component, h, Host, Prop, State, Watch} from '@stencil/core';
 import {apiUrl} from "../../constants";
 
 type PricingTableState = {
-  monthly: PricingTablePlan[],
-  yearly: PricingTablePlan[],
-  featuredPlanUuid: string | null,
-  defaultCurrencyShortName: string | null,
+  monthly: PricingTablePlan[]
+  yearly: PricingTablePlan[]
+  featuredPlanUuid: string | null
+  defaultCurrencyShortName: string | null
 }
 
 type PlanConfig = {
-  successUrls: [string, string][];
-  granteeIds: [string, string][];
-  cancelUrls: [string, string][];
+  successUrls: [string, string][]
+  granteeIds: [string, string][]
+  cancelUrls: [string, string][]
 }
 
 type PricingTable = {
-  featuredPlanUuid: string;
-  product: PricingTableProduct;
-  plans: PricingTablePlan[];
+  featuredPlanUuid: string
+  product: PricingTableProduct
+  plans: PricingTablePlan[]
 }
 
 type PricingTableProduct = {
-  currencies: ProductCurrency[];
+  currencies: ProductCurrency[]
 }
 
 type ProductCurrency = {
@@ -30,40 +30,41 @@ type ProductCurrency = {
 }
 
 type PricingTablePlan = {
-  plan: Plan;
-  currencies: PlanCurrency[];
-  checkoutUrl?: string;
-  perSeatAmount?: number;
+  plan: Plan
+  currencies: PlanCurrency[]
+  checkoutUrl?: string
+  perSeatAmount?: number
 }
 
 type Plan = {
-  uuid: string;
-  name: string;
-  currencies: PlanCurrency[];
-  features?: Feature[];
-  interval: 'month' | 'year';
-  description: string;
-  licenseType: 'licensed' | 'metered' | 'perSeat';
+  uuid: string
+  name: string
+  currencies: PlanCurrency[]
+  features?: Feature[]
+  interval: 'month' | 'year'
+  description: string
+  licenseType: 'licensed' | 'metered' | 'perSeat'
 }
 
 type PlanCurrency = {
-  currency: Currency;
-  price: number;
+  currency: Currency
+  price: number
 }
 
 type Currency = {
-  shortName: string;
-  symbol: string;
-  defaultCurrency?: boolean;
+  shortName: string
+  symbol: string
+  defaultCurrency?: boolean
 }
 
 type Feature = {
+  value: string
   feature: {
-    displayName: string;
-    valueType: 'numerical' | 'enum' | 'boolean',
-    value: string,
-    showUnlimited: boolean,
-    description?: string;
+    displayName: string
+    valueType: 'numerical' | 'enum' | 'boolean'
+    defaultValue: string
+    showUnlimited: boolean
+    description?: string
   };
 }
 
@@ -241,7 +242,7 @@ export class SalablePricingTable {
                           </div>
                         ) : null}
                       </h4>
-                      {this.getFeatureValue(feature.feature.valueType, feature.feature.value, feature.feature.showUnlimited)}
+                      {this.getFeatureValue(feature.feature.valueType, feature.value, feature.feature.showUnlimited)}
                     </li>
                   ))}
                 </ul>

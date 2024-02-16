@@ -20,8 +20,9 @@ const featureOne = {
         displayName: 'Feature One',
         description: 'Something about feature one',
         valueType: 'boolean',
-        value: 'true'
+        defaultValue: 'false'
     },
+    value: 'true'
 };
 
 const featureTwo = {
@@ -29,8 +30,9 @@ const featureTwo = {
         displayName: 'Feature Two',
         description: 'Some slightly longer text explaining what feature two enables',
         valueType: 'enum',
-        value: 'Access'
+        defaultValue: 'None'
     },
+    value: 'Access'
 };
 
 const featureThree = {
@@ -38,8 +40,9 @@ const featureThree = {
         displayName: 'Feature Three',
         description: 'Some text describing feature three this is only available on higher tiers',
         valueType: 'numerical',
-        value: '50'
+        defaultValue: '10'
     },
+    value: '50'
 };
 
 const pricingTablePlanBaseMock = objectBuilder({
