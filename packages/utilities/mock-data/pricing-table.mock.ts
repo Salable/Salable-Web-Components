@@ -20,7 +20,7 @@ const featureOne = {
         displayName: 'Feature One',
         description: 'Something about feature one',
         valueType: 'boolean',
-        defaultValue: 'true'
+        value: 'true'
     },
 };
 
@@ -29,7 +29,7 @@ const featureTwo = {
         displayName: 'Feature Two',
         description: 'Some slightly longer text explaining what feature two enables',
         valueType: 'enum',
-        defaultValue: 'Access'
+        value: 'Access'
     },
 };
 
@@ -38,7 +38,7 @@ const featureThree = {
         displayName: 'Feature Three',
         description: 'Some text describing feature three this is only available on higher tiers',
         valueType: 'numerical',
-        defaultValue: '50'
+        value: '50'
     },
 };
 
