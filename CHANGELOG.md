@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.36](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.35...v0.1.36) (2024-02-16)
+
+
+### Bug Fixes
+
+* move feature value to parent object ([#89](https://github.com/Salable/salable-web-components-stenciljs/issues/89)) ([dd117d7](https://github.com/Salable/salable-web-components-stenciljs/commit/dd117d7c5a882433e3128e2fb7b15ea1f48682ba))
+
+
+
+
+
 ## [0.1.35](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.34...v0.1.35) (2024-02-16)
 
 **Note:** Version bump only for package root
