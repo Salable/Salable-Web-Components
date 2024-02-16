@@ -234,7 +234,7 @@ export class SalablePricingTable {
                             <div
                               data-testid={`tooltip_${planIndex}_${featureIndex}`}
                               role="tooltip"
-                              class="absolute bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
+                              class="absolute w-max max-w-[200px] bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
                             >
                               {feature.feature.description}
                             </div>
