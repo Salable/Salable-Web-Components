@@ -60,7 +60,10 @@ type Currency = {
 type Feature = {
   feature: {
     displayName: string;
-    description: string;
+    valueType: 'numerical' | 'enum' | 'boolean',
+    defaultValue: string,
+    showUnlimited: boolean,
+    description?: string;
   };
 }
 
@@ -198,8 +201,8 @@ export class SalablePricingTable {
           ) : null}
 
           <div class={`grid ${this.getColumnCount()} gap-6 lg:items-center`}>
-            {this.state[this.selectedBillingPeriodKey].map(({plan}, i) => (
-              <section class={this.getCardClass(plan)} data-testid={`pricing-table-card-${i}`}>
+            {this.state[this.selectedBillingPeriodKey].map(({plan}, planIndex) => (
+              <section class={this.getCardClass(plan)} data-testid={`pricing-table-card-${planIndex}`}>
                 <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200"
                     id="pricing-table-card-heading">{plan.name}</h3>
                 {plan.currencies.length > 0 ? (
@@ -219,21 +222,26 @@ export class SalablePricingTable {
                 <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
 
                 <ul class="mt-7 mb-5 space-y-2.5 text-sm mx-auto">
-                  {plan.features?.map(feature => (
-                    <li class="flex space-x-2">
-                      <svg class="flex-shrink-0 mt-0.5 h-4 w-4 text-primary-600 dark:text-primary-500"
-                           xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"/>
-                      </svg>
-                      <div>
-                        <h4 class="text-gray-800 dark:text-gray-400 text-left">
-                          {feature.feature.displayName}
-                        </h4>
-                        <p class="text-gray-800 dark:text-gray-400 text-left">
-                          {feature.feature.description}
-                        </p>
-                      </div>
+                  {plan.features?.map((feature, featureIndex) => (
+                    <li class="flex space-x-2 flex-col items-center">
+                      <h4 class="text-gray-800 dark:text-gray-400 text-left flex gap-2 items-center font-semibold">
+                        {feature.feature.displayName}
+                        {Boolean(feature.feature.description) ? (
+                          <div data-testid={`info_${planIndex}_${featureIndex}`} class="grow-0 flex items-center group relative mr-4" tabindex="0">
+                            <span
+                              class="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                            >?</span>
+                            <div
+                              data-testid={`tooltip_${planIndex}_${featureIndex}`}
+                              role="tooltip"
+                              class="absolute w-max max-w-[200px] bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
+                            >
+                              {feature.feature.description}
+                            </div>
+                          </div>
+                        ) : null}
+                      </h4>
+                      {this.getFeatureValue(feature.feature.valueType, feature.feature.defaultValue, feature.feature.showUnlimited)}
                     </li>
                   ))}
                 </ul>
@@ -480,5 +488,28 @@ export class SalablePricingTable {
   private calcPrice(price: any) {
     const decimal = price / 100;
     return decimal % 1 === 0 ? decimal.toString() : decimal.toFixed(2);
+  }
+
+  private getFeatureValue(valueType: "numerical" | "enum" | "boolean", defaultValue: string, showUnlimited: boolean) {
+    switch (valueType) {
+      case "numerical":
+        return showUnlimited ? 'Unlimited' : defaultValue;
+      case "enum":
+        return defaultValue;
+      case "boolean":
+        return defaultValue === 'true' ? (
+          <svg class="w-6 h-6 text-primary-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+               fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m5 12 4.7 4.5 9.3-9"/>
+          </svg>
+        ) : (
+          <svg class="w-6 h-6 text-primary-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+               fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M6 18 18 6m0 12L6 6"/>
+          </svg>
+        );
+    }
   }
 }
