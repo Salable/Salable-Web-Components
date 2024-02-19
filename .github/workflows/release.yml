@@ -46,9 +46,6 @@ jobs:
       - name: Build Packages
         run: export NODE_ENV=prod && pnpm lerna:build # export NODE_ENV=prod tells rollup dotenv to read from .env.prod
 
-      - name: Add Stencil Readme to Dist
-        run: cp ./packages/stencil-library/README.md ./packages/stencil-library/dist
-
       - name: Set up Git User
         run: |
           git config user.name "GitHub Actions"
