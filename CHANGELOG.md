@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.41](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.40...v0.1.41) (2024-02-19)
+
+
+### Bug Fixes
+
+* use cjs for main as per stencil docs ([#94](https://github.com/Salable/salable-web-components-stenciljs/issues/94)) ([a240b3a](https://github.com/Salable/salable-web-components-stenciljs/commit/a240b3ad77473fd29fece460d1094c2acb6a06cd))
+
+
+
+
+
 ## [0.1.40](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.39...v0.1.40) (2024-02-19)
 
 
