@@ -67,6 +67,8 @@ export class SalableCheckout {
     isSubmitting: false,
   };
 
+  @State() stripeTheme: 'stripe' | 'night' = 'stripe';
+
   /**
    * A unique identifier to authenticate HTTP calls to Salable API
    */
@@ -107,6 +109,19 @@ export class SalableCheckout {
     this.validateProps();
     await this.fetchPlan();
     await this.handleEmailPrefill();
+     window
+   .matchMedia("(prefers-color-scheme: dark)")
+   .addEventListener("change", (event) => {
+       const stripeTheme = event.matches ? "night" : "stripe";
+       this._createPaymentElement(stripeTheme)
+   });
+   if(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      // Dark mode
+      this.stripeTheme = 'night'
+    } else {
+      // Light mode
+      this.stripeTheme = 'stripe'
+    }
   }
 
   /**
@@ -123,9 +138,16 @@ export class SalableCheckout {
       stripeAccount: paymentIntegration.accountId,
     });
 
+    this._createPaymentElement(this.stripeTheme)
+  }
+
+  private _createPaymentElement(stripeTheme: 'stripe' | 'night') {
+    if(!Boolean(this.clientSecret)) return;
+
     const options: StripeElementsOptions = {
       clientSecret: this.clientSecret,
       appearance: {
+        theme: stripeTheme,
         variables: {
           borderRadius: '4px',
           colorPrimary: 'rgb(37, 99, 235)',
@@ -394,8 +416,8 @@ const PriceTag = ({plan}: { plan: IPlan }) => {
   const planCurrency = plan.currencies[0];
   return (
     <div class="flex justify-between mb-6">
-      <p class="text-2xl">Price</p>
-      <p class="text-base">{
+      <p class="text-2xl text-black dark:text-white">Price</p>
+      <p class="text-base text-black dark:text-white">{
         plan.pricingType === 'paid' && Boolean(planCurrency)
           ? `${new Intl.NumberFormat(planCurrency.currency.shortName, {
             style: 'currency',
