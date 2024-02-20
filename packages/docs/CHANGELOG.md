@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.43](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.42...v0.1.43) (2024-02-20)
+
+**Note:** Version bump only for package salable-web-component-docs
+
+
+
+
+
 ## [0.1.42](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.41...v0.1.42) (2024-02-20)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.43](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.42...v0.1.43) (2024-02-20)
+
+
+### Bug Fixes
+
+* toggle dark and light mode ([#96](https://github.com/Salable/salable-web-components-stenciljs/issues/96)) ([3f15503](https://github.com/Salable/salable-web-components-stenciljs/commit/3f15503311c177e4bd49d0ac1f7c7f2bb5e65da3))
+
+
+
+
+
 ## [0.1.42](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.41...v0.1.42) (2024-02-20)
 
 
