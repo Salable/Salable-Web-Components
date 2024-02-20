@@ -5,22 +5,57 @@ description: How to use the pricing table web component and React wrapper
 
 ## Web Component Example 
 
+### HTML Example
+
 ```html
-  <salable-pricing-table
+<!doctype html>
+<head>
+    <title>Salable Web Component Example</title>
+    <script type="module">
+        import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@salable/stencil-library/loader/index.es2017.js';
+        defineCustomElements();
+    </script>
+</head>
+<body>
+<salable-pricing-table
     api-key="xxxxx"
     uuid="xxxxx"
     global-success-url="https://cataas.com/cat/cute"
     global-cancel-url="https://cataas.com/cat/angry"
     global-grantee-id="123"
     member="456"
-  ></salable-pricing-table>
+></salable-pricing-table>
+</body>
+</html>
+
+### Svelte Example
+
+*+page.svelte*
+```sveltehtml
+<script>
+    import {defineCustomElements} from "@salable/stencil-library/loader";
+    defineCustomElements();
+</script>
+
+<salable-pricing-table
+    api-key="xxxxx"
+    uuid="xxxxx"
+    global-success-url="https://cataas.com/cat/cute"
+    global-cancel-url="https://cataas.com/cat/angry"
+    global-grantee-id="123"
+    member="456"
+></salable-pricing-table>
+```
+
+*+page.js*
+```js
+export const ssr = false;
 ```
 
 ## React Component Example
 
 ```tsx
-import { defineCustomElements } from '@salable/react-library';
-import {SalablePricingTable} from "@salable/react-library";
+import { defineCustomElements, SalablePricingTable } from '@salable/react-library';
 
 defineCustomElements();
 

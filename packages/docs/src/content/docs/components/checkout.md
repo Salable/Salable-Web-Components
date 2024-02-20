@@ -3,17 +3,51 @@ title: Checkout
 description: How to use the checkout web component and React wrapper
 ---
 
-## Web Component Example
+## Web Components
+
+### HTML Example
 
 ```html
-  <salable-checkout
-        api-key="xxxxx"
-        plan-uuid="xxxxx"
-        member="xxxxx"
-        grantee-id="xxxxx"
-        success-url="https://example.com/success"
+<!doctype html>
+<head>
+    <title>Salable Web Component Example</title>
+    <script type="module">
+        import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@salable/stencil-library/loader/index.es2017.js';
+        defineCustomElements();
+    </script>
+</head>
+<body>
+<salable-checkout
+    api-key="xxxxx"
+    plan-uuid="xxxxx"
+    member="xxxxx"
+    grantee-id="xxxxx"
+    success-url="https://example.com/success"
 ></salable-checkout>
+</body>
+</html>
 
+### Svelte Example
+
+*+page.svelte*
+```sveltehtml
+<script>
+    import {defineCustomElements} from "@salable/stencil-library/loader";
+    defineCustomElements();
+</script>
+
+<salable-checkout
+    api-key="xxxxx"
+    plan-uuid="xxxxx"
+    member="xxxxx"
+    grantee-id="xxxxx"
+    success-url="https://example.com/success"
+></salable-checkout>
+```
+
+*+page.js*
+```js
+export const ssr = false;
 ```
 
 ## React Component Example
