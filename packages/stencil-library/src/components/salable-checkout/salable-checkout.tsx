@@ -1,6 +1,6 @@
-import {Component, h, Prop, State, Watch} from '@stencil/core';
-import {loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement} from '@stripe/stripe-js'
-import {apiUrl, stripePublicKey} from "../../constants";
+import { Component, h, Prop, State, Watch } from '@stencil/core';
+import { loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js'
+import { apiUrl, stripePublicKey } from "../../constants";
 
 type IOrganisationPaymentIntegration = {
   accountId: string;
@@ -106,22 +106,22 @@ export class SalableCheckout {
   private paymentElement: StripePaymentElement;
 
   async componentWillLoad() {
-    this.validateProps();
-    await this.fetchPlan();
-    await this.handleEmailPrefill();
-     window
-   .matchMedia("(prefers-color-scheme: dark)")
-   .addEventListener("change", (event) => {
-       const stripeTheme = event.matches ? "night" : "stripe";
-       this._createPaymentElement(stripeTheme)
-   });
-   if(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (event) => {
+        const stripeTheme = event.matches ? "night" : "stripe";
+        this._createPaymentElement(stripeTheme)
+      });
+    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
       // Dark mode
       this.stripeTheme = 'night'
     } else {
       // Light mode
       this.stripeTheme = 'stripe'
     }
+    this.validateProps();
+    await this.fetchPlan();
+    await this.handleEmailPrefill();
   }
 
   /**
@@ -142,7 +142,7 @@ export class SalableCheckout {
   }
 
   private _createPaymentElement(stripeTheme: 'stripe' | 'night') {
-    if(!Boolean(this.clientSecret)) return;
+    if (!Boolean(this.clientSecret)) return;
 
     const options: StripeElementsOptions = {
       clientSecret: this.clientSecret,
@@ -162,12 +162,12 @@ export class SalableCheckout {
   }
 
   /**
-   * Once component is updated and client secrete is available,
+   * Once component is rendered and client secret is available,
    * mount the stripe payment element
    * This approach was taken and not done in the watch decorate
    * to allow the element with the id to be mounted in the DOM
    */
-  componentDidUpdate() {
+  componentDidRender() {
     if (!Boolean(this.clientSecret)) return;
     this.paymentElement.mount('#slb_payment_element')
   }
@@ -176,7 +176,7 @@ export class SalableCheckout {
     if (Boolean(this.state.componentError)) {
       return (
         <div class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
-          <ErrorMessage message={this.state.componentError}/>
+          <ErrorMessage message={this.state.componentError} />
         </div>
       )
     }
@@ -184,22 +184,22 @@ export class SalableCheckout {
     if (Boolean(this.clientSecret)) {
       return (
         <div class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
-          <PriceTag plan={this.state.plan}/>
+          <PriceTag plan={this.state.plan} />
           <form onSubmit={this.handlePayment}>
-            <div id="slb_payment_element" class="mb-6 py-20"/>
+            <div id="slb_payment_element" class="mb-6 py-20" />
             <button type="submit"
-                    class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
               Pay
             </button>
           </form>
-          <ErrorMessage message={this.formState.formError}/>
+          <ErrorMessage message={this.formState.formError} />
         </div>
       )
     }
 
     return (
       <div class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
-        <PriceTag plan={this.state.plan}/>
+        <PriceTag plan={this.state.plan} />
         <form onSubmit={this.handleCreateSubscription}>
           <div class="mb-6">
             <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
@@ -212,11 +212,11 @@ export class SalableCheckout {
             <p class="text-sm text-red-600 mt-2">{this.formState.userEmailError}</p>
           </div>
           <button type="submit"
-                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+            class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
             Continue
           </button>
         </form>
-        <ErrorMessage message={this.formState.formError}/>
+        <ErrorMessage message={this.formState.formError} />
       </div>
     );
   }
@@ -346,7 +346,7 @@ export class SalableCheckout {
       isSubmitting: true,
     };
 
-    const {error} = await this.stripe.confirmPayment({
+    const { error } = await this.stripe.confirmPayment({
       elements: this.elements,
       confirmParams: {
         payment_method_data: {
@@ -386,7 +386,7 @@ export class SalableCheckout {
     try {
       const response = await fetch(
         `${apiUrl}/plans/${this.planUuid}?expand=product.organisationPaymentIntegration,currencies.currency`,
-        {method: 'GET', headers: {'x-api-key': `${this.apiKey}`}},
+        { method: 'GET', headers: { 'x-api-key': `${this.apiKey}` } },
       );
       if (!response.ok) {
         // Todo: handle errors, display failure message, refresh options
@@ -412,7 +412,7 @@ export class SalableCheckout {
   }
 }
 
-const PriceTag = ({plan}: { plan: IPlan }) => {
+const PriceTag = ({ plan }: { plan: IPlan }) => {
   const planCurrency = plan.currencies[0];
   return (
     <div class="flex justify-between mb-6">
@@ -429,12 +429,12 @@ const PriceTag = ({plan}: { plan: IPlan }) => {
   )
 };
 
-const ErrorMessage = ({message}: { message?: string | null }) => {
+const ErrorMessage = ({ message }: { message?: string | null }) => {
   if (!Boolean(message)) return null;
   return (
     <div id="alert-additional-content-2"
-         class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
-         role="alert">
+      class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+      role="alert">
       <div class="flex items-center">
         <span class="sr-only">Info</span>
         <h3 class="text-base font-medium"> {message}</h3>
