@@ -338,7 +338,6 @@ export class SalablePricingTable {
 
   private async fetchPricingTable(): Promise<PricingTable | null> {
     try {
-
       const params = new URLSearchParams({
         globalSuccessUrl: this.globalSuccessUrl,
         globalCancelUrl: this.globalCancelUrl,
