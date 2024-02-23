@@ -105,15 +105,15 @@ export namespace Components {
          */
         "member": string;
         /**
-          * Configure cancelUrls per plan, string format `planUuidOne:cancelUrlOne,planUuidTwo:cancelUrlTwo`
+          * Configure cancelUrls per plan, string format `{'plan-uuid-one':'https://example.com/cancel-one','plan-uuid-two':'https://example.com/cancel-two'}`
          */
         "perPlanCancelUrls": string;
         /**
-          * Configure granteeIds per plan, string format `planUuidOne:granteeIdOne,planUuidTwo:granteeIdTwo`
+          * Configure granteeIds per plan, string format `{'plan-uuid-one': 'granteeIdOne', 'plan-uuid-two': 'granteeIdTwo'}`
          */
         "perPlanGranteeIds": string;
         /**
-          * Configure successUrls per plan, string format `planUuidOne:successUrlOne,planUuidTwo:successUrlTwo`
+          * Configure successUrls per plan, string format `{'plan-uuid-one': 'https://example.com/success-one' , 'plan-uuid-two': 'https://example.com/success-two'}`
          */
         "perPlanSuccessUrls": string;
         /**
@@ -279,15 +279,15 @@ declare namespace LocalJSX {
          */
         "member": string;
         /**
-          * Configure cancelUrls per plan, string format `planUuidOne:cancelUrlOne,planUuidTwo:cancelUrlTwo`
+          * Configure cancelUrls per plan, string format `{'plan-uuid-one':'https://example.com/cancel-one','plan-uuid-two':'https://example.com/cancel-two'}`
          */
         "perPlanCancelUrls"?: string;
         /**
-          * Configure granteeIds per plan, string format `planUuidOne:granteeIdOne,planUuidTwo:granteeIdTwo`
+          * Configure granteeIds per plan, string format `{'plan-uuid-one': 'granteeIdOne', 'plan-uuid-two': 'granteeIdTwo'}`
          */
         "perPlanGranteeIds"?: string;
         /**
-          * Configure successUrls per plan, string format `planUuidOne:successUrlOne,planUuidTwo:successUrlTwo`
+          * Configure successUrls per plan, string format `{'plan-uuid-one': 'https://example.com/success-one' , 'plan-uuid-two': 'https://example.com/success-two'}`
          */
         "perPlanSuccessUrls"?: string;
         /**
