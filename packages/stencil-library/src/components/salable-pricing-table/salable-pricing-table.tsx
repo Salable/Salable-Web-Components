@@ -135,17 +135,20 @@ export class SalablePricingTable {
    **/
   @Prop() automaticTax: string;
   /**
-   * Configure granteeIds per plan, string format `planUuidOne:granteeIdOne,planUuidTwo:granteeIdTwo`
+   * Configure granteeIds per plan, string format `{'plan-uuid-one': 'granteeIdOne', 'plan-uuid-two': 'granteeIdTwo'}`
    **/
   @Prop() perPlanGranteeIds: string;
   /**
-   * Configure successUrls per plan, string format `planUuidOne:successUrlOne,planUuidTwo:successUrlTwo`
+   * Configure successUrls per plan, string format `{'plan-uuid-one': 'https://example.com/success-one' , 'plan-uuid-two': 'https://example.com/success-two'}`
    **/
   @Prop() perPlanSuccessUrls: string;
   /**
-   * Configure cancelUrls per plan, string format `planUuidOne:cancelUrlOne,planUuidTwo:cancelUrlTwo`
+   * Configure cancelUrls per plan, string format `{'plan-uuid-one':'https://example.com/cancel-one','plan-uuid-two':'https://example.com/cancel-two'}`
    **/
   @Prop() perPlanCancelUrls: string;
+  private _perPlanGranteeIds?: Record<string, string> | string;
+  private _perPlanSuccessUrls?: Record<string, string> | string;
+  private _perPlanCancelUrls?: Record<string, string> | string;
   private toggleIntervalEl: HTMLInputElement;
 
   @Watch('apiKey')
@@ -160,9 +163,71 @@ export class SalablePricingTable {
     }
   }
 
+  @Watch('perPlanGranteeIds')
+  perPlanGranteeIdsWatcher(newValue?: Record<string, string> | string) {
+    if (!Boolean(newValue)) {
+      this._perPlanGranteeIds = undefined;
+      return;
+    }
+
+    if (typeof newValue === 'string') {
+      this._perPlanGranteeIds = JSON.parse(newValue);
+      return;
+    }
+
+    for (const value of Object.values(newValue)) {
+      if (typeof value !== 'string') {
+        throw new Error('All perPlanGranteeIds values must be strings')
+      }
+    }
+    this._perPlanGranteeIds = newValue;
+  }
+
+  @Watch('perPlanSuccessUrls')
+  perPlanSuccessUrlsWatcher(newValue?: Record<string, string> | string) {
+    if (!Boolean(newValue)) {
+      this._perPlanSuccessUrls = undefined;
+      return;
+    }
+
+    if (typeof newValue === 'string') {
+      this._perPlanSuccessUrls = JSON.parse(newValue);
+      return;
+    }
+
+    for (const value of Object.values(newValue)) {
+      if (typeof value !== 'string') {
+        throw new Error('All perPlanSuccessUrls values must be strings')
+      }
+    }
+    this._perPlanSuccessUrls = newValue;
+  }
+
+  @Watch('perPlanCancelUrls')
+  perPlanCancelUrlsWatcher(newValue?: Record<string, string> | string) {
+    if (!Boolean(newValue)) {
+      this._perPlanCancelUrls = undefined;
+      return;
+    }
+
+    if (typeof newValue === 'string') {
+      this._perPlanCancelUrls = JSON.parse(newValue);
+      return;
+    }
+
+    for (const value of Object.values(newValue)) {
+      if (typeof value !== 'string') {
+        throw new Error('All perPlanCancelUrls values must be strings')
+      }
+    }
+    this._perPlanCancelUrls = newValue;
+  }
+
   async componentWillLoad() {
     this.validateProps();
-    this.initPlanConfig();
+    this.perPlanGranteeIdsWatcher(this.perPlanGranteeIds);
+    this.perPlanSuccessUrlsWatcher(this.perPlanSuccessUrls);
+    this.perPlanCancelUrlsWatcher(this.perPlanCancelUrls);
     const data = await this.fetchPricingTable();
     if (Boolean(data)) {
       const normalisedData = this.pricingTableFactory(data);
@@ -228,7 +293,8 @@ export class SalablePricingTable {
                       <h4 class="text-gray-800 dark:text-gray-400 text-left flex gap-2 items-center font-semibold">
                         {feature.feature.displayName}
                         {Boolean(feature.feature.description) ? (
-                          <div data-testid={`info_${planIndex}_${featureIndex}`} class="grow-0 flex items-center group relative mr-4" tabindex="0">
+                          <div data-testid={`info_${planIndex}_${featureIndex}`}
+                               class="grow-0 flex items-center group relative mr-4" tabindex="0">
                             <span
                               class="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >?</span>
@@ -271,6 +337,8 @@ export class SalablePricingTable {
 
   private async fetchPricingTable(): Promise<PricingTable | null> {
     try {
+      this.initPlanConfig();
+
       const params = new URLSearchParams({
         globalSuccessUrl: this.globalSuccessUrl,
         globalCancelUrl: this.globalCancelUrl,
@@ -301,6 +369,8 @@ export class SalablePricingTable {
       if (Boolean(this.currency)) {
         params.set('currency', this.currency);
       }
+
+      console.log('pc', this.planConfig);
 
       if (Boolean(this.planConfig)) {
         if (this.planConfig.granteeIds.length > 0)
@@ -446,10 +516,19 @@ export class SalablePricingTable {
 
   private initPlanConfig() {
     this.planConfig = {
-      granteeIds: this.perPlanGranteeIds?.split(',').map(pair => pair.split('::') as [string, string]) ?? [],
-      successUrls: this.perPlanSuccessUrls?.split(',').map(pair => pair.split('::') as [string, string]) ?? [],
-      cancelUrls: this.perPlanCancelUrls?.split(',').map(pair => pair.split('::') as [string, string]) ?? [],
+      granteeIds: [],
+      successUrls: [],
+      cancelUrls: [],
     };
+    if (Boolean(this._perPlanGranteeIds)) {
+      this.planConfig.granteeIds = Object.entries(this._perPlanGranteeIds);
+    }
+    if (Boolean(this._perPlanSuccessUrls)) {
+      this.planConfig.successUrls = Object.entries(this._perPlanSuccessUrls);
+    }
+    if (Boolean(this._perPlanCancelUrls)) {
+      this.planConfig.cancelUrls = Object.entries(this._perPlanCancelUrls);
+    }
   }
 
   private getCardClass(plan: any) {
