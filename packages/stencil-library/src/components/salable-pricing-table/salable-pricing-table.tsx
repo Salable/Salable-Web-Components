@@ -137,15 +137,16 @@ export class SalablePricingTable {
   /**
    * Configure granteeIds per plan, string format `{'plan-uuid-one': 'granteeIdOne', 'plan-uuid-two': 'granteeIdTwo'}`
    **/
-  @Prop() perPlanGranteeIds: string;
+  @Prop() perPlanGranteeIds: Record<string, string> | string;
   /**
    * Configure successUrls per plan, string format `{'plan-uuid-one': 'https://example.com/success-one' , 'plan-uuid-two': 'https://example.com/success-two'}`
    **/
-  @Prop() perPlanSuccessUrls: string;
+  @Prop() perPlanSuccessUrls: Record<string, string> | string;
   /**
    * Configure cancelUrls per plan, string format `{'plan-uuid-one':'https://example.com/cancel-one','plan-uuid-two':'https://example.com/cancel-two'}`
    **/
-  @Prop() perPlanCancelUrls: string;
+  @Prop() perPlanCancelUrls: Record<string, string> | string;
+
   private _perPlanGranteeIds?: Record<string, string> | string;
   private _perPlanSuccessUrls?: Record<string, string> | string;
   private _perPlanCancelUrls?: Record<string, string> | string;
