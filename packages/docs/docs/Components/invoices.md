@@ -1,4 +1,5 @@
 ---
+sidebar_position: 3
 title: Invoices
 description: How to use the invoices web component and React wrapper
 ---
