@@ -1,4 +1,8 @@
+import 'dotenv/config'
 import objectBuilder from "../object-builder/object-builder";
+
+
+if(!process.env.TEST_STRIPE_ACCOUNT_ID) throw Error('Missing TEST_STRIPE_ACCOUNT_ID')
 
 export const mockCheckout = objectBuilder({
     licenseType: "metered",
