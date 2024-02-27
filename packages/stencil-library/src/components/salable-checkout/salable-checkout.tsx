@@ -106,6 +106,7 @@ export class SalableCheckout {
   private paymentElement: StripePaymentElement;
 
   async componentWillLoad() {
+    this.validateProps();
     window
       .matchMedia("(prefers-color-scheme: dark)")
       .addEventListener("change", (event) => {
@@ -119,7 +120,6 @@ export class SalableCheckout {
       // Light mode
       this.stripeTheme = 'stripe'
     }
-    this.validateProps();
     await this.fetchPlan();
     await this.handleEmailPrefill();
   }
