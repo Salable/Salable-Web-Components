@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.46](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.45...v0.1.46) (2024-02-27)
+
+**Note:** Version bump only for package root
+
+
+
+
+
+## [0.1.45](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.44...v0.1.45) (2024-02-26)
+
+
+### Bug Fixes
+
+* allow object type for object props ([#99](https://github.com/Salable/salable-web-components-stenciljs/issues/99)) ([58534a4](https://github.com/Salable/salable-web-components-stenciljs/commit/58534a403cbd8a794d5dee043dbf04d6aec5c4d3))
+
+
+
+
+
+## [0.1.44](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.43...v0.1.44) (2024-02-23)
+
+
+### Bug Fixes
+
+* use stringified json for object data ([#98](https://github.com/Salable/salable-web-components-stenciljs/issues/98)) ([7617e5e](https://github.com/Salable/salable-web-components-stenciljs/commit/7617e5eef09cdf97b5673201e27de477c4ad9574))
+
+
+
+
+
 ## [0.1.43](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.42...v0.1.43) (2024-02-20)
 
 

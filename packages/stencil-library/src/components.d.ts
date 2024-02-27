@@ -105,17 +105,17 @@ export namespace Components {
          */
         "member": string;
         /**
-          * Configure cancelUrls per plan, string format `planUuidOne:cancelUrlOne,planUuidTwo:cancelUrlTwo`
+          * Configure cancelUrls per plan, string format `{'plan-uuid-one':'https://example.com/cancel-one','plan-uuid-two':'https://example.com/cancel-two'}`
          */
-        "perPlanCancelUrls": string;
+        "perPlanCancelUrls": Record<string, string> | string;
         /**
-          * Configure granteeIds per plan, string format `planUuidOne:granteeIdOne,planUuidTwo:granteeIdTwo`
+          * Configure granteeIds per plan, string format `{'plan-uuid-one': 'granteeIdOne', 'plan-uuid-two': 'granteeIdTwo'}`
          */
-        "perPlanGranteeIds": string;
+        "perPlanGranteeIds": Record<string, string> | string;
         /**
-          * Configure successUrls per plan, string format `planUuidOne:successUrlOne,planUuidTwo:successUrlTwo`
+          * Configure successUrls per plan, string format `{'plan-uuid-one': 'https://example.com/success-one' , 'plan-uuid-two': 'https://example.com/success-two'}`
          */
-        "perPlanSuccessUrls": string;
+        "perPlanSuccessUrls": Record<string, string> | string;
         /**
           * Used to pre-fill the promo code in Stripe checkout. Use the promo code ID from Stripe dashboard. Customers cannot edit this field during checkout.
          */
@@ -279,17 +279,17 @@ declare namespace LocalJSX {
          */
         "member": string;
         /**
-          * Configure cancelUrls per plan, string format `planUuidOne:cancelUrlOne,planUuidTwo:cancelUrlTwo`
+          * Configure cancelUrls per plan, string format `{'plan-uuid-one':'https://example.com/cancel-one','plan-uuid-two':'https://example.com/cancel-two'}`
          */
-        "perPlanCancelUrls"?: string;
+        "perPlanCancelUrls"?: Record<string, string> | string;
         /**
-          * Configure granteeIds per plan, string format `planUuidOne:granteeIdOne,planUuidTwo:granteeIdTwo`
+          * Configure granteeIds per plan, string format `{'plan-uuid-one': 'granteeIdOne', 'plan-uuid-two': 'granteeIdTwo'}`
          */
-        "perPlanGranteeIds"?: string;
+        "perPlanGranteeIds"?: Record<string, string> | string;
         /**
-          * Configure successUrls per plan, string format `planUuidOne:successUrlOne,planUuidTwo:successUrlTwo`
+          * Configure successUrls per plan, string format `{'plan-uuid-one': 'https://example.com/success-one' , 'plan-uuid-two': 'https://example.com/success-two'}`
          */
-        "perPlanSuccessUrls"?: string;
+        "perPlanSuccessUrls"?: Record<string, string> | string;
         /**
           * Used to pre-fill the promo code in Stripe checkout. Use the promo code ID from Stripe dashboard. Customers cannot edit this field during checkout.
          */

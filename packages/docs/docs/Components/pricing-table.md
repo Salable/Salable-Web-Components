@@ -1,4 +1,5 @@
 ---
+sidebar_position: 1
 title: Pricing Table
 description: How to use the pricing table web component and React wrapper
 ---

@@ -1,4 +1,5 @@
 ---
+sidebar_position: 2
 title: Checkout
 description: How to use the checkout web component and React wrapper
 ---
