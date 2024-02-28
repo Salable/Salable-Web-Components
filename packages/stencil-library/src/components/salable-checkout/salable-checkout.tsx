@@ -129,8 +129,7 @@ export class SalableCheckout {
    * is available. Mounting the element in the DOM will be done
    * by the `ComponentDidUpdate` lifecycle
    */
-  @Watch('clientSecret')
-  async watchClientSecret() {
+  async componentDidRender() {
     if (!Boolean(this.clientSecret)) return;
 
     const paymentIntegration = this.state.plan?.product.organisationPaymentIntegration;
@@ -159,16 +158,6 @@ export class SalableCheckout {
     this.paymentElement = this.elements.create('payment', {
       layout: 'tabs',
     });
-  }
-
-  /**
-   * Once component is rendered and client secret is available,
-   * mount the stripe payment element
-   * This approach was taken and not done in the watch decorate
-   * to allow the element with the id to be mounted in the DOM
-   */
-  componentDidRender() {
-    if (!Boolean(this.clientSecret)) return;
     this.paymentElement.mount('#slb_payment_element')
   }
 
