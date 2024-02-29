@@ -1,6 +1,6 @@
-import { Component, h, Prop, State, Watch } from '@stencil/core';
-import { loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js'
-import { apiUrl, stripePublicKey } from "../../constants";
+import {Component, h, Prop, State, Watch} from '@stencil/core';
+import {loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement} from '@stripe/stripe-js'
+import {apiUrl, stripePublicKey, stripePublicKeyTestmode} from "../../constants";
 
 type IOrganisationPaymentIntegration = {
   accountId: string;
@@ -133,11 +133,77 @@ export class SalableCheckout {
     if (!Boolean(this.clientSecret)) return;
 
     const paymentIntegration = this.state.plan?.product.organisationPaymentIntegration;
-    this.stripe = await loadStripe(stripePublicKey, {
-      stripeAccount: paymentIntegration.accountId,
-    });
+    if (Boolean(this.apiKey)) {
+      const publicKey = this.apiKey.startsWith('test_') ? stripePublicKeyTestmode : stripePublicKey;
+      this.stripe = await loadStripe(publicKey, {
+        stripeAccount: paymentIntegration.accountId,
+      });
 
-    this._createPaymentElement(this.stripeTheme)
+      this._createPaymentElement(this.stripeTheme)
+    }
+  }
+
+  render() {
+    if (Boolean(this.state.componentError)) {
+      return (
+        <div
+          class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
+          <ErrorMessage message={this.state.componentError}/>
+        </div>
+      )
+    }
+
+    if (Boolean(this.clientSecret)) {
+      return (
+        <div
+          class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
+          <PriceTag plan={this.state.plan}/>
+          <form onSubmit={this.handlePayment}>
+            <div id="slb_payment_element" class="mb-6 py-20"/>
+            <button type="submit"
+                    class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+              Pay
+            </button>
+          </form>
+          <ErrorMessage message={this.formState.formError}/>
+        </div>
+      )
+    }
+
+    return (
+      <div
+        class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
+        <PriceTag plan={this.state.plan}/>
+        <form onSubmit={this.handleCreateSubscription}>
+          <div class="mb-6">
+            <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+            <input
+              id="email"
+              class="bg-gray-50 dark:bg-gray-700 border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 dark:text-white focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 border-gray-300 dark:focus:border-primary-500 dark:border-gray-600"
+              value={this.formState.userEmail}
+              onInput={this.handleEmailChange}
+            />
+            <p class="text-sm text-red-600 mt-2">{this.formState.userEmailError}</p>
+          </div>
+          <button type="submit"
+                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+            Continue
+          </button>
+        </form>
+        <ErrorMessage message={this.formState.formError}/>
+      </div>
+    );
+  }
+
+  @Watch('apiKey')
+  @Watch('planUuid')
+  @Watch('successUrl')
+  @Watch('granteeId')
+  @Watch('member')
+  validateProp(newValue: string, propName: string) {
+    if (typeof newValue !== 'string' || newValue.trim() === '') {
+      throw new Error(`${propName} is a required property and cannot be empty`);
+    }
   }
 
   private _createPaymentElement(stripeTheme: 'stripe' | 'night') {
@@ -161,70 +227,10 @@ export class SalableCheckout {
     this.paymentElement.mount('#slb_payment_element')
   }
 
-  render() {
-    if (Boolean(this.state.componentError)) {
-      return (
-        <div class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
-          <ErrorMessage message={this.state.componentError} />
-        </div>
-      )
-    }
-
-    if (Boolean(this.clientSecret)) {
-      return (
-        <div class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
-          <PriceTag plan={this.state.plan} />
-          <form onSubmit={this.handlePayment}>
-            <div id="slb_payment_element" class="mb-6 py-20" />
-            <button type="submit"
-              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-              Pay
-            </button>
-          </form>
-          <ErrorMessage message={this.formState.formError} />
-        </div>
-      )
-    }
-
-    return (
-      <div class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700 p-4">
-        <PriceTag plan={this.state.plan} />
-        <form onSubmit={this.handleCreateSubscription}>
-          <div class="mb-6">
-            <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-            <input
-              id="email"
-              class="bg-gray-50 dark:bg-gray-700 border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 dark:text-white focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 border-gray-300 dark:focus:border-primary-500 dark:border-gray-600"
-              value={this.formState.userEmail}
-              onInput={this.handleEmailChange}
-            />
-            <p class="text-sm text-red-600 mt-2">{this.formState.userEmailError}</p>
-          </div>
-          <button type="submit"
-            class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-            Continue
-          </button>
-        </form>
-        <ErrorMessage message={this.formState.formError} />
-      </div>
-    );
-  }
-
-  @Watch('apiKey')
-  @Watch('planUuid')
-  @Watch('successUrl')
-  @Watch('granteeId')
-  @Watch('member')
-  validateProp(newValue: string, propName: string) {
-    if (typeof newValue !== 'string' || newValue.trim() === '') {
-      throw new Error(`${propName} is a required property and cannot be empty`);
-    }
-  }
-
   private async handleEmailPrefill() {
     if (!Boolean(this.email)) return;
 
-    const validEmail = this.validateEmail(this.email)
+    const validEmail = this.validateEmail(this.email);
 
     this.formState = {
       ...this.formState,
@@ -335,7 +341,7 @@ export class SalableCheckout {
       isSubmitting: true,
     };
 
-    const { error } = await this.stripe.confirmPayment({
+    const {error} = await this.stripe.confirmPayment({
       elements: this.elements,
       confirmParams: {
         payment_method_data: {
@@ -375,7 +381,7 @@ export class SalableCheckout {
     try {
       const response = await fetch(
         `${apiUrl}/plans/${this.planUuid}?expand=product.organisationPaymentIntegration,currencies.currency`,
-        { method: 'GET', headers: { 'x-api-key': `${this.apiKey}` } },
+        {method: 'GET', headers: {'x-api-key': `${this.apiKey}`}},
       );
       if (!response.ok) {
         // Todo: handle errors, display failure message, refresh options
@@ -401,7 +407,7 @@ export class SalableCheckout {
   }
 }
 
-const PriceTag = ({ plan }: { plan: IPlan }) => {
+const PriceTag = ({plan}: { plan: IPlan }) => {
   const planCurrency = plan.currencies[0];
   return (
     <div class="flex justify-between mb-6">
@@ -418,12 +424,12 @@ const PriceTag = ({ plan }: { plan: IPlan }) => {
   )
 };
 
-const ErrorMessage = ({ message }: { message?: string | null }) => {
+const ErrorMessage = ({message}: { message?: string | null }) => {
   if (!Boolean(message)) return null;
   return (
     <div id="alert-additional-content-2"
-      class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
-      role="alert">
+         class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+         role="alert">
       <div class="flex items-center">
         <span class="sr-only">Info</span>
         <h3 class="text-base font-medium"> {message}</h3>
