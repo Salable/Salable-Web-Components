@@ -48,10 +48,6 @@ jobs:
 
       - name: Build Packages
         run: export NODE_ENV=test && pnpm lerna:build # export NODE_ENV=test tells rollup dotenv to read from .env.test
-        env:
-          API_URL: ${{ secrets.API_URL }}
-          STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
-          STRIPE_PUBLIC_KEY_TESTMODE: ${{ secrets.STRIPE_PUBLIC_KEY_TESTMODE }}
 
       - name: Run Stencil Checks
         run: | 
@@ -72,8 +68,6 @@ jobs:
           TEST_STRIPE_ACCOUNT_ID: ${{ secrets.TEST_STRIPE_ACCOUNT_ID }}
           TEST_STRIPE_CUSTOMER_ID: ${{ secrets.TEST_STRIPE_CUSTOMER_ID }}
           TEST_STRIPE_PLAN_ID: ${{ secrets.TEST_STRIPE_PLAN_ID }}
-          STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
-          STRIPE_PUBLIC_KEY_TESTMODE: ${{ secrets.STRIPE_PUBLIC_KEY_TESTMODE }}
 
       - name: Run React e2e Tests
         run: | 
@@ -84,8 +78,6 @@ jobs:
           TEST_STRIPE_ACCOUNT_ID: ${{ secrets.TEST_STRIPE_ACCOUNT_ID }}
           TEST_STRIPE_CUSTOMER_ID: ${{ secrets.TEST_STRIPE_CUSTOMER_ID }}
           TEST_STRIPE_PLAN_ID: ${{ secrets.TEST_STRIPE_PLAN_ID }}
-          STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
-          STRIPE_PUBLIC_KEY_TESTMODE: ${{ secrets.STRIPE_PUBLIC_KEY_TESTMODE }}
 
       - uses: actions/upload-artifact@v3
         if: always()
