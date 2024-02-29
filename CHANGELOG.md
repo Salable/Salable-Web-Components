@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.50](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.49...v0.1.50) (2024-02-29)
+
+
+### Bug Fixes
+
+* add note about rollup-dotenv ([#102](https://github.com/Salable/salable-web-components-stenciljs/issues/102)) ([1cc369c](https://github.com/Salable/salable-web-components-stenciljs/commit/1cc369c90b688ea06910775700a80261d34e04c8))
+
+
+
+
+
 ## [0.1.49](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.48...v0.1.49) (2024-02-29)
 
 
