@@ -11,7 +11,7 @@ import { mockCheckout } from "../../../../utilities/mock-data/checkout.mock";
 const STRIPE_PLAN_ID = process.env.STRIPE_PLAN_ID;
 
 test.describe('salable-checkout Stencil E2E Tests', () => {
-  const mockApiKey = 'mock_api_key';
+  const mockApiKey = 'test_api_key';
   const mockPlanUuid = STRIPE_PLAN_ID;
   const mockMember = 'example-member-123';
   const mockGrantee = 'example-grantee-123';
