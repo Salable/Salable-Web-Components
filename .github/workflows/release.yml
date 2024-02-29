@@ -50,6 +50,7 @@ jobs:
           STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
           STRIPE_PUBLIC_KEY_TESTMODE: ${{ secrets.STRIPE_PUBLIC_KEY_TESTMODE }}
 
+
       - name: Set up Git User
         run: |
           git config user.name "GitHub Actions"
