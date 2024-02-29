@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.48](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.47...v0.1.48) (2024-02-29)
+
+
+### Bug Fixes
+
+* if api key is for test mode use test mode public key for stripe ([#101](https://github.com/Salable/salable-web-components-stenciljs/issues/101)) ([f1b6065](https://github.com/Salable/salable-web-components-stenciljs/commit/f1b6065b74b05105202ea24910b487ef29196fe8))
+
+
+
+
+
 ## [0.1.47](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.46...v0.1.47) (2024-02-28)
 
 
