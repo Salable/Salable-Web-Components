@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.49](https://github.com/ionic-team/stencil-component-starter/compare/v0.1.48...v0.1.49) (2024-02-29)
+
+
+### Bug Fixes
+
+* clean up react checkout demos ([ee4655b](https://github.com/ionic-team/stencil-component-starter/commit/ee4655b9890c3c5078911db17467fb6ba4859669))
+
+
+
+
+
 ## [0.1.48](https://github.com/ionic-team/stencil-component-starter/compare/v0.1.47...v0.1.48) (2024-02-29)
 
 
