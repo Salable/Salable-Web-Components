@@ -132,7 +132,7 @@ importers:
   packages/react-library:
     dependencies:
       '@salable/stencil-library':
-        specifier: ^0.1.50
+        specifier: ^0.1.51
         version: link:../stencil-library
     devDependencies:
       '@types/node':
