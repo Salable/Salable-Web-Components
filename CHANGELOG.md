@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.51](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.50...v0.1.51) (2024-02-29)
+
+
+### Bug Fixes
+
+* unlimited and enum feature values ([#103](https://github.com/Salable/salable-web-components-stenciljs/issues/103)) ([6e576a9](https://github.com/Salable/salable-web-components-stenciljs/commit/6e576a95a7ab02acc1baadbb89e1e43d8d744d29))
+
+
+
+
+
 ## [0.1.50](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.49...v0.1.50) (2024-02-29)
 
 
