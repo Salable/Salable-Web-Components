@@ -34,7 +34,7 @@ const projects = [
 ];
 
 export const defaultPlaywrightConfig: PlaywrightTestConfig = {
-    globalTimeout: 3000,
+    globalTimeout: 1000 * 60,
     expect: {
         timeout: 5000,
         toMatchSnapshot: {
@@ -49,7 +49,7 @@ export const defaultPlaywrightConfig: PlaywrightTestConfig = {
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
-    workers: process.env.CI ? 1 : undefined,
+    workers: process.env.CI ? 2 : undefined,
     reporter: 'html',
     projects,
 };
