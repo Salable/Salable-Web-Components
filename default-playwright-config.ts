@@ -34,7 +34,6 @@ const projects = [
 ];
 
 export const defaultPlaywrightConfig: PlaywrightTestConfig = {
-    globalTimeout: 1000 * 60,
     expect: {
         timeout: 5000,
         toMatchSnapshot: {

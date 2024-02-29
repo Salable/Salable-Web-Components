@@ -135,7 +135,6 @@ export class SalableCheckout {
     const paymentIntegration = this.state.plan?.product.organisationPaymentIntegration;
     if (Boolean(this.apiKey)) {
       const publicKey = this.apiKey.startsWith('test_') ? stripePublicKeyTestmode : stripePublicKey;
-      console.log('pubkey', publicKey);
       this.stripe = await loadStripe(publicKey, {
         stripeAccount: paymentIntegration.accountId,
       });
