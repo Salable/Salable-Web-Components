@@ -45,6 +45,10 @@ jobs:
 
       - name: Build Packages
         run: export NODE_ENV=prod && pnpm lerna:build # export NODE_ENV=prod tells rollup dotenv to read from .env.prod
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
+          STRIPE_PUBLIC_KEY_TESTMODE: ${{ secrets.STRIPE_PUBLIC_KEY_TESTMODE }}
 
       - name: Set up Git User
         run: |
