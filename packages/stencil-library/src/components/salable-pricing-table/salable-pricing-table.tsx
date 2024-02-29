@@ -59,6 +59,10 @@ type Currency = {
 
 type Feature = {
   value: string
+  isUnlimited: boolean
+  enumValue?: {
+    name: string
+  }
   feature: {
     displayName: string
     valueType: 'numerical' | 'enum' | 'boolean'
@@ -310,7 +314,7 @@ export class SalablePricingTable {
                           </div>
                         ) : null}
                       </h4>
-                      {this.getFeatureValue(feature.feature.valueType, feature.value, feature.feature.showUnlimited)}
+                      {this.getFeatureValue(feature.feature.valueType, feature.value, feature.isUnlimited, feature.feature.showUnlimited, feature.enumValue?.name)}
                     </li>
                   ))}
                 </ul>
@@ -570,12 +574,12 @@ export class SalablePricingTable {
     return decimal % 1 === 0 ? decimal.toString() : decimal.toFixed(2);
   }
 
-  private getFeatureValue(valueType: "numerical" | "enum" | "boolean", value: string, showUnlimited: boolean) {
+  private getFeatureValue(valueType: "numerical" | "enum" | "boolean", value: string, isUnlimited: boolean, showUnlimited: boolean, enumValue?: string) {
     switch (valueType) {
       case "numerical":
-        return showUnlimited ? 'Unlimited' : value;
+        return showUnlimited && isUnlimited ? 'Unlimited' : value;
       case "enum":
-        return value;
+        return enumValue ?? 'n/a';
       case "boolean":
         return value === 'true' ? (
           <svg class="w-6 h-6 text-primary-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
