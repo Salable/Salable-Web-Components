@@ -202,7 +202,13 @@ test.describe('salable-invoices React Client E2E Tests', () => {
 
 Through these examples, we demonstrate our commitment to a testing strategy that is both flexible and efficient, ensuring our applications perform reliably across multiple frameworks.
 
-### Versioning Guide
+## Public Environment Variables
+
+Some public environment variables are loaded with `rollup-plugin-dotenv` from `/packages/stencil-library/.env.test` and `/packages/stencil-library/.env.prod` if you have issues with GitHub Actions timing out make sure you've added the required public envs to these files. 
+
+**Important note**: `rollup-plugin-dotenv` **does not** load envs from the path.  
+
+## Versioning Guide
 
 ---
 
