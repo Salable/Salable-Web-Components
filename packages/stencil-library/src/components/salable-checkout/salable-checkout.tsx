@@ -1,6 +1,6 @@
 import { Component, h, Prop, State, Watch } from '@stencil/core';
 import { loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js'
-import { apiUrl, stripePublicKey } from "../../constants";
+import {apiUrl, stripePublicKey, stripePublicKeyTestmode} from "../../constants";
 
 type IOrganisationPaymentIntegration = {
   accountId: string;
@@ -133,7 +133,8 @@ export class SalableCheckout {
     if (!Boolean(this.clientSecret)) return;
 
     const paymentIntegration = this.state.plan?.product.organisationPaymentIntegration;
-    this.stripe = await loadStripe(stripePublicKey, {
+    const publicKey = this.apiKey.startsWith('test_') ? stripePublicKeyTestmode : stripePublicKey;
+    this.stripe = await loadStripe(publicKey, {
       stripeAccount: paymentIntegration.accountId,
     });
 
