@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.51...v0.2.0) (2024-03-01)
+
+**Note:** Version bump only for package react-client
+
+
+
+
+
 ## [0.1.51](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.1.50...v0.1.51) (2024-02-29)
 
 **Note:** Version bump only for package react-client
