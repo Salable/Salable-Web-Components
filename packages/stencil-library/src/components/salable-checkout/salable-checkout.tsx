@@ -148,14 +148,7 @@ export class SalableCheckout {
     if (Boolean(this.state.componentError)) {
       return (
         <div class="relative rounded-xl overflow-hidden bg-white border border-t-0 border-gray-200 shadow-sm dark:bg-slate-900 dark:border-gray-700">
-          {isTestMode ? (
-              <div class="absolute bg-transparent border-b border-solid left-0 top-0 border-2 border-orange-500 w-full text-center">
-                <div class="top-0 absolute px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs left-1/2 transform -translate-x-1/2">
-                  <p>test mode</p>
-                </div>
-              </div>
-            ): null
-          }
+          <TestModeBanner isTestMode={isTestMode}/>
           <div
             class="font-sans p-4 relative"><ErrorMessage message={this.state.componentError}/>
         </div>
@@ -166,20 +159,13 @@ export class SalableCheckout {
     if (Boolean(this.clientSecret)) {
       return (
         <div class="relative rounded-xl overflow-hidden bg-white border border-t-0 border-gray-200 shadow-sm dark:bg-slate-900 dark:border-gray-700">
-          {isTestMode ? (
-            <div class="absolute bg-transparent border-b border-solid left-0 top-0 border-2 border-orange-500 w-full text-center">
-              <div class="top-0 absolute px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs left-1/2 transform -translate-x-1/2">
-                <p>test mode</p>
-              </div>
-            </div>
-          ) : null
-          }
+          <TestModeBanner isTestMode={isTestMode}/>
           <div
             class="font-sans p-4 relative"><PriceTag plan={this.state.plan}/>
-          <form onSubmit={this.handlePayment}>
-            <div id="slb_payment_element" class="mb-6 py-20"/>
-            <button type="submit"
-                    class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
+            <form onSubmit={this.handlePayment}>
+              <div id="slb_payment_element" class="mb-6 py-20"/>
+              <button type="submit"
+                      class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
               Pay
             </button>
           </form>
@@ -191,14 +177,7 @@ export class SalableCheckout {
 
     return (
       <div class="relative rounded-xl overflow-hidden bg-white border border-t-0 border-gray-200 shadow-sm dark:bg-slate-900 dark:border-gray-700">
-        {isTestMode ? (
-          <div class="absolute bg-transparent border-b border-solid left-0 top-0 border-2 border-orange-500 w-full text-center">
-            <div class="top-0 absolute px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs left-1/2 transform -translate-x-1/2">
-              <p>test mode</p>
-            </div>
-          </div>
-        ) : null
-        }
+        <TestModeBanner isTestMode={isTestMode}/>
       <div
         class="font-sans p-4 relative">
         <PriceTag plan={this.state.plan}/>
@@ -465,4 +444,15 @@ const ErrorMessage = ({message}: { message?: string | null }) => {
       </div>
     </div>
   )
+};
+
+const TestModeBanner = ({isTestMode}: {isTestMode: boolean}) => {
+  return isTestMode ? (
+    <div class="absolute border-t-4 border-solid left-0 top-0 border-orange-500 w-full text-center">
+      <p
+        class="top-0 absolute px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs left-1/2 transform -translate-x-1/2">
+        test mode
+      </p>
+    </div>
+  ) : null;
 };

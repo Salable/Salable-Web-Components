@@ -242,9 +242,15 @@ export class SalablePricingTable {
   }
 
   render() {
+    const isTestMode = this.apiKey.startsWith('test_');
     return (
       <Host>
-        <div class="font-sans">
+        <div class="font-sans relative">
+          {isTestMode ? (
+            <div class="mb-4 border-solid border-t-4 border-orange-500 w-full flex justify-center">
+                <p class="px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs">test mode</p>
+            </div>
+          ): null}
           {this.errorMessage}
           {this.state.monthly.length > 0 && this.state.yearly.length > 0 ? (
             <section class="flex justify-center items-center mb-12">
@@ -373,8 +379,6 @@ export class SalablePricingTable {
       if (Boolean(this.currency)) {
         params.set('currency', this.currency);
       }
-
-      console.log('pc', this.planConfig);
 
       if (Boolean(this.planConfig)) {
         if (this.planConfig.granteeIds.length > 0)
