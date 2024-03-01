@@ -6,9 +6,6 @@ export default function Root() {
             <nav>
                 <ul>
                     <li>
-                        <a href={`/demo/salable-invoices`}>Salable Invoices</a>
-                    </li>
-                    <li>
                         <a href={`/demo/salable-pricing-table`}>Salable Pricing Table</a>
                     </li>
                     <li>
