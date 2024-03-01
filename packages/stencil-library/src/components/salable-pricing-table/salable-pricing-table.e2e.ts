@@ -6,7 +6,7 @@ import {
 } from "../../../../utilities/tests/salable-pricing-table-tests";
 
 test.describe('salable-pricing-table Stencil E2E Tests', () => {
-    const mockApiKey = 'mock_api_key';
+    const mockApiKey = 'test_xxxxxx';
     const mockPricingTableUuid = 'mock_pricing_table_uuid';
 
     test.describe('Fetch Success Cases', () => {

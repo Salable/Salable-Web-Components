@@ -3,7 +3,7 @@ import {SalablePricingTable} from "@salable/react-library";
 export default function SalablePricingTableTest() {
     return (
         <SalablePricingTable
-            apiKey="xxxxx"
+            apiKey="test_xxxxx"
             uuid="xxxxx"
             isCustomPricingTable={true}
             globalSuccessUrl="https://google.com"
