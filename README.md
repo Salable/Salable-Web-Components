@@ -22,56 +22,6 @@ pnpm add @salable/react-library
 
 These commands will install and add the respective libraries as dependencies in your `package.json` file.
 
-## Usage Examples
-
----
-
-### Salable Invoice Component
-
-#### Stencil `salable-invoice` Component
-
-Integrating the `salable-invoice` component into your Stencil project is straightforward. Here's a simple example:
-
-```html
-<salable-invoices 
-        api-key="pub_xxxxx"
-        subscription-uuid="123e4567-e89b-12d3-a456-426614174000" 
-        limit="50"
-></salable-invoices>
-```
-
-This snippet will render the `salable-invoices` component with the specified API key, subscription UUID, and a limit of 50 items.
-
-#### React `SalableInvoices` Component
-
-For React-based projects, you can use the `SalableInvoices` component from our React library. First, ensure you import and define the custom elements:
-
-```jsx
-import { defineCustomElements } from '@salable/react-library';
-
-defineCustomElements();
-```
-
-Then, you can use the `SalableInvoices` component in your React components like this:
-
-```jsx
-import { SalableInvoices } from "@salable/react-library";
-
-export default function SalableInvoicesDemo() {
-    return (
-        <SalableInvoices
-            api-key="pub_xxxxx"
-            subscription-uuid="123e4567-e89b-12d3-a456-426614174000"
-            limit={50}
-        />
-    )
-}
-```
-
-This example demonstrates rendering the `SalableInvoices` component with React, passing in the necessary props.
-
----
-
 ## Build
 
 We're using Node 20 for this project so make sure that's up to date. 
