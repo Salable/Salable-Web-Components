@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.2.1...v0.3.0) (2024-03-01)
+
+
+### Features
+
+* add test mode banner to pricing table ([#106](https://github.com/Salable/salable-web-components-stenciljs/issues/106)) ([6dd6d6a](https://github.com/Salable/salable-web-components-stenciljs/commit/6dd6d6af0b45aecb593e97b1287d0ebae1076ce1))
+
+
+
+
+
 ## [0.2.1](https://github.com/Salable/salable-web-components-stenciljs/compare/v0.2.0...v0.2.1) (2024-03-01)
 
 
