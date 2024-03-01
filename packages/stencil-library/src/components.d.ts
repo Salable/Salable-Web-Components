@@ -5,8 +5,6 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { StatusType } from "./enums/status-type";
-export { StatusType } from "./enums/status-type";
 export namespace Components {
     /**
      * button component
@@ -38,26 +36,6 @@ export namespace Components {
           * The URL the user is sent to if they successfully completed a payment
          */
         "successUrl": string;
-    }
-    interface SalableDate {
-        /**
-          * The date to display
-         */
-        "date": string | number;
-    }
-    interface SalableInvoices {
-        /**
-          * The publishable api key, this can be generated in the Salable dashboard
-         */
-        "apiKey": string;
-        /**
-          * The number of rows to display per page
-         */
-        "limit": number;
-        /**
-          * The uuid of the subscription that you want to display invoices for.
-         */
-        "subscriptionUuid": string;
     }
     interface SalablePricingTable {
         /**
@@ -125,12 +103,6 @@ export namespace Components {
          */
         "uuid": string;
     }
-    interface SalableStatus {
-        /**
-          * The status type
-         */
-        "statusType": StatusType;
-    }
 }
 declare global {
     /**
@@ -148,37 +120,16 @@ declare global {
         prototype: HTMLSalableCheckoutElement;
         new (): HTMLSalableCheckoutElement;
     };
-    interface HTMLSalableDateElement extends Components.SalableDate, HTMLStencilElement {
-    }
-    var HTMLSalableDateElement: {
-        prototype: HTMLSalableDateElement;
-        new (): HTMLSalableDateElement;
-    };
-    interface HTMLSalableInvoicesElement extends Components.SalableInvoices, HTMLStencilElement {
-    }
-    var HTMLSalableInvoicesElement: {
-        prototype: HTMLSalableInvoicesElement;
-        new (): HTMLSalableInvoicesElement;
-    };
     interface HTMLSalablePricingTableElement extends Components.SalablePricingTable, HTMLStencilElement {
     }
     var HTMLSalablePricingTableElement: {
         prototype: HTMLSalablePricingTableElement;
         new (): HTMLSalablePricingTableElement;
     };
-    interface HTMLSalableStatusElement extends Components.SalableStatus, HTMLStencilElement {
-    }
-    var HTMLSalableStatusElement: {
-        prototype: HTMLSalableStatusElement;
-        new (): HTMLSalableStatusElement;
-    };
     interface HTMLElementTagNameMap {
         "salable-button": HTMLSalableButtonElement;
         "salable-checkout": HTMLSalableCheckoutElement;
-        "salable-date": HTMLSalableDateElement;
-        "salable-invoices": HTMLSalableInvoicesElement;
         "salable-pricing-table": HTMLSalablePricingTableElement;
-        "salable-status": HTMLSalableStatusElement;
     }
 }
 declare namespace LocalJSX {
@@ -212,26 +163,6 @@ declare namespace LocalJSX {
           * The URL the user is sent to if they successfully completed a payment
          */
         "successUrl": string;
-    }
-    interface SalableDate {
-        /**
-          * The date to display
-         */
-        "date"?: string | number;
-    }
-    interface SalableInvoices {
-        /**
-          * The publishable api key, this can be generated in the Salable dashboard
-         */
-        "apiKey": string;
-        /**
-          * The number of rows to display per page
-         */
-        "limit"?: number;
-        /**
-          * The uuid of the subscription that you want to display invoices for.
-         */
-        "subscriptionUuid": string;
     }
     interface SalablePricingTable {
         /**
@@ -299,19 +230,10 @@ declare namespace LocalJSX {
          */
         "uuid": string;
     }
-    interface SalableStatus {
-        /**
-          * The status type
-         */
-        "statusType"?: StatusType;
-    }
     interface IntrinsicElements {
         "salable-button": SalableButton;
         "salable-checkout": SalableCheckout;
-        "salable-date": SalableDate;
-        "salable-invoices": SalableInvoices;
         "salable-pricing-table": SalablePricingTable;
-        "salable-status": SalableStatus;
     }
 }
 export { LocalJSX as JSX };
@@ -323,10 +245,7 @@ declare module "@stencil/core" {
              */
             "salable-button": LocalJSX.SalableButton & JSXBase.HTMLAttributes<HTMLSalableButtonElement>;
             "salable-checkout": LocalJSX.SalableCheckout & JSXBase.HTMLAttributes<HTMLSalableCheckoutElement>;
-            "salable-date": LocalJSX.SalableDate & JSXBase.HTMLAttributes<HTMLSalableDateElement>;
-            "salable-invoices": LocalJSX.SalableInvoices & JSXBase.HTMLAttributes<HTMLSalableInvoicesElement>;
             "salable-pricing-table": LocalJSX.SalablePricingTable & JSXBase.HTMLAttributes<HTMLSalablePricingTableElement>;
-            "salable-status": LocalJSX.SalableStatus & JSXBase.HTMLAttributes<HTMLSalableStatusElement>;
         }
     }
 }
