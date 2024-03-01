@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/ionic-team/stencil-component-starter/compare/v0.2.0...v0.2.1) (2024-03-01)
+
+
+### Bug Fixes
+
+* add test mode screenshots ([#105](https://github.com/ionic-team/stencil-component-starter/issues/105)) ([571bc7c](https://github.com/ionic-team/stencil-component-starter/commit/571bc7c820790de3adc86cafe3a51db8637bfc47))
+
+
+
+
+
 # [0.2.0](https://github.com/ionic-team/stencil-component-starter/compare/v0.1.51...v0.2.0) (2024-03-01)
 
 
