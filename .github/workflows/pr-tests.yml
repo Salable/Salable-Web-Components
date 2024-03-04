@@ -51,17 +51,17 @@ jobs:
 
       - name: Run Stencil Checks
         run: | 
-          cd packages/stencil-library
+          cd packages/web-components
           pnpm check
 
       - name: Run Stencil Spec Tests
         run: | 
-          cd packages/stencil-library
+          cd packages/web-components
           pnpm test:spec
 
       - name: Run Stencil e2e Tests
         run: | 
-          cd packages/stencil-library
+          cd packages/web-components
           pnpm test:e2e
         env:
           TEST_STRIPE_KEY: ${{ secrets.TEST_STRIPE_KEY }}
@@ -83,7 +83,7 @@ jobs:
         if: always()
         with:
           name: stencil-playwright-report
-          path: packages/stencil-library/playwright-report/
+          path: packages/web-components/playwright-report/
           retention-days: 7
 
       - uses: actions/upload-artifact@v3
