@@ -10,7 +10,7 @@ const purgecss = require("@fullhuman/postcss-purgecss")({
 });
 
 export const config: Config = {
-  namespace: 'stencil-library',
+  namespace: 'web-components',
   watchIgnoredRegex: /utilities/,
   outputTargets: [
     {
@@ -29,7 +29,7 @@ export const config: Config = {
     },
     reactOutputTarget({
       componentCorePackage: '@salable/web-components',
-      proxiesFile: '../react-library/lib/components/stencil-generated/index.ts',
+      proxiesFile: '../react-web-components/lib/components/stencil-generated/index.ts',
     }),
   ],
   testing: {

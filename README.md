@@ -35,7 +35,7 @@ Our project's testing framework leverages Playwright for end-to-end testing and 
 ### End-to-End Testing with Playwright (Stencil Library)
 
 **General Overview**:
-End-to-end testing in our `stencil-library` package uses Playwright. To simulate real-world scenarios to ensure our components function correctly within a browser environment. Run the tests using `pnpm test:e2e` or `pnpm test:e2e:ui`.
+End-to-end testing in our `web-components` package uses Playwright. To simulate real-world scenarios to ensure our components function correctly within a browser environment. Run the tests using `pnpm test:e2e` or `pnpm test:e2e:ui`.
 
 #### For Core Components (e.g., `salable-invoice`):
 - **Mock Data Responses**: Utilise Playwright routes to mock backend data responses; this is critical for testing components in isolation from the backend.
@@ -79,7 +79,7 @@ Our project combines multiple front-end frameworks, like Stencil and React, nece
 
 #### Example Stencil and React Shared End-to-End Tests
 
-##### Stencil Component Testing: 'stencil-library'
+##### Stencil Component Testing: 'web-components'
 
 ```javascript
 import {test} from 'stencil-playwright';
@@ -154,7 +154,7 @@ Through these examples, we demonstrate our commitment to a testing strategy that
 
 ## Public Environment Variables
 
-Some public environment variables are loaded with `rollup-plugin-dotenv` from `/packages/stencil-library/.env.test` and `/packages/stencil-library/.env.prod` if you have issues with GitHub Actions timing out make sure you've added the required public envs to these files. 
+Some public environment variables are loaded with `rollup-plugin-dotenv` from `/packages/web-components/.env.test` and `/packages/web-components/.env.prod` if you have issues with GitHub Actions timing out make sure you've added the required public envs to these files. 
 
 **Important note**: `rollup-plugin-dotenv` **does not** load envs from the path.  
 

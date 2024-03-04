@@ -1,4 +1,4 @@
 {
-  "namespace": "stencil-library",
+  "namespace": "web-components",
   "includeGlobalCSS": true
 }

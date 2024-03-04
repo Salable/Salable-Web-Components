@@ -1,8 +1,8 @@
-# @salable/react-library
+# @salable/react-web-components
 
 ## Introduction
 
-The `@salable/react-library` is an essential part of the Salable Component Library, tailored for React applications to incorporate payment and licensing functionalities with ease. Built on top of Stencil JS, this library provides React components designed for seamless integration in SaaS products and various web applications, ensuring compatibility, performance, and scalability.
+The `@salable/react-web-components` is an essential part of the Salable Component Library, tailored for React applications to incorporate payment and licensing functionalities with ease. Built on top of Stencil JS, this library provides React components designed for seamless integration in SaaS products and various web applications, ensuring compatibility, performance, and scalability.
 
 ## Key Features
 
@@ -16,7 +16,7 @@ The `@salable/react-library` is an essential part of the Salable Component Libra
 To add the Salable React Library to your project, execute the following command:
 
 ```
-npm i @salable/react-library
+npm i @salable/react-web-components
 ```
 
 ## Getting Started
@@ -24,8 +24,8 @@ npm i @salable/react-library
 Once installed, you need to import and define custom elements in your React project. Here's how to get started:
 
 ```jsx
-import { defineCustomElements } from '@salable/react-library';
-import { SalablePricingTable } from "@salable/react-library";
+import { defineCustomElements } from '@salable/react-web-components';
+import { SalablePricingTable } from "@salable/react-web-components";
 
 defineCustomElements();
 
