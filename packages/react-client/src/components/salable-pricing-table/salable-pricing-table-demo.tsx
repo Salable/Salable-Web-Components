@@ -1,4 +1,4 @@
-import {SalablePricingTable} from "@salable/react-library";
+import {SalablePricingTable} from "@salable/react-web-components";
 import {API_KEY} from "../../constants.ts";
 import styles from "../../theme.module.css";
 

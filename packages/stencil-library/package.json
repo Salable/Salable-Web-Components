@@ -1,7 +1,7 @@
 {
-  "name": "@salable/stencil-library",
+  "name": "@salable/web-components",
   "version": "0.3.2",
-  "description": "Stencil Component Starter",
+  "description": "Salable Web Components",
   "author": "Sean Cooper <scooper@adaptavist.com>",
   "license": "MIT",
   "type": "module",

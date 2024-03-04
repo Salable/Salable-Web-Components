@@ -1,4 +1,4 @@
-import {SalablePricingTable} from "@salable/react-library";
+import {SalablePricingTable} from "@salable/react-web-components";
 
 export default function SalablePricingTableTest() {
     return (

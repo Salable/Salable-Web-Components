@@ -13,7 +13,7 @@ description: How to use the pricing table web component and React wrapper
 <head>
     <title>Salable Web Component Example</title>
     <script type="module">
-        import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@salable/stencil-library/loader/index.es2017.js';
+        import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@salable/web-components/loader/index.es2017.js';
         defineCustomElements();
     </script>
 </head>
@@ -34,7 +34,7 @@ description: How to use the pricing table web component and React wrapper
 *+page.svelte*
 ```sveltehtml
 <script>
-    import {defineCustomElements} from "@salable/stencil-library/loader";
+    import {defineCustomElements} from "@salable/web-components/loader";
     defineCustomElements();
 </script>
 
@@ -56,7 +56,7 @@ export const ssr = false;
 ## React Component Example
 
 ```tsx
-import { defineCustomElements, SalablePricingTable } from '@salable/react-library';
+import { defineCustomElements, SalablePricingTable } from '@salable/react-web-components';
 
 defineCustomElements();
 

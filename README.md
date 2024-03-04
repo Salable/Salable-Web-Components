@@ -12,12 +12,12 @@ You can install the packages directly from npm to integrate the Salable Componen
 
 For Stencil components:
 ```bash
-pnpm add @salable/stencil-library
+pnpm add @salable/web-components
 ```
 
 For React components:
 ```bash
-pnpm add @salable/react-library
+pnpm add @salable/react-web-components
 ```
 
 These commands will install and add the respective libraries as dependencies in your `package.json` file.

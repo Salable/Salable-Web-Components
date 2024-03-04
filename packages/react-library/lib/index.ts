@@ -1,2 +1,2 @@
 export * from './components/stencil-generated';
-export { defineCustomElements } from "@salable/stencil-library/loader";
+export { defineCustomElements } from "@salable/web-components/loader";
