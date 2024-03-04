@@ -1,8 +1,8 @@
-# @salable/stencil-library
+# @salable/web-components
 
 ## Introduction
 
-Welcome to the `@salable/stencil-library`, a comprehensive suite of web components designed for the seamless integration of payment and licensing services into web applications. Our library leverages the power of Stencil JS to provide high-performance, standards-compliant components suitable for any project, especially those within the SaaS domain.
+Welcome to the `@salable/web-components`, a comprehensive suite of web components designed for the seamless integration of payment and licensing services into web applications. Our library leverages the power of Stencil JS to provide high-performance, standards-compliant components suitable for any project, especially those within the SaaS domain.
 
 ## Key Features
 
@@ -16,7 +16,7 @@ Welcome to the `@salable/stencil-library`, a comprehensive suite of web componen
 To incorporate the Salable Stencil Web Component Library into your project, install the package via npm:
 
 ```
-npm i @salable/stencil-library
+npm i @salable/web-components
 ```
 
 ## Getting Started

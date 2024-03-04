@@ -1,4 +1,4 @@
-import { SalableCheckout } from "@salable/react-library";
+import { SalableCheckout } from "@salable/react-web-components";
 
 export default function SalableCheckoutTest({ email }: { email?: string }) {
     return (

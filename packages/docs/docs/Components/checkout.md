@@ -13,7 +13,7 @@ description: How to use the checkout web component and React wrapper
 <head>
     <title>Salable Web Component Example</title>
     <script type="module">
-        import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@salable/stencil-library/loader/index.es2017.js';
+        import { defineCustomElements } from 'https://cdn.jsdelivr.net/npm/@salable/web-components/loader/index.es2017.js';
         defineCustomElements();
     </script>
 </head>
@@ -33,7 +33,7 @@ description: How to use the checkout web component and React wrapper
 *+page.svelte*
 ```sveltehtml
 <script>
-    import {defineCustomElements} from "@salable/stencil-library/loader";
+    import {defineCustomElements} from "@salable/web-components/loader";
     defineCustomElements();
 </script>
 
@@ -54,8 +54,8 @@ export const ssr = false;
 ## React Component Example
 
 ```tsx
-import { defineCustomElements } from '@salable/react-library';
-import { SalableCheckout } from "@salable/react-library";
+import { defineCustomElements } from '@salable/react-web-components';
+import { SalableCheckout } from "@salable/react-web-components";
 
 defineCustomElements();
 

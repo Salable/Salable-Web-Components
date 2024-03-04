@@ -28,7 +28,7 @@ export const config: Config = {
       serviceWorker: null, // disable service workers
     },
     reactOutputTarget({
-      componentCorePackage: '@salable/stencil-library',
+      componentCorePackage: '@salable/web-components',
       proxiesFile: '../react-library/lib/components/stencil-generated/index.ts',
     }),
   ],

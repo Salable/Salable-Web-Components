@@ -1,6 +1,6 @@
 {
-  "name": "@salable/react-library",
-  "version": "0.3.2",
+  "name": "@salable/react-web-components",
+  "version": "0.5.0",
   "description": "> TODO: description",
   "author": "Sean Cooper <scooper@adaptavist.com>",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@salable/stencil-library": "^0.3.2"
+    "@salable/web-components": "^0.5.0"
   },
   "gitHead": "69dec1b2395acc6a4d410c7b552dd9c9841defa7"
 }

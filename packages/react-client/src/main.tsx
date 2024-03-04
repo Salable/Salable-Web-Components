@@ -5,7 +5,7 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
-import {defineCustomElements} from '@salable/react-library';
+import {defineCustomElements} from '@salable/react-web-components';
 import Root from "./root.tsx";
 import SalablePricingTableDemo from "./components/salable-pricing-table/salable-pricing-table-demo.tsx";
 import SalableCheckoutDemo from './components/salable-checkout/salable-checkout-demo.tsx';
