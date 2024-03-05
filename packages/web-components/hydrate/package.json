@@ -1,0 +1,6 @@
+{
+  "name": "@salable/web-components/hydrate",
+  "description": "WebComponents component hydration app.",
+  "main": "index.js",
+  "types": "index.d.ts"
+}
