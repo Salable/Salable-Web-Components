@@ -1,6 +1,6 @@
 {
   "name": "@salable/react-web-components",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "description": "> TODO: description",
   "author": "Sean Cooper <scooper@adaptavist.com>",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@salable/web-components": "^0.6.7"
+    "@salable/web-components": "^0.6.8"
   },
   "gitHead": "69dec1b2395acc6a4d410c7b552dd9c9841defa7"
 }
