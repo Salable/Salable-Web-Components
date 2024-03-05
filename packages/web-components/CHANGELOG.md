@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.4](https://github.com/ionic-team/stencil-component-starter/compare/v0.6.3...v0.6.4) (2024-03-05)
+
+
+### Bug Fixes
+
+* build with hydrate script ([262892f](https://github.com/ionic-team/stencil-component-starter/commit/262892f7fe4787e05fdec748071860238c46ed50))
+
+
+
+
+
 ## [0.6.3](https://github.com/ionic-team/stencil-component-starter/compare/v0.6.2...v0.6.3) (2024-03-04)
 
 **Note:** Version bump only for package @salable/web-components
