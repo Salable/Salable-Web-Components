@@ -1,7 +1,7 @@
 {
   "name": "@salable/react-web-components",
   "version": "0.6.8",
-  "description": "> TODO: description",
+  "description": "Salable React wrappers for our web component library",
   "author": "Sean Cooper <scooper@adaptavist.com>",
   "license": "MIT",
   "main": "dist/index.js",
