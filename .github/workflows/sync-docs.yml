@@ -17,7 +17,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     env:
-      GH_TOKEN: '${{ secrets.GH_TOKEN }}'
+      ADMIN_GH_PAT: '${{ secrets.ADMIN_GH_PAT }}'
       SOURCE_DIR: './packages/docs'
       TARGET_DIR: './docs/web-components'
 
@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 2
           repository: salable/docs
           path: './docs'
-          token: ${{ secrets.GH_TOKEN }}
+          token: ${{ secrets.ADMIN_GH_PAT }}
 
       - name: Migrate Code to docs repo
         run: |
