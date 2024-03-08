@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'packages/docs/**'
+      - packages/docs/**
   workflow_dispatch:
 
 jobs:
@@ -17,23 +17,23 @@ jobs:
       matrix:
         os: [ubuntu-latest]
     env:
-      ADMIN_GH_PAT: '${{ secrets.ADMIN_GH_PAT }}'
-      SOURCE_DIR: './packages/docs'
-      TARGET_DIR: './docs/web-components'
+      ADMIN_GH_PAT: ${{ secrets.ADMIN_GH_PAT }}
+      SOURCE_DIR: ./packages/docs
+      TARGET_DIR: ./docs/web-components
 
     steps:
       - name: Check out ${{ env.TARGET_DIR }}
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
-          path: ${{ env.TARGET_DIR }}
+          path: ./
 
       - name: Check out docs
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
           repository: salable/docs
-          path: './docs'
+          path: ./docs
           token: ${{ secrets.ADMIN_GH_PAT }}
 
       - name: Migrate Code to docs repo
