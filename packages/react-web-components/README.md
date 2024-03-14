@@ -2,18 +2,11 @@
 
 ## Introduction
 
-The `@salable/react-web-components` is an essential part of the Salable Component Library, tailored for React applications to incorporate payment and licensing functionalities with ease. Built on top of Stencil JS, this library provides React components designed for seamless integration in SaaS products and various web applications, ensuring compatibility, performance, and scalability.
-
-## Key Features
-
-- **React Components**: Our library offers React components that wrap Stencil JS web components, combining the robustness of web standards with the ease of use in the React ecosystem.
-- **Seamless Integration**: With minimal setup, you can integrate our components into your project, enhancing your application with payment and licensing capabilities.
-- **Customizable and Scalable**: Designed to meet the demands of any scale, from small projects to complex applications, ensuring that your needs for customization and scalability are met.
-- **Cross-Browser Compatibility**: Thanks to Stencil JS, enjoy consistent performance and appearance across all modern browsers.
+The Salable React Web Component library is designed to streamline the development process for SaaS products. It is a collection of Web Components that facilitate easy integration with payment platforms and simplify the creation of flexible pricing models. Our components are seamlessly compatible with various web frameworks, making it a breeze for developers to integrate payment and licensing functionality in web applications.
 
 ## Installation
 
-To add the Salable React Library to your project, execute the following command:
+To add the Salable React Web Component library to your project, execute the following command:
 
 ```
 npm i @salable/react-web-components
@@ -49,8 +42,8 @@ This example demonstrates how to use the `SalablePricingTable` component, but ou
 
 ## Documentation
 
-For a full list of components and detailed guides on using them, please refer to our [core documentation](https://docs.salable.app). You'll find examples, configuration options, and best practices to help you integrate our library into your applications effectively.
+For a full list of components and detailed guides on using them, please refer to our [core documentation](https://docs.salable.app/web-components/web-components-latest/). You'll find examples, configuration options, and best practices to help you integrate our library into your applications effectively.
 
 ## Support and Contributions
 
-Encountering issues or have suggestions? Please submit them on our [GitHub issues page](https://github.com/Salable/salable-web-components-stenciljs/issues)
+Encountering issues or have suggestions? Please submit them on our [GitHub issues page](https://github.com/Salable/Salable-Web-Components/issues)
