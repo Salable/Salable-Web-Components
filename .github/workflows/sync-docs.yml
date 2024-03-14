@@ -36,6 +36,9 @@ jobs:
           path: ./docs
           token: ${{ secrets.ADMIN_GH_PAT }}
 
+      - name: List Docs (DEBUGGING)
+        run: ls ./docs
+
       - name: Migrate Code to docs repo
         run: |
           # Remove the old folders in the docs repo
