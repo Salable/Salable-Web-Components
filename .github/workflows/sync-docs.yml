@@ -19,7 +19,7 @@ jobs:
     env:
       ADMIN_GH_PAT: ${{ secrets.ADMIN_GH_PAT }}
       SOURCE_DIR: ./packages/docs
-      TARGET_DIR: ./docs/web-components
+      TARGET_DIR: web-components
 
     steps:
       - name: Check out ${{ env.TARGET_DIR }}
@@ -42,17 +42,17 @@ jobs:
       - name: Migrate Code to docs repo
         run: |
           # Remove the old folders in the docs repo
-          rm -rf ${{ env.TARGET_DIR }}
+          rm -rf ./docs/${{ env.TARGET_DIR }}
                     
           # Move in the new folders
-          mv ${{ env.SOURCE_DIR }}/docs ${{ env.TARGET_DIR }}
+          mv ${{ env.SOURCE_DIR }}/docs ./docs/${{ env.TARGET_DIR }}
 
           # Commit the changes
           cd ./docs
           git config user.name "Salable App"
           git config user.email "<dev@salable.app>"
           git config --global credential.helper cache
-          git add ${{ env.TARGET_DIR }}
+          git add ./${{ env.TARGET_DIR }}
           git status
           git commit -m "docs: synced with ${{ env.TARGET_DIR }} documentation"
           git push
