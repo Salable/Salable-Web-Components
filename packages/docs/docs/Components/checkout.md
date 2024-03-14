@@ -27,7 +27,7 @@ description: How to use the checkout web component and React wrapper
 ></salable-checkout>
 </body>
 </html>
-
+```
 ### Svelte Example
 
 *+page.svelte*
