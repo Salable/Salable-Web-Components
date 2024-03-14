@@ -28,6 +28,7 @@ description: How to use the pricing table web component and React wrapper
 ></salable-pricing-table>
 </body>
 </html>
+```
 
 ### Svelte Example
 
