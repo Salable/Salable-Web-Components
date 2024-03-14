@@ -132,7 +132,7 @@ importers:
   packages/react-web-components:
     dependencies:
       '@salable/web-components':
-        specifier: ^0.6.15
+        specifier: ^0.6.16
         version: link:../web-components
     devDependencies:
       '@types/node':
