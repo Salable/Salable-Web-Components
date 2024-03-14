@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.15](https://github.com/Salable/Salable-Web-Components/compare/v0.6.14...v0.6.15) (2024-03-14)
+
+**Note:** Version bump only for package react-client
+
+
+
+
+
 ## [0.6.14](https://github.com/Salable/Salable-Web-Components/compare/v0.6.13...v0.6.14) (2024-03-14)
 
 **Note:** Version bump only for package react-client
