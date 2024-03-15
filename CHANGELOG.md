@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.19](https://github.com/Salable/Salable-Web-Components/compare/v0.6.18...v0.6.19) (2024-03-15)
+
+
+### Bug Fixes
+
+* add puppeteer base url to install ([#129](https://github.com/Salable/Salable-Web-Components/issues/129)) ([08dfa79](https://github.com/Salable/Salable-Web-Components/commit/08dfa795571ca114035fb89bf8362f41a9d303a9))
+
+
+
+
+
 ## [0.6.18](https://github.com/Salable/Salable-Web-Components/compare/v0.6.17...v0.6.18) (2024-03-15)
 
 
