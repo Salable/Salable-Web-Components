@@ -4,9 +4,9 @@ title: Pricing Table
 description: How to use the pricing table web component and React wrapper
 ---
 
-## Web Component Example 
+## Web Component
 
-### HTML Example
+### HTML
 
 ```html
 <!doctype html>
@@ -30,7 +30,7 @@ description: How to use the pricing table web component and React wrapper
 </html>
 ```
 
-### Svelte Example
+### Svelte
 
 *+page.svelte*
 ```sveltehtml
@@ -54,7 +54,9 @@ description: How to use the pricing table web component and React wrapper
 export const ssr = false;
 ```
 
-## React Component Example
+## React Web Component
+
+### React
 
 ```tsx
 import { defineCustomElements, SalablePricingTable } from '@salable/react-web-components';

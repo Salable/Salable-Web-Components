@@ -4,9 +4,9 @@ title: Checkout
 description: How to use the checkout web component and React wrapper
 ---
 
-## Web Components
+## Web Component
 
-### HTML Example
+### HTML
 
 ```html
 <!doctype html>
@@ -28,7 +28,7 @@ description: How to use the checkout web component and React wrapper
 </body>
 </html>
 ```
-### Svelte Example
+### Svelte
 
 *+page.svelte*
 ```sveltehtml
@@ -51,7 +51,9 @@ description: How to use the checkout web component and React wrapper
 export const ssr = false;
 ```
 
-## React Component Example
+## React Component
+
+### React
 
 ```tsx
 import { defineCustomElements } from '@salable/react-web-components';
