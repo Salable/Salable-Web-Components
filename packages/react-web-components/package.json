@@ -1,6 +1,6 @@
 {
   "name": "@salable/react-web-components",
-  "version": "0.6.17",
+  "version": "0.6.18",
   "description": "Salable React wrappers for our web component library",
   "author": "Sean Cooper <scooper@adaptavist.com>",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@salable/web-components": "^0.6.17"
+    "@salable/web-components": "^0.6.18"
   },
   "gitHead": "69dec1b2395acc6a4d410c7b552dd9c9841defa7"
 }

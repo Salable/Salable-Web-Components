@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.18](https://github.com/Salable/Salable-Web-Components/compare/v0.6.17...v0.6.18) (2024-03-15)
+
+
+### Bug Fixes
+
+* add timeouts to github actions ([#127](https://github.com/Salable/Salable-Web-Components/issues/127)) ([3c22d0c](https://github.com/Salable/Salable-Web-Components/commit/3c22d0c4cc38bd9b97a5b486c3fd6d02ad5f5689))
+
+
+
+
+
 ## [0.6.17](https://github.com/Salable/Salable-Web-Components/compare/v0.6.16...v0.6.17) (2024-03-15)
 
 **Note:** Version bump only for package root
