@@ -33,3 +33,19 @@ npm i @salable/react-web-components
 ```
 
 Here, you'll find comprehensive guides and examples to help you understand how to effectively implement our components in your applications.
+
+## Salable Web Components Integration Demos
+
+Explore how to integrate Salable Web Components with different front-end frameworks and environments. Below are the links to example repositories showcasing the usage of Web Components within Svelte, React, and plain HTML/JavaScript setups.
+
+### Svelte Integration
+
+**Repository:** [Salable Web Components in Svelte](https://github.com/Salable/Salable-Web-Components-Svelte-Demo)
+
+### React Integration
+
+**Repository:** [Salable React Web Components for Next.js](https://github.com/Salable/Salable-React-Web-Components-Nextjs-Demo)
+
+### HTML/JavaScript Integration
+
+**Repository:** [Salable Web Components with HTML and JavaScript](https://github.com/Salable/Salable-Web-Components-HTML-JS-Demo)
