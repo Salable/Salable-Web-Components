@@ -40,12 +40,12 @@ Explore how to integrate Salable Web Components with different front-end framewo
 
 ### Svelte Integration
 
-**Repository:** [Salable Web Components in Svelte](https://github.com/Salable/Stenciljs-Web-Components-Svelte-Demo)
+**Repository:** [Salable Web Components in Svelte](https://github.com/Salable/Salable-Web-Components-Svelte-Demo)
 
 ### React Integration
 
-**Repository:** [Salable React Web Components for Next.js](https://github.com/Salable/Stenciljs-React-Wrapper-Nextjs-demo)
+**Repository:** [Salable React Web Components for Next.js](https://github.com/Salable/Salable-React-Web-Components-Nextjs-Demo)
 
 ### HTML/JavaScript Integration
 
-**Repository:** [Salable Web Components with HTML and JavaScript](https://github.com/Salable/Stenciljs-Web-Components-HTML-JS-Demo)
+**Repository:** [Salable Web Components with HTML and JavaScript](https://github.com/Salable/Salable-Web-Components-HTML-JS-Demo)
