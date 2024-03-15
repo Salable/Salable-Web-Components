@@ -42,7 +42,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install Dependencies
-        run: pnpm install
+        run: PUPPETEER_DOWNLOAD_BASE_URL="https://storage.googleapis.com/chrome-for-testing-public" pnpm install
 
       - name: Build Packages
         run: export NODE_ENV=prod && pnpm lerna:build # export NODE_ENV=prod tells rollup dotenv to read from .env.prod
