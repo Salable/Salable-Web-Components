@@ -13,6 +13,7 @@ jobs:
     #       There is still a discrepancy in the rendering, we may need to use docker
     #       to run --update-snapshots so that we can use identical os.
     runs-on: macos-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
 
