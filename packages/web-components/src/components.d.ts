@@ -67,6 +67,10 @@ export namespace Components {
          */
         "globalCancelUrl": string;
         /**
+          * The URL to send users for coming soon plans.
+         */
+        "globalContactUrl": string;
+        /**
           * The unique identifier for the grantee for all plan checkouts links.
          */
         "globalGranteeId": string;
@@ -193,6 +197,10 @@ declare namespace LocalJSX {
           * The URL to send users to if the transaction fails. Must be an absolute URL.
          */
         "globalCancelUrl": string;
+        /**
+          * The URL to send users for coming soon plans.
+         */
+        "globalContactUrl": string;
         /**
           * The unique identifier for the grantee for all plan checkouts links.
          */

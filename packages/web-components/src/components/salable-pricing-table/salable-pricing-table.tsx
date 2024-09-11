@@ -14,7 +14,7 @@ type PlanConfig = {
   cancelUrls: [string, string][]
 }
 
-type PricingTable = {
+export type PricingTable = {
   featuredPlanUuid: string
   product: PricingTableProduct
   plans: PricingTablePlan[]
@@ -29,21 +29,35 @@ type ProductCurrency = {
   currency: Currency
 }
 
-type PricingTablePlan = {
+export type PricingTablePlan = {
   plan: Plan
-  currencies: PlanCurrency[]
-  checkoutUrl?: string
-  perSeatAmount?: number
 }
+
+export type ProductPricingTable = PricingTableProduct & {
+  plans: Plan[]
+}
+
+type PlanLicenseType = 'licensed' | 'metered' | 'perSeat'
+type PlanInterval = 'month' | 'year'
+type PlanPricingType = 'free' | 'paid'
+type PlanType = 'Standard' | 'Coming soon' | 'Bespoke'
 
 type Plan = {
   uuid: string
-  name: string
+  planType: PlanType;
+  displayName: string
   currencies: PlanCurrency[]
-  features?: Feature[]
-  interval: 'month' | 'year'
+  features?: FeaturesOnPlans[]
+  interval: PlanInterval
   description: string
-  licenseType: 'licensed' | 'metered' | 'perSeat'
+  licenseType: PlanLicenseType
+  pricingType: PlanPricingType
+  perSeatAmount: number;
+  maxSeatAmount: number;
+  grantee?: {
+    isSubscribed: boolean;
+    isLicensed: boolean
+  }
 }
 
 type PlanCurrency = {
@@ -57,19 +71,21 @@ type Currency = {
   defaultCurrency?: boolean
 }
 
-type Feature = {
+export type FeaturesOnPlans = {
   value: string
   isUnlimited: boolean
   enumValue?: {
     name: string
   }
-  feature: {
-    displayName: string
-    valueType: 'numerical' | 'enum' | 'boolean'
-    defaultValue: string
-    showUnlimited: boolean
-    description?: string
-  };
+  feature: Feature;
+}
+
+export type Feature = {
+  displayName: string
+  valueType: 'numerical' | 'enum' | 'boolean'
+  defaultValue: string
+  showUnlimited: boolean
+  description?: string
 }
 
 @Component({
@@ -82,6 +98,7 @@ export class SalablePricingTable {
   @State() state: PricingTableState | null = null; // Todo: define type
   @State() errorMessage: string | null = null;
   @State() selectedBillingPeriodKey: 'monthly' | 'yearly' = 'monthly';
+  @State() isLoadingPlanUuid: string | null = null;
   /**
    * The publishable api key, this can be generated in the Salable dashboard
    **/
@@ -94,6 +111,10 @@ export class SalablePricingTable {
    * If you provided the uuid of a custom pricing table set this to true
    **/
   @Prop() isCustomPricingTable: boolean = false;
+  /**
+   * The URL to send users for coming soon plans.
+   **/
+  @Prop() globalContactUrl!: string;
   /**
    * The URL to send users to after a successful purchase. Must be an absolute URL.
    **/
@@ -161,6 +182,7 @@ export class SalablePricingTable {
   @Watch('globalSuccessUrl')
   @Watch('globalCancelUrl')
   @Watch('globalGranteeId')
+  @Watch('globalContactUrl')
   @Watch('member')
   validateProp(newValue: string, propName: string) {
     if (typeof newValue !== 'string' || newValue.trim() === '') {
@@ -234,25 +256,36 @@ export class SalablePricingTable {
     this.perPlanSuccessUrlsWatcher(this.perPlanSuccessUrls);
     this.perPlanCancelUrlsWatcher(this.perPlanCancelUrls);
     this.initPlanConfig();
-    const data = await this.fetchPricingTable();
-    if (Boolean(data)) {
-      const normalisedData = this.pricingTableFactory(data);
-      this.state = this.initialiseState(normalisedData)
+    try {
+      const data = await this.fetchPricingTable();
+      if (Boolean(data)) {
+        const normalisedData: PricingTable = !this.isCustomPricingTable ? this.productPricingTableFactory(data as ProductPricingTable) : data as PricingTable;
+        this.validateConditionalProps(normalisedData)
+        this.state = this.initialiseState(normalisedData)
+      }
+    } catch (e) {
+      console.error(e)
+      this.errorMessage = 'Failed to load Pricing Table'
     }
   }
 
   render() {
     const isTestMode = this.apiKey.startsWith('test_');
+    console.log(this.state.featuredPlanUuid)
     return (
       <Host>
         <div class="font-sans relative">
           {isTestMode ? (
             <div class="mb-4 border-solid border-t-4 border-orange-500 w-full flex justify-center">
-                <p class="px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs">test mode</p>
+              <p class="px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs">test mode</p>
             </div>
           ): null}
-          {this.errorMessage}
-          {this.state.monthly.length > 0 && this.state.yearly.length > 0 ? (
+          {Boolean(this.errorMessage) ? (
+            <div class='bg-red-500 text-white p-3 rounded-md leading-none'>
+              {this.errorMessage}
+            </div>
+          ) : null}
+          {!Boolean(this.errorMessage) && this.state.monthly.length > 0 && this.state.yearly.length > 0 ? (
             <section class="flex justify-center items-center mb-12">
               <label
                 class="min-w-[3.5rem] text-sm text-gray-500 me-3 dark:text-gray-400"
@@ -278,61 +311,98 @@ export class SalablePricingTable {
             </section>
           ) : null}
 
-          <div class={`grid ${this.getColumnCount()} gap-6 lg:items-center`}>
-            {this.state[this.selectedBillingPeriodKey].map(({plan}, planIndex) => (
-              <section class={this.getCardClass(plan)} data-testid={`pricing-table-card-${planIndex}`}>
-                <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200"
-                    id="pricing-table-card-heading">{plan.name}</h3>
-                {plan.currencies.length > 0 ? (
-                  <div class='mt-4'>
-                    <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
-                    <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">
-                        {this.calcPrice(this.getCurrency(plan)?.price)}
-                      </span>
-                    <span
-                      class="text-xl text-grey-500"> per {this.planUnitValue(plan.licenseType, plan.interval)}</span>
-                  </div>
-                ) : (
-                  <div class='mt-4'>
-                    <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">Free</span>
-                  </div>
-                )}
-                <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
-
-                <ul class="mt-7 mb-5 space-y-2.5 text-sm mx-auto">
-                  {plan.features?.map((feature, featureIndex) => (
-                    <li class="flex space-x-2 flex-col items-center">
-                      <h4 class="text-gray-800 dark:text-gray-400 text-left flex gap-2 items-center font-semibold">
-                        {feature.feature.displayName}
-                        {Boolean(feature.feature.description) ? (
-                          <div data-testid={`info_${planIndex}_${featureIndex}`}
-                               class="grow-0 flex items-center group relative mr-4" tabindex="0">
-                            <span
-                              class="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                            >?</span>
-                            <div
-                              data-testid={`tooltip_${planIndex}_${featureIndex}`}
-                              role="tooltip"
-                              class="absolute w-max max-w-[200px] bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
-                            >
-                              {feature.feature.description}
-                            </div>
-                          </div>
+          {!Boolean(this.errorMessage) ? (
+            <div class={`grid ${this.getColumnCount()} gap-6 lg:items-center`}>
+              {this.state[this.selectedBillingPeriodKey].map(({plan}, planIndex) => {
+                return (
+                  <section class={this.getCardClass(plan)} data-testid={`pricing-table-card-${planIndex}`}>
+                    {this.state.featuredPlanUuid === plan.uuid ? (
+                      <span class='absolute text-xs bg-primary-600 p-1 text-white leading-none uppercase rounded-sm right-0 left-0 w-fit m-auto top-[-10px]'>Featured</span>
+                    ) : null}
+                    <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200"
+                        id="pricing-table-card-heading">{plan.displayName}</h3>
+                    {plan.currencies.length > 0 ? (
+                      <div class='mt-4'>
+                        <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
+                        <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">{this.calcPrice(this.getCurrency(plan)?.price)}</span>
+                        <span class="text-xl text-grey-500"> / {plan.interval}
+                          {plan.licenseType !== 'licensed' ? (
+                            <span class="text-gray-500"> per {this.planUnitValue(plan.licenseType)}</span>
+                          ) : null}
+                        </span>
+                        <span class="text-xl text-grey-500">
+                        {plan.licenseType !== 'licensed' ? (
+                          <span>
+                            {plan.perSeatAmount > 1 && plan.maxSeatAmount === -1 ? (
+                              <div class="text-gray-500 text-sm"> (min. {plan.perSeatAmount} seats)</div>
+                            ) : null}
+                            {plan.perSeatAmount === 1 && plan.maxSeatAmount > 0 ? (
+                              <div class="text-gray-500 text-sm"> (max. {plan.maxSeatAmount} seats)</div>
+                            ) : null}
+                            {plan.perSeatAmount > 1 && plan.maxSeatAmount > 1 ? (
+                              <div
+                                class="text-gray-500 text-sm"> ({plan.perSeatAmount} - {plan.maxSeatAmount} seats)</div>
+                            ) : null}
+                          </span>
                         ) : null}
-                      </h4>
-                      {this.getFeatureValue(feature.feature.valueType, feature.value, feature.isUnlimited, feature.feature.showUnlimited, feature.enumValue?.name)}
-                    </li>
-                  ))}
-                </ul>
+                      </span>
+                      </div>
+                    ) : (
+                      <div class='mt-4'>
+                        <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">Free</span>
+                      </div>
+                    )}
+                    <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
 
-                <button
-                  class="mt-auto inline-flex justify-center items-center text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900"
-                  onClick={this.handlePlanSelect(plan)}>
-                  Select Plan
-                </button>
-              </section>
-            ))}
-          </div>
+                    <ul class="mt-7 mb-5 space-y-2.5 text-sm mx-auto">
+                      {plan.features?.map((feature, featureIndex) => (
+                        <li class="flex space-x-2 flex-col items-center">
+                          <h4 class="text-gray-800 dark:text-gray-400 text-left flex gap-2 items-center font-semibold">
+                            {feature.feature.displayName}
+                            {Boolean(feature.feature.description) ? (
+                              <div data-testid={`info_${planIndex}_${featureIndex}`}
+                                   class="grow-0 flex items-center group relative" tabindex="0">
+                              <span
+                                class="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                              >?</span>
+                                <div
+                                  data-testid={`tooltip_${planIndex}_${featureIndex}`}
+                                  role="tooltip"
+                                  class="absolute w-max max-w-[200px] bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
+                                >
+                                  {feature.feature.description}
+                                </div>
+                              </div>
+                            ) : null}
+                          </h4>
+                          {this.getFeatureValue(feature.feature.valueType, feature.value, feature.isUnlimited, feature.feature.showUnlimited, feature.enumValue?.name)}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {plan.planType === 'Coming soon' ? (
+                      <a
+                        class={`mt-auto inline-flex justify-center items-center text-white focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:text-white dark:focus:ring-primary-900 ${plan.licenseType === 'metered' && plan.grantee.isSubscribed ? 'bg-gray-500' : 'bg-primary-600 hover:bg-primary-700'}`}
+                        href={this.globalContactUrl}
+                      >
+                        {this.planCtaLabelValue(plan)}
+                      </a>
+                    ) : (
+                      <button
+                        class={`mt-auto inline-flex justify-center items-center text-white focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:text-white dark:focus:ring-primary-900 ${plan.licenseType === 'metered' && plan.grantee.isSubscribed ? 'bg-gray-500' : 'bg-primary-600 hover:bg-primary-700'}`}
+                        onClick={this.handlePlanSelect(plan)}
+                        disabled={Boolean((plan.licenseType === 'metered' && plan.grantee.isSubscribed) || this.isLoadingPlanUuid)}
+                      >
+                        {this.isLoadingPlanUuid === plan.uuid ? <span
+                          class='h-[15px] w-[15px] mr-2 animate-spin border-2 border-s-white rounded-full border-white/[.5]'></span> : null}
+                        {this.planCtaLabelValue(plan)}
+                      </button>
+                    )}
+                  </section>
+                );
+              })}
+            </div>
+          ) : null}
         </div>
       </Host>
     );
@@ -346,54 +416,84 @@ export class SalablePricingTable {
     this.validateProp(this.globalGranteeId, 'globalGranteeId');
     this.validateProp(this.member, 'member');
   }
+  private validateConditionalProps(data: PricingTable) {
+    if (Boolean(data?.plans?.find(({plan}) => plan.planType === 'Coming soon'))) {
+      this.validateProp(this.globalContactUrl, 'globalContactUrl');
+    }
+  }
 
-  private async fetchPricingTable(): Promise<PricingTable | null> {
+  private async fetchCheckoutUrl(plan: Plan): Promise<string> {
     try {
       const params = new URLSearchParams({
-        globalSuccessUrl: this.globalSuccessUrl,
-        globalCancelUrl: this.globalCancelUrl,
-        globalGranteeId: this.globalGranteeId,
         member: this.member,
       });
 
-      if (Boolean(this.promoCode)) {
-        params.set('promoCode', this.promoCode);
+      let granteeId = this.globalGranteeId
+      if (Boolean(this.perPlanGranteeIds)) {
+        const granteeIdsPerPlan = JSON.parse(this.perPlanGranteeIds as string)
+        if (granteeIdsPerPlan[plan.uuid]) granteeId = granteeIdsPerPlan[plan.uuid]
       }
+      params.set('granteeId', granteeId)
 
-      if (Boolean(this.allowPromoCode)) {
-        params.set('allowPromoCode', this.allowPromoCode);
+      let successUrl = this.globalSuccessUrl ?? document.URL
+      if (Boolean(this.perPlanSuccessUrls)) {
+        const successUrlsPerPlan = JSON.parse(this.perPlanSuccessUrls as string)
+        if (successUrlsPerPlan[plan.uuid]) successUrl = successUrlsPerPlan[plan.uuid]
       }
+      params.set('successUrl', successUrl)
 
-      if (Boolean(this.automaticTax)) {
-        params.set('automaticTax', this.automaticTax);
+      let cancelUrl = this.globalCancelUrl
+      if (Boolean(this.perPlanCancelUrls)) {
+        const cancelUrlsPerPlan = JSON.parse(this.perPlanCancelUrls as string)
+        if (cancelUrlsPerPlan[plan.uuid]) cancelUrl = cancelUrlsPerPlan[plan.uuid]
       }
+      params.set('cancelUrl', cancelUrl)
 
-      if (Boolean(this.customerEmail)) {
-        params.set('customerEmail', this.customerEmail);
-      }
+      if (Boolean(this.promoCode)) params.set('promoCode', this.promoCode);
+      if (Boolean(this.allowPromoCode)) params.set('allowPromoCode', this.allowPromoCode);
+      if (Boolean(this.automaticTax)) params.set('automaticTax', this.automaticTax);
+      if (Boolean(this.customerEmail)) params.set('customerEmail', this.customerEmail);
+      if (Boolean(this.customerId)) params.set('customerId', this.customerId);
+      if (Boolean(this.currency)) params.set('currency', this.currency);
 
-      if (Boolean(this.customerId)) {
-        params.set('customerId', this.customerId);
+      const checkoutUrlFetch = await fetch(`${apiUrl}/plans/${plan.uuid}/checkoutlink?${decodeURIComponent(params.toString())}`, {
+        headers: {
+          version: 'v2',
+          'x-api-key': this.apiKey
+        }
+      })
+      const data = await checkoutUrlFetch.json()
+      if (checkoutUrlFetch.ok) {
+        return data.checkoutUrl
+      } else {
+        if (checkoutUrlFetch.status === 401 || checkoutUrlFetch.status === 403) {
+          this.errorMessage = 'Unauthorised';
+          return null
+        }
+        this.errorMessage = 'Failed to load checkout'
+        console.error(data.error ?? data)
+        return null
       }
+    } catch (error) {
+      // Todo: add refresh/retry option
+      console.error('Fetch error:', error);
+      this.errorMessage = 'Error fetching data';
+      return null
+    }
+  }
 
-      if (Boolean(this.currency)) {
-        params.set('currency', this.currency);
-      }
-
-      if (Boolean(this.planConfig)) {
-        if (this.planConfig.granteeIds.length > 0)
-          params.set('granteeIds', this.planConfig.granteeIds.flat().join(','));
-        if (this.planConfig.successUrls.length > 0)
-          params.set('successUrls', this.planConfig.successUrls.flat().join(','));
-        if (this.planConfig.cancelUrls.length > 0)
-          params.set('cancelUrls', this.planConfig.cancelUrls.flat().join(','));
-      }
+  private async fetchPricingTable(): Promise<PricingTable | ProductPricingTable |null> {
+    try {
+      const params = new URLSearchParams({
+        granteeId: this.globalGranteeId,
+      });
 
       const pricingTableUrl = this.isCustomPricingTable
         ? `${apiUrl}/pricing-tables/${this.uuid}?${decodeURIComponent(params.toString())}`
         : `${apiUrl}/products/${this.uuid}/pricingtable?${decodeURIComponent(params.toString())}`;
 
-      const response = await fetch(pricingTableUrl, {headers: {'x-api-key': `${this.apiKey}`}});
+      const response = await fetch(pricingTableUrl, {headers: {version: 'v2', 'x-api-key': `${this.apiKey}`}});
+      const data = await response.json()
 
       if (!response.ok) {
         // Todo: add refresh/retry option
@@ -406,14 +506,18 @@ export class SalablePricingTable {
           this.errorMessage = 'Not found';
           return null
         }
+        if (response.status === 400) {
+          console.error(`Fetch error - ${data.error}`);
+        }
+        this.errorMessage = 'Failed to load Pricing Table'
+        return null
       }
 
-      return response.json();
+      return data;
     } catch (error) {
       // Todo: add refresh/retry option
       console.error('Fetch error:', error);
       this.errorMessage = 'Error fetching data';
-      return null
     }
   }
 
@@ -444,23 +548,35 @@ export class SalablePricingTable {
   }
 
   private getPricingTableDefaultCurrency(data: PricingTable) {
-    return this.currency ?? data.product.currencies.find((currency: any) => currency.defaultCurrency)?.currency.shortName ?? null;
+    return this.currency ?? data.product.currencies.find((currency: ProductCurrency) => currency.defaultCurrency)?.currency.shortName ?? null;
   }
 
-  private getCurrency(plan: any) {
+  private getCurrency(plan: Plan) {
     return plan.currencies.find(currenciesOnPlan => currenciesOnPlan.currency.shortName === this.state.defaultCurrencyShortName);
   }
 
-  private planUnitValue(licenseType, interval) {
+  private planUnitValue(licenseType: PlanLicenseType) {
     switch (licenseType) {
       case 'licensed':
-        return interval;
+        return '';
       case 'metered':
         return 'unit';
       case 'perSeat':
         return 'seat';
       default:
         return null;
+    }
+  }
+
+  private planCtaLabelValue(plan: Plan) {
+    switch (plan.planType) {
+      case 'Standard' :
+        if (plan.licenseType === 'metered' && plan.grantee.isSubscribed) return 'Subscribed'
+        return 'Select Plan'
+      case 'Coming soon' :
+        return 'Contact us'
+      default :
+        return ''
     }
   }
 
@@ -480,16 +596,26 @@ export class SalablePricingTable {
     this.selectedBillingPeriodKey = 'yearly';
   };
 
-  private handlePlanSelect = (plan: any) => async (event: Event) => {
-    event.preventDefault();
-    if (plan.checkoutUrl) {
-      window.location = plan.checkoutUrl;
-    } else {
-      await this.createLicenses(plan)
+  private handlePlanSelect = (plan: Plan) => async (event: Event) => {
+    if (plan.planType !== 'Coming soon') {
+      event.preventDefault();
+      this.isLoadingPlanUuid = plan.uuid
+      try {
+        if (plan.pricingType === 'paid') {
+          const url = await this.fetchCheckoutUrl(plan)
+          if (Boolean(url)) window.location.href = url
+          return
+        } else {
+          await this.createLicenses(plan)
+        }
+      } catch (e) {
+        console.error(e)
+        this.errorMessage = 'Failed to load checkout'
+      }
     }
   };
 
-  private createLicenses = async (plan) => {
+  private createLicenses = async (plan: Plan) => {
     const body = Array.from({length: plan.perSeatAmount}, () => ({
       planUuid: plan.uuid,
       member: this.member,
@@ -539,21 +665,19 @@ export class SalablePricingTable {
     }
   }
 
-  private getCardClass(plan: any) {
+  private getCardClass(plan: Plan) {
+    console.log('is featured', plan.uuid === this.state.featuredPlanUuid)
     return plan.uuid === this.state.featuredPlanUuid ?
-      "h-full flex flex-col p-6 text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white shadow-xl border-2" :
+      "h-full flex flex-col p-6 text-center text-gray-900 bg-white rounded-lg border shadow xl:p-8 dark:bg-gray-800 dark:text-white shadow-xl border-2 border-primary-600 relative" :
       "h-full flex flex-col p-6 text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white";
   }
 
-  private pricingTableFactory(pricingTable: any) {
-    if (!this.isCustomPricingTable) {
-      return {
-        featuredPlanUuid: '',
-        product: {currencies: pricingTable.currencies},
-        plans: pricingTable.plans.map((plan: Plan) => ({plan}))
-      }
+  private productPricingTableFactory(pricingTable: ProductPricingTable): PricingTable {
+    return {
+      featuredPlanUuid: '',
+      product: {currencies: pricingTable.currencies},
+      plans: pricingTable.plans?.map((plan: Plan) => ({plan, currencies: plan.currencies}))
     }
-    return pricingTable
   }
 
   private getColumnCount = () => {
@@ -573,7 +697,7 @@ export class SalablePricingTable {
 
   private calculateColumnCount = (length: number): number => length <= 4 ? length : length % 4 === 0 ? 4 : 3;
 
-  private calcPrice(price: any) {
+  private calcPrice(price: number) {
     const decimal = price / 100;
     return decimal % 1 === 0 ? decimal.toString() : decimal.toFixed(2);
   }
