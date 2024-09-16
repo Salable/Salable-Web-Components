@@ -56,28 +56,6 @@ const featureThree: FeaturesOnPlans = {
     isUnlimited: false
 };
 
-// const pricingTablePlanBaseMock = objectBuilder({
-//     plan: {
-//         uuid: 'default-plan-uuid',
-//         name: 'Sample Plan',
-//         currencies: [defaultPlanCurrency],
-//         features: [
-//             {
-//                 feature: {
-//                     displayName: 'Sample Feature',
-//                     description: 'This is a sample feature one description',
-//                 },
-//             }
-//         ],
-//         interval: 'month',
-//         description: 'This is a sample plan',
-//         licenseType: 'licensed',
-//     },
-//     currencies: [defaultPlanCurrency],
-//     checkoutUrl: 'http://example.com/checkout',
-//     perSeatAmount: 10,
-// });
-
 const productPricingTablePlanMock = objectBuilder({
     uuid: 'default-plan-uuid',
     planType: 'Standard',
@@ -97,9 +75,6 @@ const productPricingTablePlanMock = objectBuilder({
     checkoutUrl: 'http://example.com/checkout',
     perSeatAmount: 10,
 });
-
-// const pricingTablePlanMock = (currencies: any, overrides: any) =>
-//     pricingTablePlanBaseMock({...overrides, plan: {...overrides.plan, currencies}, currencies});
 
 export const pricingTablePlanMock = objectBuilder<PricingTablePlan>({
     plan: {
