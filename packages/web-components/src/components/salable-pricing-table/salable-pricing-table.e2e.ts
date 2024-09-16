@@ -3,7 +3,7 @@ import {
   salablePricingTableIsSubscribedTests, salablePricingTablePerSeatTests,
   salablePricingTableTests,
   setUpCustomPricingTableApi, setUpErrorPricingTableApi,
-  setUpProductPricingTableApi
+  setUpProductPricingTableApi, testCheckoutUrlPricingTable, testComingSoonPlanPricingTable
 } from "../../../../utilities/tests/salable-pricing-table-tests";
 import {
   defaultCurrency,
@@ -46,6 +46,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             member="456"
           ></salable-pricing-table>
         `);
+        await expect(page.getByText('FEATURED')).toBeVisible();
         await salablePricingTableTests(page);
       });
 
@@ -108,10 +109,10 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
         }));
         await page.route(/^.*?\/checkoutlink\?.*?/, async (route) => {
           await page.waitForTimeout(1000);
-          route.fulfill({
+          await route.fulfill({
             status: 200,
             contentType: 'application/json',
-            body: JSON.stringify({ checkoutUrl: 'https://example.com/checkout' }),
+            body: JSON.stringify({checkoutUrl: 'https://example.com/checkout'}),
           });
         });
         await page.setContent(`
@@ -125,26 +126,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             member="456"
           ></salable-pricing-table>
         `);
-
-        const pricingTable = page.locator('salable-pricing-table');
-        const firstCard = pricingTable.getByTestId('pricing-table-card-0');
-        await expect(firstCard.getByRole('heading', {name: 'Metered Plan'})).toBeVisible();
-        await expect(firstCard.getByText('$1 / month per unit')).toBeVisible();
-        await expect(firstCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
-
-        const waitCheckoutFetchResponse = page.waitForResponse(
-          async (res) => {
-            return res.url().includes(`/checkoutlink`) &&
-              res.request().method() === 'GET' &&
-              res.status() === 200;
-          }
-        );
-
-        await page.getByTestId('salable-plan-0-button').click()
-        await expect(page.getByTestId('plan-0-spinner')).toBeVisible()
-        await waitCheckoutFetchResponse;
-        await page.waitForTimeout(1000)
-        expect(page.url()).toBe('https://example.com/checkout')
+        await testCheckoutUrlPricingTable(page)
       });
 
       test('Displays Coming soon plan and on plan button click redirect to correct url', async ({page}) => {
@@ -153,7 +135,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             pricingTablePlanMock({
               plan: {
                 currencies: [],
-                displayName: 'Coming soon',
+                displayName: 'Future Plan',
                 planType: 'Coming soon',
               }
             }),
@@ -171,15 +153,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             member="456"
           ></salable-pricing-table>
         `);
-
-        const pricingTable = page.locator('salable-pricing-table');
-        const firstCard = pricingTable.getByTestId('pricing-table-card-0');
-        await expect(firstCard.getByRole('heading', {name: 'Coming soon'})).toBeVisible();
-        const planButton = page.getByTestId('salable-plan-0-button')
-        await expect(planButton).toHaveText('Contact us')
-        await planButton.click()
-        await page.waitForTimeout(1000)
-        expect(page.url()).toBe('https://example.com/contact')
+        await testComingSoonPlanPricingTable(page)
       });
 
       test('Displays a custom pricing table with all variations of per seat plans', async ({page}) => {
@@ -350,3 +324,4 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
       });
     });
 });
+

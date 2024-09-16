@@ -61,6 +61,7 @@ const productPricingTablePlanMock = objectBuilder({
     planType: 'Standard',
     displayName: 'Sample Plan',
     currencies: [defaultPlanCurrency],
+    pricingType: 'free',
     features: [
         {
             feature: {
@@ -203,6 +204,7 @@ export const productPricingTableMock = objectBuilder({
             uuid: 'basic-monthly-plan-uuid',
             displayName: 'Basic Monthly Plan',
             description: 'A basic monthly plan description',
+            pricingType: 'paid',
             features: [
                 featureOne,
                 featureTwo,
@@ -213,6 +215,7 @@ export const productPricingTableMock = objectBuilder({
             uuid: 'pro-monthly-plan-uuid',
             displayName: 'Pro Monthly Plan',
             description: 'A pro monthly plan description',
+            pricingType: 'paid',
             features: [
                 featureOne,
                 featureTwo,
@@ -224,6 +227,7 @@ export const productPricingTableMock = objectBuilder({
             uuid: 'basic-yearly-plan-uuid',
             displayName: 'Basic Yearly Plan',
             description: 'A basic yearly plan description',
+            pricingType: 'paid',
             features: [
                 featureOne,
                 featureTwo,
@@ -235,6 +239,7 @@ export const productPricingTableMock = objectBuilder({
             uuid: 'pro-yearly-plan-uuid',
             displayName: 'Pro Yearly Plan',
             description: 'A pro yearly plan description',
+            pricingType: 'paid',
             features: [
                 featureOne,
                 featureTwo,
@@ -247,6 +252,7 @@ export const productPricingTableMock = objectBuilder({
             uuid: 'ultra-yearly-plan-uuid',
             displayName: 'Ultra Yearly Plan',
             description: 'A ultra yearly plan description',
+            pricingType: 'paid',
             features: [
                 featureOne,
                 featureTwo,

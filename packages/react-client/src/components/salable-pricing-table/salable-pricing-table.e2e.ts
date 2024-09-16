@@ -1,8 +1,13 @@
 import {expect, test} from '@playwright/test';
 import {
-    salablePricingTableIsSubscribedTests, salablePricingTablePerSeatTests,
+    salablePricingTableIsSubscribedTests,
+    salablePricingTablePerSeatTests,
     salablePricingTableTests,
-    setUpCustomPricingTableApi, setUpErrorPricingTableApi, setUpProductPricingTableApi
+    setUpCustomPricingTableApi,
+    setUpErrorPricingTableApi,
+    setUpProductPricingTableApi,
+    testComingSoonPlanPricingTable,
+    testCheckoutUrlPricingTable
 } from "../../../../utilities/tests/salable-pricing-table-tests.ts";
 import {
     defaultCurrency,
@@ -15,6 +20,7 @@ test.describe('salable-pricing-table React Client E2E Tests', () => {
         test('Displays a product pricing table and custom pricing table and toggles between monthly/yearly intervals', async ({page}) => {
             await setUpCustomPricingTableApi(page, pricingTableMock());
             await page.goto('http://localhost:5173/test/salable-pricing-table');
+            await expect(page.getByText('FEATURED')).toBeVisible();
             await salablePricingTableTests(page);
 
             await setUpProductPricingTableApi(page);
@@ -113,21 +119,14 @@ test.describe('salable-pricing-table React Client E2E Tests', () => {
                     pricingTablePlanMock({
                         plan: {
                             currencies: [],
-                            displayName: 'Coming soon',
+                            displayName: 'Future plan',
                             planType: 'Coming soon',
                         }
                     }),
                 ]
             }));
             await page.goto('http://localhost:5173/test/salable-pricing-table/coming-soon');
-            const pricingTable = page.locator('salable-pricing-table');
-            const firstCard = pricingTable.getByTestId('pricing-table-card-0');
-            await expect(firstCard.getByRole('heading', {name: 'Coming soon'})).toBeVisible();
-            const planButton = page.getByTestId('salable-plan-0-button')
-            await expect(planButton).toHaveText('Contact us')
-            await planButton.click()
-            await page.waitForTimeout(3000)
-            expect(page.url()).toBe('https://example.com/contact')
+            await testComingSoonPlanPricingTable(page)
         });
 
         test('Successfully click plan button and redirect to checkout url after fetch', async ({page}) => {
@@ -155,26 +154,7 @@ test.describe('salable-pricing-table React Client E2E Tests', () => {
                 });
             });
             await page.goto('http://localhost:5173/test/salable-pricing-table/checkout');
-
-            const pricingTable = page.locator('salable-pricing-table');
-            const firstCard = pricingTable.getByTestId('pricing-table-card-0');
-            await expect(firstCard.getByRole('heading', {name: 'Metered Plan'})).toBeVisible();
-            await expect(firstCard.getByText('$1 / month per unit')).toBeVisible();
-            await expect(firstCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
-
-            const waitCheckoutFetchResponse = page.waitForResponse(
-              async (res) => {
-                  return res.url().includes(`/checkoutlink`) &&
-                    res.request().method() === 'GET' &&
-                    res.status() === 200;
-              }
-            );
-
-            await page.getByTestId('salable-plan-0-button').click()
-            await expect(page.getByTestId('plan-0-spinner')).toBeVisible()
-            await waitCheckoutFetchResponse;
-            await page.waitForTimeout(1000)
-            expect(page.url()).toBe('https://example.com/checkout')
+            await testCheckoutUrlPricingTable(page)
         });
     })
 

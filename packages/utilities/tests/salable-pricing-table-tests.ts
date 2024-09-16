@@ -94,6 +94,40 @@ export async function salablePricingTableIsSubscribedTests(page: Page) {
 
 }
 
+export async function testComingSoonPlanPricingTable(page: Page) {
+    const pricingTable = page.locator('salable-pricing-table');
+    const firstCard = pricingTable.getByTestId('pricing-table-card-0');
+    await expect(firstCard.getByRole('heading', {name: 'Future plan'})).toBeVisible();
+    await expect(firstCard.getByText('Coming soon')).toBeVisible();
+    const planButton = page.getByTestId('salable-plan-0-button')
+    await expect(planButton).toHaveText('Contact us')
+    await planButton.click()
+    await page.waitForTimeout(1000)
+    expect(page.url()).toBe('https://example.com/contact')
+}
+
+export async function testCheckoutUrlPricingTable(page: Page) {
+    const pricingTable = page.locator('salable-pricing-table');
+    const firstCard = pricingTable.getByTestId('pricing-table-card-0');
+    await expect(firstCard.getByRole('heading', {name: 'Metered Plan'})).toBeVisible();
+    await expect(firstCard.getByText('$1 / month per unit')).toBeVisible();
+    await expect(firstCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
+
+    const waitCheckoutFetchResponse = page.waitForResponse(
+      async (res) => {
+          return res.url().includes(`/checkoutlink`) &&
+            res.request().method() === 'GET' &&
+            res.status() === 200;
+      }
+    );
+
+    await page.getByTestId('salable-plan-0-button').click()
+    await expect(page.getByTestId('plan-0-spinner')).toBeVisible()
+    await waitCheckoutFetchResponse;
+    await page.waitForTimeout(1000)
+    expect(page.url()).toBe('https://example.com/checkout')
+}
+
 async function testMonthlyLicensedPricingTable(pricingTable: Locator) {
     const firstCard = pricingTable.getByTestId('pricing-table-card-0');
     await expect(firstCard).toBeVisible();

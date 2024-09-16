@@ -322,7 +322,7 @@ export class SalablePricingTable {
                     ) : null}
                     <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200"
                         id="pricing-table-card-heading">{plan.displayName}</h3>
-                    {plan.currencies.length > 0 ? (
+                    {plan.currencies.length > 0 && plan.pricingType === 'paid' ? (
                       <div class='mt-4'>
                         <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
                         <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">{this.calcPrice(this.getCurrency(plan)?.price)}</span>
@@ -348,11 +348,17 @@ export class SalablePricingTable {
                         ) : null}
                       </span>
                       </div>
-                    ) : (
+                    ) : null}
+                    {plan.pricingType === 'free' && plan.planType === 'Standard' ? (
                       <div class='mt-4'>
                         <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">Free</span>
                       </div>
-                    )}
+                    ) : null}
+                    {plan.planType === 'Coming soon' ? (
+                      <div class='mt-4'>
+                        <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">Coming soon</span>
+                      </div>
+                    ) : null}
                     <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
 
                     <ul class="mt-7 mb-5 space-y-2.5 text-sm mx-auto">
