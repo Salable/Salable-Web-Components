@@ -114,7 +114,7 @@ export class SalablePricingTable {
   /**
    * The URL to send users for coming soon plans.
    **/
-  @Prop() globalContactUrl!: string;
+  @Prop() globalContactUrl?: string;
   /**
    * The URL to send users to after a successful purchase. Must be an absolute URL.
    **/
@@ -186,7 +186,8 @@ export class SalablePricingTable {
   @Watch('member')
   validateProp(newValue: string, propName: string) {
     if (typeof newValue !== 'string' || newValue.trim() === '') {
-      throw new Error(`${propName} is a required property and cannot be empty`);
+      console.error(`${propName} is a required property and cannot be empty`)
+      this.errorMessage = 'Failed to load Pricing Table'
     }
   }
 
@@ -252,6 +253,7 @@ export class SalablePricingTable {
 
   async componentWillLoad() {
     this.validateProps();
+    if (Boolean(this.errorMessage)) return
     this.perPlanGranteeIdsWatcher(this.perPlanGranteeIds);
     this.perPlanSuccessUrlsWatcher(this.perPlanSuccessUrls);
     this.perPlanCancelUrlsWatcher(this.perPlanCancelUrls);
@@ -271,7 +273,6 @@ export class SalablePricingTable {
 
   render() {
     const isTestMode = this.apiKey.startsWith('test_');
-    console.log(this.state.featuredPlanUuid)
     return (
       <Host>
         <div class="font-sans relative">
@@ -281,7 +282,7 @@ export class SalablePricingTable {
             </div>
           ): null}
           {Boolean(this.errorMessage) ? (
-            <div class='bg-red-500 text-white p-3 rounded-md leading-none'>
+            <div class='bg-red-500 text-white p-3 rounded-md leading-none' data-testid={`salable-pricing-table-error`}>
               {this.errorMessage}
             </div>
           ) : null}
@@ -360,11 +361,11 @@ export class SalablePricingTable {
                           <h4 class="text-gray-800 dark:text-gray-400 text-left flex gap-2 items-center font-semibold">
                             {feature.feature.displayName}
                             {Boolean(feature.feature.description) ? (
-                              <div data-testid={`info_${planIndex}_${featureIndex}`}
+                              <span data-testid={`info_${planIndex}_${featureIndex}`}
                                    class="grow-0 flex items-center group relative" tabindex="0">
-                              <span
+                              <div
                                 class="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                              >?</span>
+                              >?</div>
                                 <div
                                   data-testid={`tooltip_${planIndex}_${featureIndex}`}
                                   role="tooltip"
@@ -372,7 +373,7 @@ export class SalablePricingTable {
                                 >
                                   {feature.feature.description}
                                 </div>
-                              </div>
+                              </span>
                             ) : null}
                           </h4>
                           {this.getFeatureValue(feature.feature.valueType, feature.value, feature.isUnlimited, feature.feature.showUnlimited, feature.enumValue?.name)}
@@ -382,6 +383,7 @@ export class SalablePricingTable {
 
                     {plan.planType === 'Coming soon' ? (
                       <a
+                        data-testid={`salable-plan-${planIndex}-button`}
                         class={`mt-auto inline-flex justify-center items-center text-white focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:text-white dark:focus:ring-primary-900 ${plan.licenseType === 'metered' && plan.grantee.isSubscribed ? 'bg-gray-500' : 'bg-primary-600 hover:bg-primary-700'}`}
                         href={this.globalContactUrl}
                       >
@@ -389,12 +391,13 @@ export class SalablePricingTable {
                       </a>
                     ) : (
                       <button
+                        data-testid={`salable-plan-${planIndex}-button`}
                         class={`mt-auto inline-flex justify-center items-center text-white focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 dark:text-white dark:focus:ring-primary-900 ${plan.licenseType === 'metered' && plan.grantee.isSubscribed ? 'bg-gray-500' : 'bg-primary-600 hover:bg-primary-700'}`}
                         onClick={this.handlePlanSelect(plan)}
                         disabled={Boolean((plan.licenseType === 'metered' && plan.grantee.isSubscribed) || this.isLoadingPlanUuid)}
                       >
                         {this.isLoadingPlanUuid === plan.uuid ? <span
-                          class='h-[15px] w-[15px] mr-2 animate-spin border-2 border-s-white rounded-full border-white/[.5]'></span> : null}
+                          class='h-[15px] w-[15px] mr-2 animate-spin border-2 border-s-white rounded-full border-white/[.5]' data-testid={`plan-${planIndex}-spinner`}></span> : null}
                         {this.planCtaLabelValue(plan)}
                       </button>
                     )}
@@ -507,7 +510,7 @@ export class SalablePricingTable {
           return null
         }
         if (response.status === 400) {
-          console.error(`Fetch error - ${data.error}`);
+          console.error(`${data.error}`);
         }
         this.errorMessage = 'Failed to load Pricing Table'
         return null
@@ -516,7 +519,7 @@ export class SalablePricingTable {
       return data;
     } catch (error) {
       // Todo: add refresh/retry option
-      console.error('Fetch error:', error);
+      console.error('Fetch error HERE:', error);
       this.errorMessage = 'Error fetching data';
     }
   }
@@ -666,7 +669,6 @@ export class SalablePricingTable {
   }
 
   private getCardClass(plan: Plan) {
-    console.log('is featured', plan.uuid === this.state.featuredPlanUuid)
     return plan.uuid === this.state.featuredPlanUuid ?
       "h-full flex flex-col p-6 text-center text-gray-900 bg-white rounded-lg border shadow xl:p-8 dark:bg-gray-800 dark:text-white shadow-xl border-2 border-primary-600 relative" :
       "h-full flex flex-col p-6 text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white";

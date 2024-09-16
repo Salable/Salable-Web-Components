@@ -69,7 +69,7 @@ export namespace Components {
         /**
           * The URL to send users for coming soon plans.
          */
-        "globalContactUrl": string;
+        "globalContactUrl"?: string;
         /**
           * The unique identifier for the grantee for all plan checkouts links.
          */
@@ -200,7 +200,7 @@ declare namespace LocalJSX {
         /**
           * The URL to send users for coming soon plans.
          */
-        "globalContactUrl": string;
+        "globalContactUrl"?: string;
         /**
           * The unique identifier for the grantee for all plan checkouts links.
          */
