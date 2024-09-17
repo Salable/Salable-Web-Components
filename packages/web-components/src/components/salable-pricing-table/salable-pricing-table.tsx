@@ -1,5 +1,12 @@
 import {Component, h, Host, Prop, State, Watch} from '@stencil/core';
 import {apiUrl} from "../../constants";
+import {
+  Plan,
+  PricingTable,
+  PricingTablePlan,
+  ProductCurrency,
+  ProductPricingTable
+} from "../../../../utilities/mock-data/pricing-table.mock";
 
 type PricingTableState = {
   monthly: PricingTablePlan[]
@@ -12,80 +19,6 @@ type PlanConfig = {
   successUrls: [string, string][]
   granteeIds: [string, string][]
   cancelUrls: [string, string][]
-}
-
-export type PricingTable = {
-  featuredPlanUuid: string
-  product: PricingTableProduct
-  plans: PricingTablePlan[]
-}
-
-type PricingTableProduct = {
-  currencies: ProductCurrency[]
-}
-
-type ProductCurrency = {
-  defaultCurrency: boolean
-  currency: Currency
-}
-
-export type PricingTablePlan = {
-  plan: Plan
-}
-
-export type ProductPricingTable = PricingTableProduct & {
-  plans: Plan[]
-}
-
-type PlanLicenseType = 'licensed' | 'metered' | 'perSeat'
-type PlanInterval = 'month' | 'year'
-type PlanPricingType = 'free' | 'paid'
-type PlanType = 'Standard' | 'Coming soon' | 'Bespoke'
-
-type Plan = {
-  uuid: string
-  planType: PlanType;
-  displayName: string
-  currencies: PlanCurrency[]
-  features?: FeaturesOnPlans[]
-  interval: PlanInterval
-  description: string
-  licenseType: PlanLicenseType
-  pricingType: PlanPricingType
-  perSeatAmount: number;
-  maxSeatAmount: number;
-  grantee?: {
-    isSubscribed: boolean;
-    isLicensed: boolean
-  }
-}
-
-type PlanCurrency = {
-  currency: Currency
-  price: number
-}
-
-type Currency = {
-  shortName: string
-  symbol: string
-  defaultCurrency?: boolean
-}
-
-export type FeaturesOnPlans = {
-  value: string
-  isUnlimited: boolean
-  enumValue?: {
-    name: string
-  }
-  feature: Feature;
-}
-
-export type Feature = {
-  displayName: string
-  valueType: 'numerical' | 'enum' | 'boolean'
-  defaultValue: string
-  showUnlimited: boolean
-  description?: string
 }
 
 @Component({
@@ -564,7 +497,7 @@ export class SalablePricingTable {
     return plan.currencies.find(currenciesOnPlan => currenciesOnPlan.currency.shortName === this.state.defaultCurrencyShortName);
   }
 
-  private planUnitValue(licenseType: PlanLicenseType) {
+  private planUnitValue(licenseType: string) {
     switch (licenseType) {
       case 'licensed':
         return '';
@@ -710,7 +643,7 @@ export class SalablePricingTable {
     return decimal % 1 === 0 ? decimal.toString() : decimal.toFixed(2);
   }
 
-  private getFeatureValue(valueType: "numerical" | "enum" | "boolean", value: string, isUnlimited: boolean, showUnlimited: boolean, enumValue?: string) {
+  private getFeatureValue(valueType: string, value: string, isUnlimited: boolean, showUnlimited: boolean, enumValue?: string) {
     switch (valueType) {
       case "numerical":
         return showUnlimited && isUnlimited ? 'Unlimited' : value;

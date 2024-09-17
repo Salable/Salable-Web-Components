@@ -1,9 +1,73 @@
-import {
-    FeaturesOnPlans,
-    PricingTable,
-    PricingTablePlan
-} from "../../web-components/src/components/salable-pricing-table/salable-pricing-table";
 import objectBuilder from "../object-builder/object-builder";
+
+export type PricingTable = {
+    featuredPlanUuid: string
+    product: PricingTableProduct
+    plans: PricingTablePlan[]
+}
+
+export type PricingTablePlan = {
+    plan: Plan
+}
+
+type PricingTableProduct = {
+    currencies: ProductCurrency[]
+}
+
+export type ProductPricingTable = PricingTableProduct & {
+    plans: Plan[]
+}
+
+export type ProductCurrency = {
+    defaultCurrency: boolean
+    currency: Currency
+}
+
+export type Plan = {
+    uuid: string
+    planType: string;
+    displayName: string
+    currencies: PlanCurrency[]
+    features?: FeaturesOnPlans[]
+    interval: string
+    description: string
+    licenseType: string
+    pricingType: string
+    perSeatAmount: number;
+    maxSeatAmount: number;
+    grantee?: {
+        isSubscribed: boolean;
+        isLicensed: boolean
+    }
+}
+
+type PlanCurrency = {
+    currency: Currency
+    price: number
+}
+
+type Currency = {
+    shortName: string
+    symbol: string
+    defaultCurrency?: boolean
+}
+
+export type FeaturesOnPlans = {
+    value: string
+    isUnlimited: boolean
+    enumValue?: {
+        name: string
+    }
+    feature: Feature;
+}
+
+export type Feature = {
+    displayName: string
+    valueType: string
+    defaultValue: string
+    showUnlimited: boolean
+    description?: string
+}
 
 export const defaultCurrency = {
     shortName: 'USD',
@@ -20,7 +84,7 @@ const defaultPlanCurrency = {
     price: 10,
 };
 
-const featureOne: FeaturesOnPlans = {
+const featureOne = {
     feature: {
         displayName: 'Feature One',
         description: 'Something about feature one',
@@ -32,7 +96,7 @@ const featureOne: FeaturesOnPlans = {
     isUnlimited: false
 };
 
-const featureTwo: FeaturesOnPlans = {
+const featureTwo = {
     feature: {
         displayName: 'Feature Two',
         description: 'Some slightly longer text explaining what feature two enables',
@@ -44,7 +108,7 @@ const featureTwo: FeaturesOnPlans = {
     isUnlimited: false
 };
 
-const featureThree: FeaturesOnPlans = {
+const featureThree = {
     feature: {
         displayName: 'Feature Three',
         description: 'Some text describing feature three this is only available on higher tiers',
@@ -77,7 +141,7 @@ const productPricingTablePlanMock = objectBuilder({
     perSeatAmount: 10,
 });
 
-export const pricingTablePlanMock = objectBuilder<PricingTablePlan>({
+export const pricingTablePlanMock = objectBuilder({
     plan: {
         uuid: 'basic-monthly-plan-uuid',
         displayName: 'Basic Monthly Plan',
@@ -92,12 +156,16 @@ export const pricingTablePlanMock = objectBuilder<PricingTablePlan>({
             featureOne,
             featureTwo,
         ],
-        currencies: [{currency: defaultCurrency, price: 200}]
+        currencies: [{currency: defaultCurrency, price: 200}],
+        grantee: {
+            isSubscribed: false,
+            isLicensed: false,
+        }
     }
 })
 
 
-export const pricingTableMock = objectBuilder<PricingTable>({
+export const pricingTableMock = objectBuilder({
     featuredPlanUuid: 'pro-monthly-plan-uuid',
     product: {currencies: [defaultProductCurrency]},
     plans: [
@@ -116,7 +184,7 @@ export const pricingTableMock = objectBuilder<PricingTable>({
                     featureOne,
                     featureTwo,
                 ],
-                currencies: [{currency: defaultCurrency, price: 200}]
+                currencies: [{currency: defaultCurrency, price: 200}],
             }
         },
         {
