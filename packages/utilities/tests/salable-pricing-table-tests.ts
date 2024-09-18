@@ -145,7 +145,7 @@ async function testMonthlyLicensedPricingTable(pricingTable: Locator) {
     await expect(secondCard.getByRole('heading', {name: 'Feature One'})).toBeVisible();
     await expect(secondCard.getByRole('heading', {name: 'Feature Two'})).toBeVisible();
     await expect(secondCard.getByRole('heading', {name: 'Feature Three'})).toBeVisible();
-    await expect(secondCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
+    await expect(secondCard.getByRole('button', {name: 'Start 7 day trial'})).toBeVisible();
 }
 
 async function testYearlyLicensedPricingTable(pricingTable: Locator) {

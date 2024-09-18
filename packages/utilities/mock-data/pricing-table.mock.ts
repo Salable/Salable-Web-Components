@@ -35,6 +35,7 @@ export type Plan = {
     pricingType: string
     perSeatAmount: number;
     maxSeatAmount: number;
+    evalDays: number;
     grantee?: {
         isSubscribed: boolean;
         isLicensed: boolean
@@ -134,6 +135,7 @@ const productPricingTablePlanMock = objectBuilder({
             },
         }
     ],
+    evalDays: 0,
     interval: 'month',
     description: 'This is a sample plan',
     licenseType: 'licensed',
@@ -193,6 +195,7 @@ export const pricingTableMock = objectBuilder({
                 uuid: 'pro-monthly-plan-uuid',
                 displayName: 'Pro Monthly Plan',
                 planType: 'Standard',
+                evalDays: 7,
                 maxSeatAmount: -1,
                 perSeatAmount: 1,
                 pricingType: 'paid',
@@ -284,6 +287,7 @@ export const productPricingTableMock = objectBuilder({
             displayName: 'Pro Monthly Plan',
             description: 'A pro monthly plan description',
             pricingType: 'paid',
+            evalDays: 7,
             features: [
                 featureOne,
                 featureTwo,

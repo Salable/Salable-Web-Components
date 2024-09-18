@@ -514,6 +514,7 @@ export class SalablePricingTable {
     switch (plan.planType) {
       case 'Standard' :
         if (plan.licenseType === 'metered' && plan.grantee.isSubscribed) return 'Subscribed'
+        if (plan.evalDays) return `Start ${plan.evalDays} day trial`
         return 'Select Plan'
       case 'Coming soon' :
         return 'Contact us'
