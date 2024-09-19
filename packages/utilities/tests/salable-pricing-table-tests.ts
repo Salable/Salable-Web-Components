@@ -143,8 +143,10 @@ async function testMonthlyLicensedPricingTable(pricingTable: Locator) {
     await expect(firstCard.getByRole('heading', {name: 'Basic Monthly Plan'})).toBeVisible();
     await expect(firstCard.getByText('$2 / month')).toBeVisible();
     await expect(firstCard.getByText('A basic monthly plan description')).toBeVisible();
-    await expect(firstCard.getByRole('heading', {name: 'Feature One'})).toBeVisible();
-    await expect(firstCard.getByRole('heading', {name: 'Feature Two'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Unlimited numerical'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Boolean'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Text options feature'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Numerical only'})).toBeVisible();
     await expect(firstCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
 
     const secondCard = pricingTable.getByTestId('pricing-table-card-1');
@@ -152,9 +154,10 @@ async function testMonthlyLicensedPricingTable(pricingTable: Locator) {
     await expect(secondCard.getByRole('heading', {name: 'Pro Monthly Plan'})).toBeVisible();
     await expect(secondCard.getByText('$3.50 / month')).toBeVisible();
     await expect(secondCard.getByText('A pro monthly plan description')).toBeVisible();
-    await expect(secondCard.getByRole('heading', {name: 'Feature One'})).toBeVisible();
-    await expect(secondCard.getByRole('heading', {name: 'Feature Two'})).toBeVisible();
-    await expect(secondCard.getByRole('heading', {name: 'Feature Three'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Unlimited numerical'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Boolean'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Text options feature'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Numerical only'})).toBeVisible();
     await expect(secondCard.getByRole('button', {name: 'Start 7 day trial'})).toBeVisible();
 }
 
@@ -164,8 +167,10 @@ async function testYearlyLicensedPricingTable(pricingTable: Locator) {
     await expect(firstCard.getByRole('heading', {name: 'Basic Yearly Plan'})).toBeVisible();
     await expect(firstCard.getByText('$10 / year')).toBeVisible();
     await expect(firstCard.getByText('A basic yearly plan description')).toBeVisible();
-    await expect(firstCard.getByRole('heading', {name: 'Feature One'})).toBeVisible();
-    await expect(firstCard.getByRole('heading', {name: 'Feature Two'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Unlimited numerical'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Boolean'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Text options feature'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Numerical only'})).toBeVisible();
     await expect(firstCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
 
     const secondCard = pricingTable.getByTestId('pricing-table-card-1');
@@ -173,8 +178,9 @@ async function testYearlyLicensedPricingTable(pricingTable: Locator) {
     await expect(secondCard.getByRole('heading', {name: 'Pro Yearly Plan'})).toBeVisible();
     await expect(secondCard.getByText('$12.50 / year')).toBeVisible();
     await expect(secondCard.getByText('A pro yearly plan description')).toBeVisible();
-    await expect(secondCard.getByRole('heading', {name: 'Feature One'})).toBeVisible();
-    await expect(secondCard.getByRole('heading', {name: 'Feature Two'})).toBeVisible();
-    await expect(secondCard.getByRole('heading', {name: 'Feature Three'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Unlimited numerical'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Boolean'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Text options feature'})).toBeVisible();
+    await expect(firstCard.getByRole('heading', {name: 'Numerical only'})).toBeVisible();
     await expect(secondCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
 }

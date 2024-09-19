@@ -304,9 +304,10 @@ export class SalablePricingTable {
                         <li class="flex space-x-2 flex-col items-center">
                           <h4 class="text-gray-800 dark:text-gray-400 text-left flex gap-2 items-center font-semibold">
                             {feature.feature.displayName}
-                            {Boolean(feature.feature.description) ? (
-                              <span data-testid={`info_${planIndex}_${featureIndex}`}
-                                   class="grow-0 flex items-center group relative" tabindex="0">
+                          </h4>
+                          {Boolean(feature.feature.description) ? (
+                            <span data-testid={`info_${planIndex}_${featureIndex}`}
+                                  class="grow-0 flex items-center group relative" tabindex="0">
                               <div
                                 class="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                               >?</div>
@@ -318,8 +319,7 @@ export class SalablePricingTable {
                                   {feature.feature.description}
                                 </div>
                               </span>
-                            ) : null}
-                          </h4>
+                          ) : null}
                           {this.getFeatureValue(feature.feature.valueType, feature.value, feature.isUnlimited, feature.feature.showUnlimited, feature.enumValue?.name)}
                         </li>
                       ))}

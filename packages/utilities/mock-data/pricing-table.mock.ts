@@ -16,10 +16,10 @@ const defaultPlanCurrency = {
     price: 10,
 };
 
-const featureOne = {
+const booleanFeature = {
     feature: {
-        displayName: 'Feature One',
-        description: 'Something about feature one',
+        displayName: 'Boolean',
+        description: 'Something about a boolean feature',
         valueType: 'boolean',
         defaultValue: 'false',
         showUnlimited: false
@@ -28,28 +28,41 @@ const featureOne = {
     isUnlimited: false
 };
 
-const featureTwo = {
+const enumFeature = {
     feature: {
-        displayName: 'Feature Two',
-        description: 'Some slightly longer text explaining what feature two enables',
+        displayName: 'Text options feature',
+        description: 'Some slightly longer text explaining what the text options feature enables',
         valueType: 'enum',
         defaultValue: 'None',
         showUnlimited: false
     },
+    enumValue: {name: 'Access'},
     value: 'Access',
     isUnlimited: false
 };
 
-const featureThree = {
+const numericalFeature = {
     feature: {
-        displayName: 'Feature Three',
-        description: 'Some text describing feature three this is only available on higher tiers',
+        displayName: 'Numerical only',
+        description: 'Some text describing numerical feature',
         valueType: 'numerical',
         defaultValue: '10',
         showUnlimited: false
     },
     value: '50',
     isUnlimited: false
+};
+
+const unlimitedNumericalFeature = {
+    feature: {
+        displayName: 'Unlimited numerical',
+        description: 'Some text describing this numerical feature which is unlimited',
+        valueType: 'numerical',
+        defaultValue: '10',
+        showUnlimited: true
+    },
+    value: 'Unlimited',
+    isUnlimited: true
 };
 
 const productPricingTablePlanMock = objectBuilder({
@@ -86,8 +99,10 @@ export const pricingTablePlanMock = objectBuilder({
         interval: 'month',
         licenseType: 'licensed',
         features: [
-            featureOne,
-            featureTwo,
+            unlimitedNumericalFeature,
+            booleanFeature,
+            enumFeature,
+            numericalFeature,
         ],
         currencies: [{currency: defaultCurrency, price: 200}],
         grantee: {
@@ -115,8 +130,10 @@ export const pricingTableMock = objectBuilder<PricingTable>({
                 interval: 'month',
                 licenseType: 'licensed',
                 features: [
-                    featureOne,
-                    featureTwo,
+                    unlimitedNumericalFeature,
+                    booleanFeature,
+                    enumFeature,
+                    numericalFeature,
                 ],
                 currencies: [{currency: defaultCurrency, price: 200}],
             }
@@ -135,10 +152,11 @@ export const pricingTableMock = objectBuilder<PricingTable>({
                 interval: 'month',
                 licenseType: 'licensed',
                 features: [
-                    featureOne,
-                    featureTwo,
-                    featureThree
-                ]
+                    unlimitedNumericalFeature,
+                    booleanFeature,
+                    enumFeature,
+                    numericalFeature,
+                ],
             }
         },
         {
@@ -154,8 +172,10 @@ export const pricingTableMock = objectBuilder<PricingTable>({
                 pricingType: 'paid',
                 description: 'A basic yearly plan description',
                 features: [
-                    featureOne,
-                    featureTwo,
+                    unlimitedNumericalFeature,
+                    booleanFeature,
+                    enumFeature,
+                    numericalFeature,
                 ],
                 interval: 'year'
             }
@@ -173,9 +193,10 @@ export const pricingTableMock = objectBuilder<PricingTable>({
                 pricingType: 'paid',
                 description: 'A pro yearly plan description',
                 features: [
-                    featureOne,
-                    featureTwo,
-                    featureThree
+                    unlimitedNumericalFeature,
+                    booleanFeature,
+                    enumFeature,
+                    numericalFeature,
                 ],
                 interval: 'year'
             }
@@ -193,9 +214,10 @@ export const pricingTableMock = objectBuilder<PricingTable>({
                 evalDays: 0,
                 description: 'A ultra yearly plan description',
                 features: [
-                    featureOne,
-                    featureTwo,
-                    featureThree
+                    unlimitedNumericalFeature,
+                    booleanFeature,
+                    enumFeature,
+                    numericalFeature,
                 ],
                 interval: 'year'
             }
@@ -212,8 +234,10 @@ export const productPricingTableMock = objectBuilder({
             description: 'A basic monthly plan description',
             pricingType: 'paid',
             features: [
-                featureOne,
-                featureTwo,
+                unlimitedNumericalFeature,
+                booleanFeature,
+                enumFeature,
+                numericalFeature,
             ],
             currencies: [{currency: defaultCurrency, price: 200}]
         }),
@@ -224,9 +248,10 @@ export const productPricingTableMock = objectBuilder({
             pricingType: 'paid',
             evalDays: 7,
             features: [
-                featureOne,
-                featureTwo,
-                featureThree
+                unlimitedNumericalFeature,
+                booleanFeature,
+                enumFeature,
+                numericalFeature,
             ],
             currencies: [{currency: defaultCurrency, price: 350}]
         }),
@@ -236,8 +261,10 @@ export const productPricingTableMock = objectBuilder({
             description: 'A basic yearly plan description',
             pricingType: 'paid',
             features: [
-                featureOne,
-                featureTwo,
+                unlimitedNumericalFeature,
+                booleanFeature,
+                enumFeature,
+                numericalFeature,
             ],
             currencies: [{currency: defaultCurrency, price: 1000}],
             interval: 'year'
@@ -248,9 +275,10 @@ export const productPricingTableMock = objectBuilder({
             description: 'A pro yearly plan description',
             pricingType: 'paid',
             features: [
-                featureOne,
-                featureTwo,
-                featureThree
+                unlimitedNumericalFeature,
+                booleanFeature,
+                enumFeature,
+                numericalFeature,
             ],
             currencies: [{currency: defaultCurrency, price: 1250}],
             interval: 'year'
@@ -261,9 +289,10 @@ export const productPricingTableMock = objectBuilder({
             description: 'A ultra yearly plan description',
             pricingType: 'paid',
             features: [
-                featureOne,
-                featureTwo,
-                featureThree
+                unlimitedNumericalFeature,
+                booleanFeature,
+                enumFeature,
+                numericalFeature,
             ],
             currencies: [{currency: defaultCurrency, price: 15000}],
             interval: 'year'
