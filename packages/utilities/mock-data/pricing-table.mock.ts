@@ -1,74 +1,5 @@
 import objectBuilder from "../object-builder/object-builder";
-
-export type PricingTable = {
-    featuredPlanUuid: string
-    product: PricingTableProduct
-    plans: PricingTablePlan[]
-}
-
-export type PricingTablePlan = {
-    plan: Plan
-}
-
-type PricingTableProduct = {
-    currencies: ProductCurrency[]
-}
-
-export type ProductPricingTable = PricingTableProduct & {
-    plans: Plan[]
-}
-
-export type ProductCurrency = {
-    defaultCurrency: boolean
-    currency: Currency
-}
-
-export type Plan = {
-    uuid: string
-    planType: string;
-    displayName: string
-    currencies: PlanCurrency[]
-    features?: FeaturesOnPlans[]
-    interval: string
-    description: string
-    licenseType: string
-    pricingType: string
-    perSeatAmount: number;
-    maxSeatAmount: number;
-    evalDays: number;
-    grantee?: {
-        isSubscribed: boolean;
-        isLicensed: boolean
-    }
-}
-
-type PlanCurrency = {
-    currency: Currency
-    price: number
-}
-
-type Currency = {
-    shortName: string
-    symbol: string
-    defaultCurrency?: boolean
-}
-
-export type FeaturesOnPlans = {
-    value: string
-    isUnlimited: boolean
-    enumValue?: {
-        name: string
-    }
-    feature: Feature;
-}
-
-export type Feature = {
-    displayName: string
-    valueType: string
-    defaultValue: string
-    showUnlimited: boolean
-    description?: string
-}
+import {PricingTable} from "../types/pricing-table";
 
 export const defaultCurrency = {
     shortName: 'USD',
@@ -167,7 +98,7 @@ export const pricingTablePlanMock = objectBuilder({
 })
 
 
-export const pricingTableMock = objectBuilder({
+export const pricingTableMock = objectBuilder<PricingTable>({
     featuredPlanUuid: 'pro-monthly-plan-uuid',
     product: {currencies: [defaultProductCurrency]},
     plans: [
@@ -178,6 +109,7 @@ export const pricingTableMock = objectBuilder({
                 planType: 'Standard',
                 maxSeatAmount: -1,
                 perSeatAmount: 1,
+                evalDays: 0,
                 pricingType: 'paid',
                 description: 'A basic monthly plan description',
                 interval: 'month',
@@ -218,6 +150,7 @@ export const pricingTableMock = objectBuilder({
                 licenseType: 'licensed',
                 maxSeatAmount: -1,
                 perSeatAmount: 1,
+                evalDays: 0,
                 pricingType: 'paid',
                 description: 'A basic yearly plan description',
                 features: [
@@ -236,6 +169,7 @@ export const pricingTableMock = objectBuilder({
                 licenseType: 'licensed',
                 maxSeatAmount: -1,
                 perSeatAmount: 1,
+                evalDays: 0,
                 pricingType: 'paid',
                 description: 'A pro yearly plan description',
                 features: [
@@ -256,6 +190,7 @@ export const pricingTableMock = objectBuilder({
                 perSeatAmount: 1,
                 pricingType: 'paid',
                 licenseType: 'licensed',
+                evalDays: 0,
                 description: 'A ultra yearly plan description',
                 features: [
                     featureOne,

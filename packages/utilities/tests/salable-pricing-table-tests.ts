@@ -1,5 +1,6 @@
 import {expect, Locator, Page} from "@playwright/test";
-import {PricingTable, productPricingTableMock} from "../mock-data/pricing-table.mock";
+import {productPricingTableMock} from "../mock-data/pricing-table.mock";
+import {PricingTable} from "../types/pricing-table";
 
 export async function setUpCustomPricingTableApi(page: Page, data: PricingTable) {
     const url = /^.*?\/pricing-tables\/.*?/;

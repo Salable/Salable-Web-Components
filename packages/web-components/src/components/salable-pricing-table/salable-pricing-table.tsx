@@ -6,7 +6,7 @@ import {
   PricingTablePlan,
   ProductCurrency,
   ProductPricingTable
-} from "../../../../utilities/mock-data/pricing-table.mock";
+} from "../../../../utilities/types/pricing-table";
 
 type PricingTableState = {
   monthly: PricingTablePlan[]

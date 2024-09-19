@@ -6,7 +6,6 @@ import {
   setUpProductPricingTableApi, testCheckoutUrlPricingTable, testComingSoonPlanPricingTable
 } from "../../../../utilities/tests/salable-pricing-table-tests";
 import {
-  PricingTable,
   defaultCurrency,
   pricingTableMock,
   pricingTablePlanMock
@@ -35,7 +34,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
       });
 
       test('Displays a custom pricing table and toggles between monthly/yearly intervals', async ({page}) => {
-        await setUpCustomPricingTableApi(page, pricingTableMock() as PricingTable);
+        await setUpCustomPricingTableApi(page, pricingTableMock());
         await page.setContent(`
           <salable-pricing-table
             api-key="${mockApiKey}"
@@ -77,7 +76,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
               }
             })
           ]
-        }) as PricingTable);
+        }));
         await page.setContent(`
           <salable-pricing-table
             api-key="${mockApiKey}"
@@ -107,7 +106,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
               }
             }),
           ]
-        }) as PricingTable);
+        }));
         await page.route(/^.*?\/checkoutlink\?.*?/, async (route) => {
           await page.waitForTimeout(1000);
           await route.fulfill({
@@ -141,7 +140,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
               }
             }),
           ]
-        }) as PricingTable);
+        }));
         await page.setContent(`
           <salable-pricing-table
             api-key="${mockApiKey}"
@@ -206,7 +205,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
               }
             })
           ]
-        }) as PricingTable);
+        }));
         await page.setContent(`
           <salable-pricing-table
               api-key="${mockApiKey}"
@@ -290,7 +289,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
               }
             })
           ]
-        }) as PricingTable);
+        }));
         await page.route(/^.*?\/checkoutlink\?.*?/, route => {
           route.fulfill({
             status: 400,
