@@ -652,15 +652,15 @@ export class SalablePricingTable {
         return enumValue ?? 'n/a';
       case "boolean":
         return value === 'true' ? (
-          <svg class="w-6 h-6 text-primary-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+          <svg class="w-6 h-6 text-primary-600 dark:stroke-white stroke-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="m5 12 4.7 4.5 9.3-9"/>
           </svg>
         ) : (
-          <svg class="w-6 h-6 text-primary-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+          <svg class="w-6 h-6 text-primary-600 dark:stroke-white stroke-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                fill="none" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M6 18 18 6m0 12L6 6"/>
           </svg>
         );
