@@ -196,6 +196,11 @@ export class SalablePricingTable {
       if (Boolean(data)) {
         const normalisedData: PricingTable = !this.isCustomPricingTable ? this.productPricingTableFactory(data as ProductPricingTable) : data as PricingTable;
         this.validateConditionalProps(normalisedData)
+        if (Boolean(this.currency) && !Boolean(normalisedData.product.currencies.find((c) => c.currency.shortName.toLowerCase() === this.currency))) {
+          this.errorMessage = 'Failed to load Pricing Table'
+          console.error(`Requested Currency "${this.currency}" was not found on the pricing table's product`)
+        }
+        if (!Boolean(this.currency)) this.currency = normalisedData.product.currencies.find((c) => c.defaultCurrency)?.currency.shortName.toLowerCase()
         this.state = this.initialiseState(normalisedData)
       }
     } catch (e) {
@@ -494,7 +499,7 @@ export class SalablePricingTable {
   }
 
   private getCurrency(plan: Plan) {
-    return plan.currencies.find(currenciesOnPlan => currenciesOnPlan.currency.shortName === this.state.defaultCurrencyShortName);
+    return plan.currencies.find(currenciesOnPlan => currenciesOnPlan.currency.shortName.toLowerCase() === this.currency);
   }
 
   private planUnitValue(licenseType: string) {

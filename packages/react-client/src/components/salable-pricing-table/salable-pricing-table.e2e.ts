@@ -7,7 +7,7 @@ import {
     setUpErrorPricingTableApi,
     setUpProductPricingTableApi,
     testComingSoonPlanPricingTable,
-    testCheckoutUrlPricingTable
+    testCheckoutUrlPricingTable, testPricingTableShowsCurrency
 } from "../../../../utilities/tests/salable-pricing-table-tests.ts";
 import {
     defaultCurrency,
@@ -111,6 +111,37 @@ test.describe('salable-pricing-table React Client E2E Tests', () => {
             }));
             await page.goto('http://localhost:5173/test/salable-pricing-table/per-seat');
             await salablePricingTablePerSeatTests(page);
+        });
+
+        test('Displays currency set in prop correctly', async ({page}) => {
+            await setUpCustomPricingTableApi(page, pricingTableMock({
+                product: {
+                    currencies: [
+                        {
+                            currency: {shortName: 'USD', symbol: '$'},
+                            defaultCurrency: true
+                        },
+                        {
+                            currency: {shortName: 'GBP', symbol: '£'},
+                            defaultCurrency: false
+                        }
+                    ]
+                },
+                plans: [
+                    pricingTablePlanMock({
+                        plan: {
+                            displayName: 'Plan',
+                            currencies: [
+                                {currency: {shortName: 'USD', symbol: '$'}, price: 100},
+                                {currency: {shortName: 'GBP', symbol: '£'}, price: 200}
+                            ],
+                            grantee: { isSubscribed: false, isLicensed: false }
+                        }
+                    }),
+                ]
+            }));
+            await page.goto('http://localhost:5173/test/salable-pricing-table/currency');
+            await testPricingTableShowsCurrency(page)
         });
 
         test('Displays Coming soon plan and on plan button click redirect to correct url', async ({page}) => {
@@ -218,6 +249,32 @@ test.describe('salable-pricing-table React Client E2E Tests', () => {
 
             const errorMessage = page.getByTestId('salable-pricing-table-error');
             await expect(errorMessage.getByText('Failed to load checkout')).toBeVisible();
+        });
+
+        test('Displays an error message if currency is not found on pricing table product', async ({page}) => {
+            await setUpCustomPricingTableApi(page, pricingTableMock({
+                product: {
+                    currencies: [{
+                        currency: {shortName: 'USD', symbol: '$'},
+                        defaultCurrency: true
+                    }],
+                },
+                plans: [
+                    pricingTablePlanMock({
+                        plan: {
+                            displayName: 'Plan',
+                            currencies: [{
+                                currency: {shortName: 'USD', symbol: '$'},
+                                price: 100
+                            }],
+                            grantee: { isSubscribed: false, isLicensed: false }
+                        }
+                    })
+                ]
+            }));
+            await page.goto('http://localhost:5173/test/salable-pricing-table/errors/currency');
+            const errorMessage = page.getByTestId('salable-pricing-table-error');
+            await expect(errorMessage.getByText('Failed to load Pricing Table')).toBeVisible();
         });
     })
 });

@@ -1,9 +1,14 @@
 import {test} from 'stencil-playwright';
 import {
-  salablePricingTableIsSubscribedTests, salablePricingTablePerSeatTests,
+  salablePricingTableIsSubscribedTests,
+  salablePricingTablePerSeatTests,
   salablePricingTableTests,
-  setUpCustomPricingTableApi, setUpErrorPricingTableApi,
-  setUpProductPricingTableApi, testCheckoutUrlPricingTable, testComingSoonPlanPricingTable
+  setUpCustomPricingTableApi,
+  setUpErrorPricingTableApi,
+  setUpProductPricingTableApi,
+  testCheckoutUrlPricingTable,
+  testComingSoonPlanPricingTable,
+  testPricingTableShowsCurrency
 } from "../../../../utilities/tests/salable-pricing-table-tests";
 import {
   defaultCurrency,
@@ -89,6 +94,48 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
           ></salable-pricing-table>
         `);
         await salablePricingTableIsSubscribedTests(page);
+      });
+
+      test('Displays a custom pricing table with a currency set as a prop', async ({page}) => {
+        await setUpCustomPricingTableApi(page, pricingTableMock({
+          product: {
+            currencies: [
+              {
+                currency: {shortName: 'USD', symbol: '$'},
+                defaultCurrency: true
+              },
+              {
+                currency: {shortName: 'GBP', symbol: '£'},
+                defaultCurrency: false
+              }
+            ]
+          },
+          plans: [
+            pricingTablePlanMock({
+              plan: {
+                displayName: 'Plan',
+                currencies: [
+                  {currency: {shortName: 'USD', symbol: '$'}, price: 100},
+                  {currency: {shortName: 'GBP', symbol: '£'}, price: 200}
+                ],
+                grantee: { isSubscribed: false, isLicensed: false }
+              }
+            }),
+          ]
+        }));
+        await page.setContent(`
+          <salable-pricing-table
+            api-key="${mockApiKey}"
+            uuid="${mockPricingTableUuid}"
+            is-custom-pricing-table="true"
+            global-success-url="https://google.co.uk"
+            global-cancel-url="https://google.co.uk"
+            global-grantee-id="123"
+            member="456"
+            currency="gbp"
+          ></salable-pricing-table>
+        `);
+        await testPricingTableShowsCurrency(page)
       });
 
       test('Successfully click plan button and redirect to checkout url after fetch', async ({page}) => {
@@ -321,6 +368,44 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
 
         const errorMessage = page.getByTestId('salable-pricing-table-error');
         await expect(errorMessage.getByText('Failed to load checkout')).toBeVisible();
+      });
+
+      test('Displays an error message if currency is not found on pricing table product', async ({page}) => {
+        await setUpCustomPricingTableApi(page, pricingTableMock({
+          product: {
+            currencies: [{
+              currency: {shortName: 'USD', symbol: '$'},
+              defaultCurrency: true
+            }],
+          },
+          plans: [
+            pricingTablePlanMock({
+              plan: {
+                displayName: 'Plan',
+                currencies: [{
+                  currency: {shortName: 'USD', symbol: '$'},
+                  price: 100
+                }],
+                grantee: { isSubscribed: false, isLicensed: false }
+              }
+            })
+          ]
+        }));
+        await page.setContent(`
+          <salable-pricing-table
+            api-key="${mockApiKey}"
+            uuid="${mockPricingTableUuid}"
+            is-custom-pricing-table="true"
+            global-success-url="https://google.co.uk"
+            global-cancel-url="https://google.co.uk"
+            global-grantee-id="123"
+            member="456"
+            currency="cad"
+          ></salable-pricing-table>
+        `);
+
+        const errorMessage = page.getByTestId('salable-pricing-table-error');
+        await expect(errorMessage.getByText('Failed to load Pricing Table')).toBeVisible();
       });
     });
 });

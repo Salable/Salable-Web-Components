@@ -91,7 +91,16 @@ export async function salablePricingTableIsSubscribedTests(page: Page) {
     await expect(secondCard.getByRole('button', {name: 'Subscribed'})).toBeVisible();
 
     await expect(page).toHaveScreenshot();
+}
 
+export async function testPricingTableShowsCurrency(page: Page) {
+    const pricingTable = page.locator('salable-pricing-table');
+    const firstCard = pricingTable.getByTestId('pricing-table-card-0');
+    await expect(firstCard.getByRole('heading', {name: 'Plan'})).toBeVisible();
+    await expect(firstCard.getByText('£2 / month')).toBeVisible();
+    await expect(firstCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
+
+    await expect(page).toHaveScreenshot();
 }
 
 export async function testComingSoonPlanPricingTable(page: Page) {
