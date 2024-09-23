@@ -12,7 +12,6 @@ const STRIPE_PLAN_ID = process.env.STRIPE_PLAN_ID;
 
 test.describe('salable-checkout Stencil E2E Tests', () => {
   const mockApiKey = 'test_xxxxxxx';
-  const mockPlanUuid = STRIPE_PLAN_ID;
   const mockMember = 'example-member-123';
   const mockGrantee = 'example-grantee-123';
   const mockSuccessUrl = "https://www.google.com";
@@ -24,7 +23,7 @@ test.describe('salable-checkout Stencil E2E Tests', () => {
     await page.setContent(`
         <salable-checkout
           api-key="${mockApiKey}"
-          plan-uuid="${mockPlanUuid}"
+          plan-uuid="${STRIPE_PLAN_ID}"
           member=${mockMember}
           grantee-id=${mockGrantee}
           success-url=${mockSuccessUrl}
@@ -40,7 +39,7 @@ test.describe('salable-checkout Stencil E2E Tests', () => {
     await page.setContent(`
         <salable-checkout
           api-key="${mockApiKey}"
-          plan-uuid="${mockPlanUuid}"
+          plan-uuid="${STRIPE_PLAN_ID}"
           member=${mockMember}
           grantee-id=${mockGrantee}
           success-url=${mockSuccessUrl}
@@ -58,7 +57,7 @@ test.describe('salable-checkout Stencil E2E Tests', () => {
     await page.setContent(`
         <salable-checkout
           api-key="${mockApiKey}"
-          plan-uuid="${mockPlanUuid}"
+          plan-uuid="${STRIPE_PLAN_ID}"
           member=${mockMember}
           grantee-id=${mockGrantee}
           success-url=${mockSuccessUrl}
