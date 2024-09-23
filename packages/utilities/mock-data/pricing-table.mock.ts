@@ -72,12 +72,10 @@ const productPricingTablePlanMock = objectBuilder({
     currencies: [defaultPlanCurrency],
     pricingType: 'free',
     features: [
-        {
-            feature: {
-                displayName: 'Sample Feature',
-                description: 'This is a sample feature one description',
-            },
-        }
+        {feature: numericalFeature.feature},
+        {feature: unlimitedNumericalFeature.feature},
+        {feature: booleanFeature.feature},
+        {feature: enumFeature.feature},
     ],
     evalDays: 0,
     interval: 'month',

@@ -32,6 +32,8 @@ export class SalablePricingTable {
   @State() errorMessage: string | null = null;
   @State() selectedBillingPeriodKey: 'monthly' | 'yearly' = 'monthly';
   @State() isLoadingPlanUuid: string | null = null;
+  @State() apiUrl: string | null = apiUrl;
+
   /**
    * The publishable api key, this can be generated in the Salable dashboard
    **/
@@ -47,7 +49,7 @@ export class SalablePricingTable {
   /**
    * The URL to send users for coming soon plans.
    **/
-  @Prop() globalContactUrl?: string;
+  @Prop() globalContactUrl: string;
   /**
    * The URL to send users to after a successful purchase. Must be an absolute URL.
    **/
@@ -104,6 +106,8 @@ export class SalablePricingTable {
    * Configure cancelUrls per plan, string format `{'plan-uuid-one':'https://example.com/cancel-one','plan-uuid-two':'https://example.com/cancel-two'}`
    **/
   @Prop() perPlanCancelUrls: Record<string, string> | string;
+  // eslint-disable-next-line @stencil-community/required-jsdoc
+  @Prop() environment?: string;
 
   private _perPlanGranteeIds?: Record<string, string> | string;
   private _perPlanSuccessUrls?: Record<string, string> | string;
@@ -190,6 +194,7 @@ export class SalablePricingTable {
     this.perPlanGranteeIdsWatcher(this.perPlanGranteeIds);
     this.perPlanSuccessUrlsWatcher(this.perPlanSuccessUrls);
     this.perPlanCancelUrlsWatcher(this.perPlanCancelUrls);
+    this.apiUrl = this.environment === 'preview' ? 'https://api.salable.org' : apiUrl
     this.initPlanConfig();
     try {
       const data = await this.fetchPricingTable();
@@ -297,33 +302,39 @@ export class SalablePricingTable {
                         <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">Coming soon</span>
                       </div>
                     ) : null}
-                    <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
+                    {Boolean(plan.description) ? (
+                      <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
+                    ) : null}
 
-                    <ul class="mt-7 mb-5 space-y-2.5 text-sm mx-auto">
-                      {plan.features?.map((feature, featureIndex) => (
-                        <li class="flex space-x-2 flex-col items-center">
-                          <h4 class="text-gray-800 dark:text-gray-400 text-left flex gap-2 items-center font-semibold">
-                            {feature.feature.displayName}
-                          </h4>
-                          {Boolean(feature.feature.description) ? (
-                            <span data-testid={`info_${planIndex}_${featureIndex}`}
-                                  class="grow-0 flex items-center group relative" tabindex="0">
-                              <div
-                                class="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                              >?</div>
+                    <div class='w-full max-w-[250px] mx-auto text-left'>
+                      <hr class='my-4 border-gray-800 dark:border-gray-400' />
+                      <ul class="mb-5 space-y-2.5 text-sm mx-auto">
+                        {plan.features?.map((feature, featureIndex) => (
+                          <li class="flex flex-col">
+                            <div class='flex justify-between'>
+                              <h4
+                                class="text-gray-800 dark:text-gray-400 text-left flex gap-2 font-semibold">
+                                {feature.feature.displayName}
+                              </h4>
+                              {Boolean(feature.feature.description) ? (
+                                <span data-testid={`info_${planIndex}_${featureIndex}`}
+                                      class="grow-0 group relative" tab-index="0">
+                                <div class="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">?</div>
                                 <div
                                   data-testid={`tooltip_${planIndex}_${featureIndex}`}
                                   role="tooltip"
-                                  class="absolute w-max max-w-[200px] bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
+                                  class="absolute right-0 w-max max-w-[200px] bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
                                 >
                                   {feature.feature.description}
                                 </div>
                               </span>
-                          ) : null}
-                          {this.getFeatureValue(feature.feature.valueType, feature.value, feature.isUnlimited, feature.feature.showUnlimited, feature.enumValue?.name)}
-                        </li>
-                      ))}
-                    </ul>
+                              ) : null}
+                            </div>
+                            {this.getFeatureValue(feature.feature.valueType, feature.value, feature.isUnlimited, feature.feature.showUnlimited, feature.enumValue?.name)}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
                     {plan.planType === 'Coming soon' ? (
                       <a
@@ -341,7 +352,8 @@ export class SalablePricingTable {
                         disabled={Boolean((plan.licenseType === 'metered' && plan.grantee.isSubscribed) || this.isLoadingPlanUuid)}
                       >
                         {this.isLoadingPlanUuid === plan.uuid ? <span
-                          class='h-[15px] w-[15px] mr-2 animate-spin border-2 border-s-white rounded-full border-white/[.5]' data-testid={`plan-${planIndex}-spinner`}></span> : null}
+                          class='h-[15px] w-[15px] mr-2 animate-spin border-2 border-s-white rounded-full border-white/[.5]'
+                          data-testid={`plan-${planIndex}-spinner`}></span> : null}
                         {this.planCtaLabelValue(plan)}
                       </button>
                     )}
@@ -403,7 +415,7 @@ export class SalablePricingTable {
       if (Boolean(this.customerId)) params.set('customerId', this.customerId);
       if (Boolean(this.currency)) params.set('currency', this.currency);
 
-      const checkoutUrlFetch = await fetch(`${apiUrl}/plans/${plan.uuid}/checkoutlink?${decodeURIComponent(params.toString())}`, {
+      const checkoutUrlFetch = await fetch(`${this.apiUrl}/plans/${plan.uuid}/checkoutlink?${decodeURIComponent(params.toString())}`, {
         headers: {
           version: 'v2',
           'x-api-key': this.apiKey
@@ -436,8 +448,8 @@ export class SalablePricingTable {
       });
 
       const pricingTableUrl = this.isCustomPricingTable
-        ? `${apiUrl}/pricing-tables/${this.uuid}?${decodeURIComponent(params.toString())}`
-        : `${apiUrl}/products/${this.uuid}/pricingtable?${decodeURIComponent(params.toString())}`;
+        ? `${this.apiUrl}/pricing-tables/${this.uuid}?${decodeURIComponent(params.toString())}`
+        : `${this.apiUrl}/products/${this.uuid}/pricingtable?${decodeURIComponent(params.toString())}`;
 
       const response = await fetch(pricingTableUrl, {headers: {version: 'v2', 'x-api-key': `${this.apiKey}`}});
       const data = await response.json()
@@ -573,12 +585,11 @@ export class SalablePricingTable {
 
     const granteeId = this.planConfig.granteeIds.find(([planUuid]) => planUuid === plan.uuid)?.[1] ?? this.globalGranteeId;
     const successUrl = this.planConfig.successUrls.find(([planUuid]) => planUuid === plan.uuid)?.[1] ?? this.globalSuccessUrl;
-    const cancelUrl = this.planConfig.cancelUrls.find(([planUuid]) => planUuid === plan.uuid)?.[1] ?? this.globalCancelUrl;
 
     body[0].granteeId = granteeId;
 
     try {
-      const licensesResponse = await fetch(`${apiUrl}/licenses`, {
+      const licensesResponse = await fetch(`${this.apiUrl}/licenses`, {
         method: 'POST',
         headers: {'x-api-key': this.apiKey},
         body: JSON.stringify(body),
@@ -587,12 +598,11 @@ export class SalablePricingTable {
         location.href = successUrl;
       } else {
         console.error('Salable Pricing Table Error: License create did not return a success response');
-        location.href = cancelUrl;
+        this.errorMessage = 'Failed to create License';
       }
     } catch (e) {
       console.error('Salable Pricing Table Error: Failed to create license/s');
-      this.errorMessage = 'Failed to select plan';
-      location.href = cancelUrl;
+      this.errorMessage = 'Failed to create License';
     }
   };
 
@@ -657,13 +667,13 @@ export class SalablePricingTable {
         return enumValue ?? 'n/a';
       case "boolean":
         return value === 'true' ? (
-          <svg class="w-6 h-6 text-primary-600 dark:stroke-white stroke-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+          <svg class="w-6 h-6 text-primary-600 dark:stroke-white stroke-black ml-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                fill="none" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="m5 12 4.7 4.5 9.3-9"/>
           </svg>
         ) : (
-          <svg class="w-6 h-6 text-primary-600 dark:stroke-white stroke-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+          <svg class="w-6 h-6 text-primary-600 dark:stroke-white stroke-black ml-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                fill="none" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M6 18 18 6m0 12L6 6"/>

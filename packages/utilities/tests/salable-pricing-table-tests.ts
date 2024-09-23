@@ -137,6 +137,27 @@ export async function testCheckoutUrlPricingTable(page: Page) {
     expect(page.url()).toBe('https://example.com/checkout')
 }
 
+export async function testCreateLicenseSuccessRedirectPricingTable(page: Page) {
+    const pricingTable = page.locator('salable-pricing-table');
+    const firstCard = pricingTable.getByTestId('pricing-table-card-0');
+    await expect(firstCard.getByRole('heading', {name: 'Free Plan'})).toBeVisible();
+    await expect(firstCard.getByText('Free', { exact: true })).toBeVisible();
+    await expect(firstCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
+
+    const waitLicensesFetchResponse = page.waitForResponse(
+      async (res) => {
+          await page.waitForTimeout(500)
+          return res.url().includes(`/licenses`) &&
+            res.request().method() === 'POST' &&
+            res.status() === 200;
+      }
+    );
+    await page.getByTestId('salable-plan-0-button').click()
+    await expect(page.getByTestId('plan-0-spinner')).toBeVisible()
+    await waitLicensesFetchResponse;
+    expect(page.url()).toBe('https://example.com/success')
+}
+
 async function testMonthlyLicensedPricingTable(pricingTable: Locator) {
     const firstCard = pricingTable.getByTestId('pricing-table-card-0');
     await expect(firstCard).toBeVisible();

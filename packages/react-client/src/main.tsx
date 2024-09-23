@@ -69,6 +69,18 @@ const router = createBrowserRouter([
         element: <SalablePricingTableTest />,
     },
     {
+        path: "/test/salable-pricing-table/create-license",
+        element: <SalablePricingTable
+          apiKey="test_xxxxx"
+          uuid="xxxxx"
+          isCustomPricingTable={true}
+          globalSuccessUrl="https://example.com/success"
+          globalCancelUrl="https://google.com"
+          globalGranteeId="xxxxx"
+          member="xxxxx"
+        />,
+    },
+    {
         path: "/test/salable-pricing-table/currency",
         element: <SalablePricingTable
           apiKey="test_xxxxx"
@@ -79,6 +91,20 @@ const router = createBrowserRouter([
           globalGranteeId="xxxxx"
           member="xxxxx"
           currency="gbp"
+        />,
+    },
+    {
+        path: "/test/salable-pricing-table/preview",
+        element: <SalablePricingTable
+          apiKey="test_xxxxx"
+          uuid="12345"
+          isCustomPricingTable={true}
+          globalSuccessUrl="https://google.com"
+          globalCancelUrl="https://google.com"
+          globalContactUrl="https://example.com/contact"
+          globalGranteeId="123"
+          member="xxxxx"
+          environment="preview"
         />,
     },
     {
@@ -117,6 +143,18 @@ const router = createBrowserRouter([
           globalGranteeId="xxxxx"
           member="xxxxx"
           currency="cad"
+        />,
+    },
+    {
+        path: "/test/salable-pricing-table/errors/create-license",
+        element: <SalablePricingTable
+          apiKey="test_xxxxx"
+          uuid="xxxxx"
+          isCustomPricingTable={true}
+          globalSuccessUrl="https://example.com/success"
+          globalCancelUrl="https://google.com"
+          globalGranteeId="xxxxx"
+          member="xxxxx"
         />,
     },
 ]);

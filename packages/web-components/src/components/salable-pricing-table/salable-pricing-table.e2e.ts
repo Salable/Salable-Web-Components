@@ -7,7 +7,7 @@ import {
   setUpErrorPricingTableApi,
   setUpProductPricingTableApi,
   testCheckoutUrlPricingTable,
-  testComingSoonPlanPricingTable,
+  testComingSoonPlanPricingTable, testCreateLicenseSuccessRedirectPricingTable,
   testPricingTableShowsCurrency
 } from "../../../../utilities/tests/salable-pricing-table-tests";
 import {
@@ -176,6 +176,40 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
         await testCheckoutUrlPricingTable(page)
       });
 
+      test('Successfully click free plan button, create license and redirect to success url', async ({page}) => {
+        await setUpCustomPricingTableApi(page, pricingTableMock({
+          plans: [
+            pricingTablePlanMock({
+              plan: {
+                displayName: 'Free Plan',
+                pricingType: 'free',
+                grantee: { isSubscribed: false, isLicensed: false }
+              }
+            }),
+          ]
+        }));
+        await page.route(/^.*?\/licenses\.*?/, async (route) => {
+          await page.waitForTimeout(1000);
+          await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify({}),
+          });
+        });
+        await page.setContent(`
+          <salable-pricing-table
+            api-key="${mockApiKey}"
+            uuid="${mockPricingTableUuid}"
+            is-custom-pricing-table="true"
+            global-success-url="https://example.com/success"
+            global-cancel-url="https://example.com/cancel"
+            global-grantee-id="123"
+            member="456"
+          ></salable-pricing-table>
+        `);
+        await testCreateLicenseSuccessRedirectPricingTable(page)
+      });
+
       test('Displays Coming soon plan and on plan button click redirect to correct url', async ({page}) => {
         await setUpCustomPricingTableApi(page, pricingTableMock({
           plans: [
@@ -201,6 +235,42 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
           ></salable-pricing-table>
         `);
         await testComingSoonPlanPricingTable(page)
+      });
+
+      test('Calls staging api with environment set to "preview"', async ({page}) => {
+        await page.route(`https://api.salable.org/pricing-tables/${mockPricingTableUuid}?granteeId=123`, async (route) => {
+          await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify(pricingTableMock({
+              plans: [
+                pricingTablePlanMock({
+                  plan: {
+                    currencies: [],
+                    displayName: 'Future Plan',
+                    planType: 'Coming soon',
+                  }
+                }),
+              ]
+            })),
+          });
+        });
+        await page.setContent(`
+          <salable-pricing-table
+            api-key="${mockApiKey}"
+            uuid="${mockPricingTableUuid}"
+            is-custom-pricing-table="true"
+            global-success-url="https://google.co.uk"
+            global-cancel-url="https://google.co.uk"
+            global-contact-url="https://example.com/contact"
+            global-grantee-id="123"
+            member="456"
+            environment="preview"
+          ></salable-pricing-table>
+        `);
+        const pricingTable = page.locator('salable-pricing-table');
+        const firstCard = pricingTable.getByTestId('pricing-table-card-0');
+        await expect(firstCard.getByRole('heading', {name: 'Future plan'})).toBeVisible();
       });
 
       test('Displays a custom pricing table with all variations of per seat plans', async ({page}) => {
@@ -406,6 +476,57 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
 
         const errorMessage = page.getByTestId('salable-pricing-table-error');
         await expect(errorMessage.getByText('Failed to load Pricing Table')).toBeVisible();
+      });
+
+      test('Displays an error message if create license fetch fails', async ({page}) => {
+        await setUpCustomPricingTableApi(page, pricingTableMock({
+          plans: [
+            pricingTablePlanMock({
+              plan: {
+                displayName: 'Free Plan',
+                pricingType: 'free',
+                grantee: { isSubscribed: false, isLicensed: false }
+              }
+            }),
+          ]
+        }));
+        await page.route(/^.*?\/licenses\.*?/, async (route) => {
+          await page.waitForTimeout(1000);
+          await route.fulfill({
+            status: 400,
+            contentType: 'application/json',
+            body: JSON.stringify({error: 'Bad Request'}),
+          });
+        });
+        await page.setContent(`
+          <salable-pricing-table
+            api-key="${mockApiKey}"
+            uuid="${mockPricingTableUuid}"
+            is-custom-pricing-table="true"
+            global-success-url="https://example.com/success"
+            global-cancel-url="https://example.com/cancel"
+            global-grantee-id="123"
+            member="456"
+          ></salable-pricing-table>
+        `);
+        const pricingTable = page.locator('salable-pricing-table');
+        const firstCard = pricingTable.getByTestId('pricing-table-card-0');
+        await expect(firstCard.getByRole('heading', {name: 'Free Plan'})).toBeVisible();
+        await expect(firstCard.getByText('Free', { exact: true })).toBeVisible();
+        await expect(firstCard.getByRole('button', {name: 'Select Plan'})).toBeVisible();
+
+        const waitLicensesFetchResponse = page.waitForResponse(
+          async (res) => {
+            return res.url().includes(`/licenses`) &&
+              res.request().method() === 'POST' &&
+              res.status() === 400;
+          }
+        );
+        await page.getByTestId('salable-plan-0-button').click()
+        await expect(page.getByTestId('plan-0-spinner')).toBeVisible()
+        await waitLicensesFetchResponse;
+        const errorMessage = page.getByTestId('salable-pricing-table-error');
+        await expect(errorMessage.getByText('Failed to create License')).toBeVisible();
       });
     });
 });
