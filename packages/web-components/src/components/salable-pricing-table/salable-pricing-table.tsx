@@ -263,10 +263,9 @@ export class SalablePricingTable {
                     {this.state.featuredPlanUuid === plan.uuid ? (
                       <span class='absolute text-xs bg-primary-600 p-1 text-white leading-none uppercase rounded-sm right-0 left-0 w-fit m-auto top-[-10px]'>Featured</span>
                     ) : null}
-                    <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200"
-                        id="pricing-table-card-heading">{plan.displayName}</h3>
+                    <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200" id="pricing-table-card-heading">{plan.displayName}</h3>
                     {plan.currencies.length > 0 && plan.pricingType === 'paid' ? (
-                      <div class='mt-4'>
+                      <div class='mt-2'>
                         <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
                         <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">{this.calcPrice(this.getCurrency(plan)?.price)}</span>
                         <span class="text-xl text-grey-500"> / {plan.interval}
@@ -293,12 +292,12 @@ export class SalablePricingTable {
                       </div>
                     ) : null}
                     {plan.pricingType === 'free' && plan.planType === 'Standard' ? (
-                      <div class='mt-4'>
+                      <div class='mt-2'>
                         <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">Free</span>
                       </div>
                     ) : null}
                     {plan.planType === 'Coming soon' ? (
-                      <div class='mt-4'>
+                      <div class='mt-2'>
                         <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">Coming soon</span>
                       </div>
                     ) : null}
@@ -306,8 +305,7 @@ export class SalablePricingTable {
                       <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
                     ) : null}
 
-                    <div class='w-full max-w-[250px] mx-auto text-left'>
-                      <hr class='my-4 border-gray-800 dark:border-gray-400' />
+                    <div class='w-full mt-4'>
                       <ul class="mb-5 space-y-2.5 text-sm mx-auto">
                         {plan.features?.map((feature, featureIndex) => (
                           <li class="flex flex-col">
@@ -625,8 +623,8 @@ export class SalablePricingTable {
 
   private getCardClass(plan: Plan) {
     return plan.uuid === this.state.featuredPlanUuid ?
-      "h-full flex flex-col p-6 text-center text-gray-900 bg-white rounded-lg border shadow xl:p-8 dark:bg-gray-800 dark:text-white shadow-xl border-2 border-primary-600 relative" :
-      "h-full flex flex-col p-6 text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white";
+      "h-full flex flex-col p-6 text-gray-900 bg-white rounded-lg border shadow xl:p-8 dark:bg-gray-800 dark:text-white shadow-xl border-2 border-primary-600 relative" :
+      "h-full flex flex-col p-6 text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white";
   }
 
   private productPricingTableFactory(pricingTable: ProductPricingTable): PricingTable {
