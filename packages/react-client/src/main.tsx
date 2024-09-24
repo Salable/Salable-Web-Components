@@ -5,7 +5,7 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
-import {defineCustomElements} from '@salable/react-web-components';
+import {defineCustomElements, SalablePricingTable} from '@salable/react-web-components';
 import Root from "./root.tsx";
 import SalablePricingTableDemo from "./components/salable-pricing-table/salable-pricing-table-demo.tsx";
 import SalableCheckoutDemo from './components/salable-checkout/salable-checkout-demo.tsx';
@@ -42,6 +42,120 @@ const router = createBrowserRouter([
     {
         path: "/test/salable-pricing-table",
         element: <SalablePricingTableTest/>,
+    },
+    {
+        path: "/test/salable-pricing-table/is-subscribed",
+        element: <SalablePricingTableTest />,
+    },
+    {
+        path: "/test/salable-pricing-table/per-seat",
+        element: <SalablePricingTableTest />,
+    },
+    {
+        path: "/test/salable-pricing-table/coming-soon",
+        element: <SalablePricingTable
+          apiKey="test_xxxxx"
+          uuid="xxxxx"
+          isCustomPricingTable={true}
+          globalSuccessUrl="https://google.com"
+          globalCancelUrl="https://google.com"
+          globalContactUrl="https://example.com/contact"
+          globalGranteeId="xxxxx"
+          member="xxxxx"
+        />
+    },
+    {
+        path: "/test/salable-pricing-table/checkout",
+        element: <SalablePricingTableTest />,
+    },
+    {
+        path: "/test/salable-pricing-table/create-license",
+        element: <SalablePricingTable
+          apiKey="test_xxxxx"
+          uuid="xxxxx"
+          isCustomPricingTable={true}
+          globalSuccessUrl="https://example.com/success"
+          globalCancelUrl="https://google.com"
+          globalGranteeId="xxxxx"
+          member="xxxxx"
+        />,
+    },
+    {
+        path: "/test/salable-pricing-table/currency",
+        element: <SalablePricingTable
+          apiKey="test_xxxxx"
+          uuid="xxxxx"
+          isCustomPricingTable={true}
+          globalSuccessUrl="https://google.com"
+          globalCancelUrl="https://google.com"
+          globalGranteeId="xxxxx"
+          member="xxxxx"
+          currency="gbp"
+        />,
+    },
+    {
+        path: "/test/salable-pricing-table/preview",
+        element: <SalablePricingTable
+          apiKey="test_xxxxx"
+          uuid="12345"
+          isCustomPricingTable={true}
+          globalSuccessUrl="https://google.com"
+          globalCancelUrl="https://google.com"
+          globalContactUrl="https://example.com/contact"
+          globalGranteeId="123"
+          member="xxxxx"
+          environment="preview"
+        />,
+    },
+    {
+        path: "/test/salable-pricing-table/errors/unauthorised",
+        element: <SalablePricingTableTest />,
+    },
+    {
+        path: "/test/salable-pricing-table/errors/fetch-fails",
+        element: <SalablePricingTableTest />,
+    },
+    {
+        path: "/test/salable-pricing-table/errors/required-prop",
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        element: <SalablePricingTable
+          apiKey="test_xxxxx"
+          uuid="xxxxx"
+          isCustomPricingTable={true}
+          globalSuccessUrl="https://google.com"
+          globalCancelUrl="https://google.com"
+          globalGranteeId="xxxxx"
+        />,
+    },
+    {
+        path: "/test/salable-pricing-table/errors/checkout",
+        element: <SalablePricingTableTest />,
+    },
+    {
+        path: "/test/salable-pricing-table/errors/currency",
+        element: <SalablePricingTable
+          apiKey="test_xxxxx"
+          uuid="xxxxx"
+          isCustomPricingTable={true}
+          globalSuccessUrl="https://google.com"
+          globalCancelUrl="https://google.com"
+          globalGranteeId="xxxxx"
+          member="xxxxx"
+          currency="cad"
+        />,
+    },
+    {
+        path: "/test/salable-pricing-table/errors/create-license",
+        element: <SalablePricingTable
+          apiKey="test_xxxxx"
+          uuid="xxxxx"
+          isCustomPricingTable={true}
+          globalSuccessUrl="https://example.com/success"
+          globalCancelUrl="https://google.com"
+          globalGranteeId="xxxxx"
+          member="xxxxx"
+        />,
     },
 ]);
 
