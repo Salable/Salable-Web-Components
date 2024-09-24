@@ -1,19 +1,15 @@
-import {test} from 'stencil-playwright';
-import {
-  salablePricingTableTests,
-  setUpCustomPricingTableApi,
-  setUpProductPricingTableApi
-} from "../../../../utilities/tests/salable-pricing-table-tests";
+import { test } from 'stencil-playwright';
+import { salablePricingTableTests, setUpCustomPricingTableApi, setUpProductPricingTableApi } from '../../../../utilities/tests/salable-pricing-table-tests';
 
 test.describe('salable-pricing-table Stencil E2E Tests', () => {
-    const mockApiKey = 'test_xxxxxx';
-    const mockPricingTableUuid = 'mock_pricing_table_uuid';
+  const mockApiKey = 'test_xxxxxx';
+  const mockPricingTableUuid = 'mock_pricing_table_uuid';
 
-    test.describe('Fetch Success Cases', () => {
-      test('Displays a product pricing table and toggles between monthly/yearly intervals', async ({page}) => {
-        await setUpProductPricingTableApi(page);
+  test.describe('Fetch Success Cases', () => {
+    test('Displays a product pricing table and toggles between monthly/yearly intervals', async ({ page }) => {
+      await setUpProductPricingTableApi(page);
 
-        await page.setContent(`
+      await page.setContent(`
                 <salable-pricing-table
                     api-key="${mockApiKey}"
                     uuid="${mockPricingTableUuid}"
@@ -25,12 +21,12 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
                 ></salable-pricing-table>
             `);
 
-        await salablePricingTableTests(page);
-      });
+      await salablePricingTableTests(page);
+    });
 
-      test('Displays a custom pricing table and toggles between monthly/yearly intervals', async ({page}) => {
-        await setUpCustomPricingTableApi(page);
-        await page.setContent(`
+    test('Displays a custom pricing table and toggles between monthly/yearly intervals', async ({ page }) => {
+      await setUpCustomPricingTableApi(page);
+      await page.setContent(`
                 <salable-pricing-table
                     api-key="${mockApiKey}"
                     uuid="${mockPricingTableUuid}"
@@ -41,7 +37,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
                     member="456"
                 ></salable-pricing-table>
             `);
-        await salablePricingTableTests(page);
-      });
+      await salablePricingTableTests(page);
     });
+  });
 });

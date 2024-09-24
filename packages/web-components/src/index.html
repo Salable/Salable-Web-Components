@@ -1,67 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html dir="ltr" lang="en">
-<head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" name="viewport"/>
-  <title>Salable Stencil Components</title>
-  <script src="/build/web-components.esm.js" type="module"></script>
-  <script nomodule src="/build/web-components.js"></script>
-  <style>
-    .theme, .theme > * {
-      --primary-50: #F9C9E1;
-      --primary-100: #F8B7D7;
-      --primary-200: #F492C2;
-      --primary-300: #F06DAE;
-      --primary-400: #EC4899;
-      --primary-500: #E82384;
-      --primary-600: #CD1570;
-      --primary-700: #A8115C;
-      --primary-800: #830E48;
-      --primary-900: #5E0A33;
-      --primary-950: #4C0829;
-    }
-  </style>
-</head>
-<body>
-<div style="padding: 40px; display: flex; flex-direction: column; gap: 40px">
-  <salable-pricing-table
-    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
-    uuid="29c9a7c8-9a41-4e87-9e7e-7c62d293c131"
-    global-success-url="https://example.com/success-default"
-    global-cancel-url="https://example.com/cancel-default"
-    global-grantee-id="123"
-    member="456"
-    is-custom-pricing-table="false"
-  ></salable-pricing-table>
-  <salable-pricing-table
-    class="theme"
-    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
-    uuid="aec06de8-3a3e-46eb-bd09-f1094c1b1b8d"
-    global-success-url="https://example.com/success-default"
-    global-cancel-url="https://example.com/cancel-default"
-    global-grantee-id="123"
-    member="456"
-    is-custom-pricing-table="true"
-    per-plan-grantee-ids='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "654321", "22266dba-20c9-466f-88ac-e05c8980c222": "123456", "111eefac-9b21-4299-8cde-302249d6f111": "123321"}'
-    per-plan-success-urls='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "https://example.com/success-one", "22266dba-20c9-466f-88ac-e05c8980c222": "https://example.com/success-two", "111eefac-9b21-4299-8cde-302249d6f111": "https://example.com/success-three"}'
-    per-plan-cancel-urls='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "https://example.com/cancel-one", "22266dba-20c9-466f-88ac-e05c8980c222": "https://example.com/cancel-two", "111eefac-9b21-4299-8cde-302249d6f111": "https://example.com/cancel-three"}'
-  ></salable-pricing-table>
-  <salable-checkout
-    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
-    plan-uuid='351eefac-9b21-4299-8cde-302249d6fb1e'
-    member='example-member-123'
-    grantee-id='example-grantee-123'
-    success-url="https://example.com/success-default"
-  ></salable-checkout>
-  <salable-checkout
-    class="theme"
-    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
-    plan-uuid='351eefac-9b21-4299-8cde-302249d6fb1e'
-    email='eee@eee.com'
-    member='example-member-123'
-    grantee-id='example-grantee-123'
-    success-url="https://example.com/success-default"
-  ></salable-checkout>
-  </div>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" name="viewport" />
+    <title>Salable Stencil Components</title>
+    <script src="/build/web-components.esm.js" type="module"></script>
+    <script nomodule src="/build/web-components.js"></script>
+    <style>
+      .theme,
+      .theme > * {
+        --primary-50: #f9c9e1;
+        --primary-100: #f8b7d7;
+        --primary-200: #f492c2;
+        --primary-300: #f06dae;
+        --primary-400: #ec4899;
+        --primary-500: #e82384;
+        --primary-600: #cd1570;
+        --primary-700: #a8115c;
+        --primary-800: #830e48;
+        --primary-900: #5e0a33;
+        --primary-950: #4c0829;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="padding: 40px; display: flex; flex-direction: column; gap: 40px">
+      <salable-pricing-table
+        api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+        uuid="29c9a7c8-9a41-4e87-9e7e-7c62d293c131"
+        global-success-url="https://example.com/success-default"
+        global-cancel-url="https://example.com/cancel-default"
+        global-grantee-id="123"
+        member="456"
+        is-custom-pricing-table="false"
+      ></salable-pricing-table>
+      <salable-pricing-table
+        class="theme"
+        api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+        uuid="aec06de8-3a3e-46eb-bd09-f1094c1b1b8d"
+        global-success-url="https://example.com/success-default"
+        global-cancel-url="https://example.com/cancel-default"
+        global-grantee-id="123"
+        member="456"
+        is-custom-pricing-table="true"
+        per-plan-grantee-ids='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "654321", "22266dba-20c9-466f-88ac-e05c8980c222": "123456", "111eefac-9b21-4299-8cde-302249d6f111": "123321"}'
+        per-plan-success-urls='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "https://example.com/success-one", "22266dba-20c9-466f-88ac-e05c8980c222": "https://example.com/success-two", "111eefac-9b21-4299-8cde-302249d6f111": "https://example.com/success-three"}'
+        per-plan-cancel-urls='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "https://example.com/cancel-one", "22266dba-20c9-466f-88ac-e05c8980c222": "https://example.com/cancel-two", "111eefac-9b21-4299-8cde-302249d6f111": "https://example.com/cancel-three"}'
+      ></salable-pricing-table>
+      <salable-checkout
+        api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+        plan-uuid="351eefac-9b21-4299-8cde-302249d6fb1e"
+        member="example-member-123"
+        grantee-id="example-grantee-123"
+        success-url="https://example.com/success-default"
+      ></salable-checkout>
+      <salable-checkout
+        class="theme"
+        api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+        plan-uuid="351eefac-9b21-4299-8cde-302249d6fb1e"
+        email="eee@eee.com"
+        member="example-member-123"
+        grantee-id="example-grantee-123"
+        success-url="https://example.com/success-default"
+      ></salable-checkout>
+
+      <!-- INVOICES -->
+      <salable-invoices class="theme" session-token="a0b037804148dcc70b6826b622ab9c1b" subscription-uuid="04c4bada-7133-4829-a27c-8e5b00558b9e" limit="3"></salable-invoices>
+    </div>
+  </body>
 </html>

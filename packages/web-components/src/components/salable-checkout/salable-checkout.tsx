@@ -1,14 +1,14 @@
-import {Component, h, Prop, State, Watch} from '@stencil/core';
-import {loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement} from '@stripe/stripe-js'
-import {apiUrl, stripePublicKey, stripePublicKeyTestmode} from "../../constants";
+import { Component, h, Prop, State, Watch } from '@stencil/core';
+import { loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js';
+import { apiUrl, stripePublicKey, stripePublicKeyTestmode } from '../../constants';
 
 type IOrganisationPaymentIntegration = {
   accountId: string;
-}
+};
 
 type IProduct = {
   organisationPaymentIntegration: IOrganisationPaymentIntegration;
-}
+};
 
 type IPlan = {
   name: string;
@@ -16,7 +16,7 @@ type IPlan = {
   pricingType: string;
   product: IProduct;
   currencies: IPlanCurrency[];
-}
+};
 
 type IPlanCurrency = {
   planUuid: string;
@@ -24,26 +24,25 @@ type IPlanCurrency = {
   price: number;
   paymentIntegrationPlanId: string;
   currency: ICurrency;
-}
+};
 
 type ICurrency = {
   shortName: string;
   longName: string;
   symbol: string;
-}
-
+};
 
 type IState = {
   componentError: string | null;
-  plan: IPlan | null
-}
+  plan: IPlan | null;
+};
 
 type IFormState = {
   userEmail: string;
   userEmailError: string | null;
   formError: string | null;
-  isSubmitting: boolean
-}
+  isSubmitting: boolean;
+};
 
 @Component({
   tag: 'salable-checkout',
@@ -52,7 +51,6 @@ type IFormState = {
   shadow: false,
 })
 export class SalableCheckout {
-
   @State() clientSecret: string | null = null;
 
   @State() state: IState = {
@@ -107,18 +105,16 @@ export class SalableCheckout {
 
   async componentWillLoad() {
     this.validateProps();
-    window
-      .matchMedia("(prefers-color-scheme: dark)")
-      .addEventListener("change", (event) => {
-        const stripeTheme = event.matches ? "night" : "stripe";
-        this._createPaymentElement(stripeTheme)
-      });
-    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+      const stripeTheme = event.matches ? 'night' : 'stripe';
+      this._createPaymentElement(stripeTheme);
+    });
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       // Dark mode
-      this.stripeTheme = 'night'
+      this.stripeTheme = 'night';
     } else {
       // Light mode
-      this.stripeTheme = 'stripe'
+      this.stripeTheme = 'stripe';
     }
     await this.fetchPlan();
     await this.handleEmailPrefill();
@@ -139,7 +135,7 @@ export class SalableCheckout {
         stripeAccount: paymentIntegration.accountId,
       });
 
-      this._createPaymentElement(this.stripeTheme)
+      this._createPaymentElement(this.stripeTheme);
     }
   }
 
@@ -148,57 +144,62 @@ export class SalableCheckout {
     if (Boolean(this.state.componentError)) {
       return (
         <div class="relative rounded-xl overflow-hidden bg-white border border-t-0 border-gray-200 shadow-sm dark:bg-slate-900 dark:border-gray-700">
-          <TestModeBanner isTestMode={isTestMode}/>
-          <div
-            class="font-sans p-4 relative"><ErrorMessage message={this.state.componentError}/>
+          <TestModeBanner isTestMode={isTestMode} />
+          <div class="font-sans p-4 relative">
+            <ErrorMessage message={this.state.componentError} />
+          </div>
         </div>
-        </div>
-      )
+      );
     }
 
     if (Boolean(this.clientSecret)) {
       return (
         <div class="relative rounded-xl overflow-hidden bg-white border border-t-0 border-gray-200 shadow-sm dark:bg-slate-900 dark:border-gray-700">
-          <TestModeBanner isTestMode={isTestMode}/>
-          <div
-            class="font-sans p-4 relative"><PriceTag plan={this.state.plan}/>
+          <TestModeBanner isTestMode={isTestMode} />
+          <div class="font-sans p-4 relative">
+            <PriceTag plan={this.state.plan} />
             <form onSubmit={this.handlePayment}>
-              <div id="slb_payment_element" class="mb-6 py-20"/>
-              <button type="submit"
-                      class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-              Pay
-            </button>
-          </form>
-          <ErrorMessage message={this.formState.formError}/>
+              <div id="slb_payment_element" class="mb-6 py-20" />
+              <button
+                type="submit"
+                class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+              >
+                Pay
+              </button>
+            </form>
+            <ErrorMessage message={this.formState.formError} />
+          </div>
         </div>
-        </div>
-      )
+      );
     }
 
     return (
       <div class="relative rounded-xl overflow-hidden bg-white border border-t-0 border-gray-200 shadow-sm dark:bg-slate-900 dark:border-gray-700">
-        <TestModeBanner isTestMode={isTestMode}/>
-      <div
-        class="font-sans p-4 relative">
-        <PriceTag plan={this.state.plan}/>
-        <form onSubmit={this.handleCreateSubscription}>
-          <div class="mb-6">
-            <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-            <input
-              id="email"
-              class="bg-gray-50 dark:bg-gray-700 border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 dark:text-white focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 border-gray-300 dark:focus:border-primary-500 dark:border-gray-600"
-              value={this.formState.userEmail}
-              onInput={this.handleEmailChange}
-            />
-            <p class="text-sm text-red-600 mt-2">{this.formState.userEmailError}</p>
-          </div>
-          <button type="submit"
-                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
-            Continue
-          </button>
-        </form>
-        <ErrorMessage message={this.formState.formError}/>
-      </div>
+        <TestModeBanner isTestMode={isTestMode} />
+        <div class="font-sans p-4 relative">
+          <PriceTag plan={this.state.plan} />
+          <form onSubmit={this.handleCreateSubscription}>
+            <div class="mb-6">
+              <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Email
+              </label>
+              <input
+                id="email"
+                class="bg-gray-50 dark:bg-gray-700 border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 dark:text-white focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 border-gray-300 dark:focus:border-primary-500 dark:border-gray-600"
+                value={this.formState.userEmail}
+                onInput={this.handleEmailChange}
+              />
+              <p class="text-sm text-red-600 mt-2">{this.formState.userEmailError}</p>
+            </div>
+            <button
+              type="submit"
+              class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+            >
+              Continue
+            </button>
+          </form>
+          <ErrorMessage message={this.formState.formError} />
+        </div>
       </div>
     );
   }
@@ -232,7 +233,7 @@ export class SalableCheckout {
     this.paymentElement = this.elements.create('payment', {
       layout: 'tabs',
     });
-    this.paymentElement.mount('#slb_payment_element')
+    this.paymentElement.mount('#slb_payment_element');
   }
 
   private async handleEmailPrefill() {
@@ -248,7 +249,7 @@ export class SalableCheckout {
 
     if (!validEmail) return;
 
-    await this.createSubscription()
+    await this.createSubscription();
   }
 
   private validateProps() {
@@ -272,12 +273,12 @@ export class SalableCheckout {
       ...this.formState,
       userEmail: email,
       userEmailError: !this.validateEmail(email) ? 'A valid email is required' : null,
-    }
+    };
   };
 
   private handleCreateSubscription = async (event: Event) => {
     event.preventDefault();
-    await this.createSubscription()
+    await this.createSubscription();
   };
 
   private createSubscription = async () => {
@@ -289,27 +290,24 @@ export class SalableCheckout {
     };
 
     try {
-      const response = await fetch(
-        `${apiUrl}/checkout/create-subscription`,
-        {
-          method: 'POST',
-          headers: {
-            'x-api-key': `${this.apiKey}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            planUuid: this.planUuid,
-            email: this.formState.userEmail,
-            member: this.member,
-            granteeId: this.granteeId
-          })
+      const response = await fetch(`${apiUrl}/checkout/create-subscription`, {
+        method: 'POST',
+        headers: {
+          'x-api-key': `${this.apiKey}`,
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify({
+          planUuid: this.planUuid,
+          email: this.formState.userEmail,
+          member: this.member,
+          granteeId: this.granteeId,
+        }),
+      });
       if (!response.ok) {
         // Todo: handle errors, display failure message, refresh options
         this.state = {
           ...this.state,
-          componentError: 'Failed to create subscription intent'
+          componentError: 'Failed to create subscription intent',
         };
         console.error('Failed to fetch data:', response.statusText);
         return;
@@ -321,14 +319,14 @@ export class SalableCheckout {
       this.formState = {
         ...this.formState,
         isSubmitting: false,
-      }
+      };
     } catch (error) {
       this.clientSecret = null;
       this.formState = {
         ...this.formState,
-        formError: "Error creating subscription",
+        formError: 'Error creating subscription',
         isSubmitting: false,
-      }
+      };
     }
   };
 
@@ -339,7 +337,7 @@ export class SalableCheckout {
       // Todo: Make sure to disable form submission until Stripe.js has loaded.
       this.formState = {
         ...this.formState,
-        formError: "Payment element unavailable. Please try again"
+        formError: 'Payment element unavailable. Please try again',
       };
       return;
     }
@@ -349,13 +347,13 @@ export class SalableCheckout {
       isSubmitting: true,
     };
 
-    const {error} = await this.stripe.confirmPayment({
+    const { error } = await this.stripe.confirmPayment({
       elements: this.elements,
       confirmParams: {
         payment_method_data: {
           billing_details: {
-            email: this.formState.userEmail
-          }
+            email: this.formState.userEmail,
+          },
         },
         return_url: this.successUrl,
         receipt_email: this.formState.userEmail,
@@ -381,78 +379,77 @@ export class SalableCheckout {
         ...this.formState,
         formError,
         isSubmitting: false,
-      }
+      };
     }
   };
 
   private async fetchPlan() {
     try {
-      const response = await fetch(
-        `${apiUrl}/plans/${this.planUuid}?expand=product.organisationPaymentIntegration,currencies.currency`,
-        {method: 'GET', headers: {'x-api-key': `${this.apiKey}`}},
-      );
+      const response = await fetch(`${apiUrl}/plans/${this.planUuid}?expand=product.organisationPaymentIntegration,currencies.currency`, {
+        method: 'GET',
+        headers: { 'x-api-key': `${this.apiKey}` },
+      });
       if (!response.ok) {
         // Todo: handle errors, display failure message, refresh options
         this.state = {
           ...this.state,
-          componentError: 'Failed to fetch plan'
+          componentError: 'Failed to fetch plan',
         };
         console.error('Failed to fetch data:', response.statusText);
         return;
       }
-      const data = await response.json() as IPlan;
+      const data = (await response.json()) as IPlan;
       this.state = {
         ...this.state,
-        plan: data
-      }
+        plan: data,
+      };
     } catch (error) {
       this.state = {
         ...this.state,
-        componentError: 'Failed to initialise plan data'
+        componentError: 'Failed to initialise plan data',
       };
       console.error('Error fetching data:', error);
     }
   }
 }
 
-const PriceTag = ({plan}: { plan: IPlan }) => {
+const PriceTag = ({ plan }: { plan: IPlan }) => {
   const planCurrency = plan.currencies[0];
   return (
     <div class="flex justify-between mb-6">
       <p class="text-2xl text-black dark:text-white">Price</p>
-      <p class="text-base text-black dark:text-white">{
-        plan.pricingType === 'paid' && Boolean(planCurrency)
+      <p class="text-base text-black dark:text-white">
+        {plan.pricingType === 'paid' && Boolean(planCurrency)
           ? `${new Intl.NumberFormat(planCurrency.currency.shortName, {
-            style: 'currency',
-            currency: planCurrency.currency.shortName,
-          }).format(planCurrency.price / 100)} / ${plan?.interval}`
-          : 'Free'
-      }</p>
+              style: 'currency',
+              currency: planCurrency.currency.shortName,
+            }).format(planCurrency.price / 100)} / ${plan?.interval}`
+          : 'Free'}
+      </p>
     </div>
-  )
+  );
 };
 
-const ErrorMessage = ({message}: { message?: string | null }) => {
+const ErrorMessage = ({ message }: { message?: string | null }) => {
   if (!Boolean(message)) return null;
   return (
-    <div id="alert-additional-content-2"
-         class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
-         role="alert">
+    <div
+      id="alert-additional-content-2"
+      class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+      role="alert"
+    >
       <div class="flex items-center">
         <span class="sr-only">Info</span>
         <h3 class="text-base font-medium"> {message}</h3>
       </div>
     </div>
-  )
+  );
 };
 
-const TestModeBanner = ({isTestMode}: {isTestMode: boolean}) => {
+const TestModeBanner = ({ isTestMode }: { isTestMode: boolean }) => {
   return isTestMode ? (
     <div class="absolute border-t-4 border-solid left-0 top-0 border-orange-500 w-full text-center">
-      <p
-        class="top-0 absolute px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs left-1/2 transform -translate-x-1/2">
-        test mode
-      </p>
+      <p class="top-0 absolute px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs left-1/2 transform -translate-x-1/2">test mode</p>
     </div>
   ) : null;
 };
