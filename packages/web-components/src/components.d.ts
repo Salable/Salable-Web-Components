@@ -84,10 +84,15 @@ export namespace Components {
           * The ID of an existing customer in your payment integration. This pre-fills the email, card details, and postcode at checkout.
          */
         "customerId": string;
+        "environment"?: string;
         /**
           * The URL to send users to if the transaction fails. Must be an absolute URL.
          */
         "globalCancelUrl": string;
+        /**
+          * The URL to send users for coming soon plans.
+         */
+        "globalContactUrl": string;
         /**
           * The unique identifier for the grantee for all plan checkouts links.
          */
@@ -258,10 +263,15 @@ declare namespace LocalJSX {
           * The ID of an existing customer in your payment integration. This pre-fills the email, card details, and postcode at checkout.
          */
         "customerId"?: string;
+        "environment"?: string;
         /**
           * The URL to send users to if the transaction fails. Must be an absolute URL.
          */
         "globalCancelUrl": string;
+        /**
+          * The URL to send users for coming soon plans.
+         */
+        "globalContactUrl"?: string;
         /**
           * The unique identifier for the grantee for all plan checkouts links.
          */

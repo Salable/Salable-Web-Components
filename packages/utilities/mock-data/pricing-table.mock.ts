@@ -1,6 +1,7 @@
 import objectBuilder from "../object-builder/object-builder";
+import {PricingTable} from "../types/pricing-table";
 
-const defaultCurrency = {
+export const defaultCurrency = {
     shortName: 'USD',
     symbol: '$',
 };
@@ -15,70 +16,68 @@ const defaultPlanCurrency = {
     price: 10,
 };
 
-const featureOne = {
+const booleanFeature = {
     feature: {
-        displayName: 'Feature One',
-        description: 'Something about feature one',
+        displayName: 'Boolean',
+        description: 'Something about a boolean feature',
         valueType: 'boolean',
-        defaultValue: 'false'
+        defaultValue: 'false',
+        showUnlimited: false
     },
-    value: 'true'
+    value: 'true',
+    isUnlimited: false
 };
 
-const featureTwo = {
+const enumFeature = {
     feature: {
-        displayName: 'Feature Two',
-        description: 'Some slightly longer text explaining what feature two enables',
+        displayName: 'Text options feature',
+        description: 'Some slightly longer text explaining what the text options feature enables',
         valueType: 'enum',
-        defaultValue: 'None'
+        defaultValue: 'None',
+        showUnlimited: false
     },
-    value: 'Access'
+    enumValue: {name: 'Access'},
+    value: 'Access',
+    isUnlimited: false
 };
 
-const featureThree = {
+const numericalFeature = {
     feature: {
-        displayName: 'Feature Three',
-        description: 'Some text describing feature three this is only available on higher tiers',
+        displayName: 'Numerical only',
+        description: 'Some text describing numerical feature',
         valueType: 'numerical',
-        defaultValue: '10'
+        defaultValue: '10',
+        showUnlimited: false
     },
-    value: '50'
+    value: '50',
+    isUnlimited: false
 };
 
-const pricingTablePlanBaseMock = objectBuilder({
-    plan: {
-        uuid: 'default-plan-uuid',
-        name: 'Sample Plan',
-        currencies: [defaultPlanCurrency],
-        features: [
-            {
-                feature: {
-                    displayName: 'Sample Feature',
-                    description: 'This is a sample feature one description',
-                },
-            }
-        ],
-        interval: 'month',
-        description: 'This is a sample plan',
-        licenseType: 'licensed',
+const unlimitedNumericalFeature = {
+    feature: {
+        displayName: 'Unlimited numerical',
+        description: 'Some text describing this numerical feature which is unlimited',
+        valueType: 'numerical',
+        defaultValue: '10',
+        showUnlimited: true
     },
-    currencies: [defaultPlanCurrency],
-    checkoutUrl: 'http://example.com/checkout',
-    perSeatAmount: 10,
-});
+    value: 'Unlimited',
+    isUnlimited: true
+};
 
 const productPricingTablePlanMock = objectBuilder({
     uuid: 'default-plan-uuid',
-    name: 'Sample Plan',
+    planType: 'Standard',
+    displayName: 'Sample Plan',
     currencies: [defaultPlanCurrency],
+    pricingType: 'free',
     features: [
-        {
-            feature: {
-                displayName: 'Sample Feature',
-                description: 'This is a sample feature one description',
-            },
-        }
+        {feature: numericalFeature.feature},
+        {feature: unlimitedNumericalFeature.feature},
+        {feature: booleanFeature.feature},
+        {feature: enumFeature.feature},
     ],
+    evalDays: 0,
     interval: 'month',
     description: 'This is a sample plan',
     licenseType: 'licensed',
@@ -86,90 +85,141 @@ const productPricingTablePlanMock = objectBuilder({
     perSeatAmount: 10,
 });
 
-const pricingTablePlanMock = (currencies: any, overrides: any) =>
-    pricingTablePlanBaseMock({...overrides, plan: {...overrides.plan, currencies}, currencies});
+export const pricingTablePlanMock = objectBuilder({
+    plan: {
+        uuid: 'basic-monthly-plan-uuid',
+        displayName: 'Basic Monthly Plan',
+        planType: 'Standard',
+        maxSeatAmount: -1,
+        perSeatAmount: 1,
+        pricingType: 'paid',
+        description: 'A basic monthly plan description',
+        interval: 'month',
+        licenseType: 'licensed',
+        features: [
+            unlimitedNumericalFeature,
+            booleanFeature,
+            enumFeature,
+            numericalFeature,
+        ],
+        currencies: [{currency: defaultCurrency, price: 200}],
+        grantee: {
+            isSubscribed: false,
+            isLicensed: false,
+        }
+    }
+})
 
 
-export const pricingTableMock = objectBuilder({
+export const pricingTableMock = objectBuilder<PricingTable>({
     featuredPlanUuid: 'pro-monthly-plan-uuid',
     product: {currencies: [defaultProductCurrency]},
     plans: [
-        pricingTablePlanMock(
-            [{currency: defaultCurrency, price: 200}],
-            {
-                plan: {
-                    uuid: 'basic-monthly-plan-uuid',
-                    name: 'Basic Monthly Plan',
-                    description: 'A basic monthly plan description',
-                    features: [
-                        featureOne,
-                        featureTwo,
-                    ]
-                }
+        {
+            plan: {
+                uuid: 'basic-monthly-plan-uuid',
+                displayName: 'Basic Monthly Plan',
+                planType: 'Standard',
+                maxSeatAmount: -1,
+                perSeatAmount: 1,
+                evalDays: 0,
+                pricingType: 'paid',
+                description: 'A basic monthly plan description',
+                interval: 'month',
+                licenseType: 'licensed',
+                features: [
+                    unlimitedNumericalFeature,
+                    booleanFeature,
+                    enumFeature,
+                    numericalFeature,
+                ],
+                currencies: [{currency: defaultCurrency, price: 200}],
             }
-        ),
-        pricingTablePlanMock(
-            [{currency: defaultCurrency, price: 350}],
-            {
-                plan: {
-                    uuid: 'pro-monthly-plan-uuid',
-                    name: 'Pro Monthly Plan',
-                    description: 'A pro monthly plan description',
-                    features: [
-                        featureOne,
-                        featureTwo,
-                        featureThree
-                    ]
-                }
+        },
+        {
+            plan: {
+                currencies: [{currency: defaultCurrency, price: 350}],
+                uuid: 'pro-monthly-plan-uuid',
+                displayName: 'Pro Monthly Plan',
+                planType: 'Standard',
+                evalDays: 7,
+                maxSeatAmount: -1,
+                perSeatAmount: 1,
+                pricingType: 'paid',
+                description: 'A pro monthly plan description',
+                interval: 'month',
+                licenseType: 'licensed',
+                features: [
+                    unlimitedNumericalFeature,
+                    booleanFeature,
+                    enumFeature,
+                    numericalFeature,
+                ],
             }
-        ),
-        pricingTablePlanMock(
-            [{currency: defaultCurrency, price: 1000}],
-            {
-                plan: {
-                    uuid: 'basic-yearly-plan-uuid',
-                    name: 'Basic Yearly Plan',
-                    description: 'A basic yearly plan description',
-                    features: [
-                        featureOne,
-                        featureTwo,
-                    ],
-                    interval: 'year'
-                }
+        },
+        {
+            plan: {
+                currencies: [{currency: defaultCurrency, price: 1000}],
+                uuid: 'basic-yearly-plan-uuid',
+                displayName: 'Basic Yearly Plan',
+                planType: 'Standard',
+                licenseType: 'licensed',
+                maxSeatAmount: -1,
+                perSeatAmount: 1,
+                evalDays: 0,
+                pricingType: 'paid',
+                description: 'A basic yearly plan description',
+                features: [
+                    unlimitedNumericalFeature,
+                    booleanFeature,
+                    enumFeature,
+                    numericalFeature,
+                ],
+                interval: 'year'
             }
-        ),
-        pricingTablePlanMock(
-            [{currency: defaultCurrency, price: 1250}],
-            {
-                plan: {
-                    uuid: 'pro-yearly-plan-uuid',
-                    name: 'Pro Yearly Plan',
-                    description: 'A pro yearly plan description',
-                    features: [
-                        featureOne,
-                        featureTwo,
-                        featureThree
-                    ],
-                    interval: 'year'
-                }
+        },
+        {
+            plan: {
+                currencies: [{currency: defaultCurrency, price: 1250}],
+                uuid: 'pro-yearly-plan-uuid',
+                displayName: 'Pro Yearly Plan',
+                planType: 'Standard',
+                licenseType: 'licensed',
+                maxSeatAmount: -1,
+                perSeatAmount: 1,
+                evalDays: 0,
+                pricingType: 'paid',
+                description: 'A pro yearly plan description',
+                features: [
+                    unlimitedNumericalFeature,
+                    booleanFeature,
+                    enumFeature,
+                    numericalFeature,
+                ],
+                interval: 'year'
             }
-        ),
-        pricingTablePlanMock(
-            [{currency: defaultCurrency, price: 15000}],
-            {
-                plan: {
-                    uuid: 'ultra-yearly-plan-uuid',
-                    name: 'Ultra Yearly Plan',
-                    description: 'A ultra yearly plan description',
-                    features: [
-                        featureOne,
-                        featureTwo,
-                        featureThree
-                    ],
-                    interval: 'year'
-                }
+        },
+        {
+            plan: {
+                currencies: [{currency: defaultCurrency, price: 15000}],
+                uuid: 'ultra-yearly-plan-uuid',
+                displayName: 'Ultra Yearly Plan',
+                planType: 'Standard',
+                maxSeatAmount: -1,
+                perSeatAmount: 1,
+                pricingType: 'paid',
+                licenseType: 'licensed',
+                evalDays: 0,
+                description: 'A ultra yearly plan description',
+                features: [
+                    unlimitedNumericalFeature,
+                    booleanFeature,
+                    enumFeature,
+                    numericalFeature,
+                ],
+                interval: 'year'
             }
-        ),
+        }
     ],
 });
 
@@ -178,56 +228,69 @@ export const productPricingTableMock = objectBuilder({
     plans: [
         productPricingTablePlanMock({
             uuid: 'basic-monthly-plan-uuid',
-            name: 'Basic Monthly Plan',
+            displayName: 'Basic Monthly Plan',
             description: 'A basic monthly plan description',
+            pricingType: 'paid',
             features: [
-                featureOne,
-                featureTwo,
+                unlimitedNumericalFeature,
+                booleanFeature,
+                enumFeature,
+                numericalFeature,
             ],
             currencies: [{currency: defaultCurrency, price: 200}]
         }),
         productPricingTablePlanMock({
             uuid: 'pro-monthly-plan-uuid',
-            name: 'Pro Monthly Plan',
+            displayName: 'Pro Monthly Plan',
             description: 'A pro monthly plan description',
+            pricingType: 'paid',
+            evalDays: 7,
             features: [
-                featureOne,
-                featureTwo,
-                featureThree
+                unlimitedNumericalFeature,
+                booleanFeature,
+                enumFeature,
+                numericalFeature,
             ],
             currencies: [{currency: defaultCurrency, price: 350}]
         }),
         productPricingTablePlanMock({
             uuid: 'basic-yearly-plan-uuid',
-            name: 'Basic Yearly Plan',
+            displayName: 'Basic Yearly Plan',
             description: 'A basic yearly plan description',
+            pricingType: 'paid',
             features: [
-                featureOne,
-                featureTwo,
+                unlimitedNumericalFeature,
+                booleanFeature,
+                enumFeature,
+                numericalFeature,
             ],
             currencies: [{currency: defaultCurrency, price: 1000}],
             interval: 'year'
         }),
         productPricingTablePlanMock({
             uuid: 'pro-yearly-plan-uuid',
-            name: 'Pro Yearly Plan',
+            displayName: 'Pro Yearly Plan',
             description: 'A pro yearly plan description',
+            pricingType: 'paid',
             features: [
-                featureOne,
-                featureTwo,
-                featureThree
+                unlimitedNumericalFeature,
+                booleanFeature,
+                enumFeature,
+                numericalFeature,
             ],
             currencies: [{currency: defaultCurrency, price: 1250}],
             interval: 'year'
         }),
         productPricingTablePlanMock({
             uuid: 'ultra-yearly-plan-uuid',
-            name: 'Ultra Yearly Plan',
+            displayName: 'Ultra Yearly Plan',
             description: 'A ultra yearly plan description',
+            pricingType: 'paid',
             features: [
-                featureOne,
-                featureTwo,
-                featureThree
+                unlimitedNumericalFeature,
+                booleanFeature,
+                enumFeature,
+                numericalFeature,
             ],
             currencies: [{currency: defaultCurrency, price: 15000}],
             interval: 'year'

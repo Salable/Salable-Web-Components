@@ -1,7 +1,7 @@
-import { Component, h, Host, Prop, State, Watch } from '@stencil/core';
+import { Component, Host, Prop, State, Watch, h } from '@stencil/core';
 import { apiUrl } from '../../constants';
 import { StatusType } from '../../enums/status-type';
-import { Invoices } from '../../../utilities/types/invoices';
+import { Invoices } from '../../../../utilities/types/invoice';
 import { Stripe } from 'stripe';
 
 @Component({
