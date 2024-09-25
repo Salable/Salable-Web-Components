@@ -17,6 +17,10 @@ export namespace Components {
          */
         "apiKey": string;
         /**
+          * The short name of the currency used in the checkout e.g. USD
+         */
+        "currency": string;
+        /**
           * A user's email address to be used for the checkout.  Providing the user's email skips the provide email step during checkout
          */
         "email": string;
@@ -148,6 +152,10 @@ declare namespace LocalJSX {
           * A unique identifier to authenticate HTTP calls to Salable API
          */
         "apiKey": string;
+        /**
+          * The short name of the currency used in the checkout e.g. USD
+         */
+        "currency": string;
         /**
           * A user's email address to be used for the checkout.  Providing the user's email skips the provide email step during checkout
          */
