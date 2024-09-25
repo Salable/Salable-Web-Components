@@ -134,8 +134,8 @@ export class SalableCheckout {
     if (!Boolean(planCurrency)) {
       this.errorMessage = 'Failed to load checkout'
       console.error(`Currency "${this.currency}" was not found on the plan's product`)
+      return
     }
-    if (Boolean(this.errorMessage)) return
     this.currencyData = {
       ...planCurrency,
       ...planCurrency.currency
@@ -181,15 +181,16 @@ export class SalableCheckout {
             <TestModeBanner isTestMode={isTestMode}/>
             <div
               class="font-sans p-4 relative"><PriceTag currency={this.currencyData} plan={this.plan}/>
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.handlePayment}>
                 <div id="slb_payment_element" class="mb-6 py-20"/>
                 <button
                   type="submit"
                   class="w-full flex justify-center items-center text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                 >
-                  {this.isSubmitting ? <span
-                    class='h-[15px] w-[15px] mr-2 animate-spin border-2 border-s-white rounded-full border-white/[.5]'
-                    data-testid={`loading-spinner`}></span> : null}
+                  {this.isSubmitting ? (
+                      <span class='h-[15px] w-[15px] mr-2 animate-spin border-2 border-s-white rounded-full border-white/[.5]' data-testid={`loading-spinner`}></span>
+                    )
+                  : null}
                   Pay
                 </button>
               </form>
@@ -359,12 +360,8 @@ export class SalableCheckout {
     }
   };
 
-  private handleSubmit = async (event: Event) => {
+  private handlePayment = async (event: Event) => {
     event.preventDefault();
-    await this.handlePayment();
-  }
-
-  private handlePayment = async () => {
     if (!Boolean(this.stripe) || !Boolean(this.elements)) {
       // Then Stripe.js has not yet loaded.
       // Todo: Make sure to disable form submission until Stripe.js has loaded.
