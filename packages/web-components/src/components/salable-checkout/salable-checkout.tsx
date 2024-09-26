@@ -443,7 +443,7 @@ const PriceTag = ({currency, plan}: {currency: CurrencyData, plan: Plan}) => {
           ) : null}
         </p>
         {Boolean(plan.licenseType === 'perSeat') ? (
-          <p class='text-right text-white text-xs'>
+          <p class='text-right text-black dark:text-white text-xs'>
             {plan.perSeatAmount} seats, {currency.symbol}{calcPrice(currency.price)} each
           </p>
         ) : null}
