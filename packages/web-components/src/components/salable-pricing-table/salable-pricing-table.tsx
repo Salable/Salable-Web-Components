@@ -67,6 +67,10 @@ export class SalablePricingTable {
    **/
   @Prop() member!: string;
   /**
+   * Uses the currency short name (e.g. USD). Required if pricing table contains paid plans
+   **/
+  @Prop() currency: string;
+  /**
    * Used to pre-fill the promo code in Stripe checkout. Use the promo code ID from Stripe dashboard.
    * Customers cannot edit this field during checkout.
    **/
@@ -85,11 +89,6 @@ export class SalablePricingTable {
    * This pre-fills the email, card details, and postcode at checkout.
    **/
   @Prop() customerId: string;
-  /**
-   * Uses the currency short name (e.g., USD). Defaults to the default currency on the Product
-   * which the Plan is linked to. Currently only supported on payment integration type 'stripe_existing'.
-   **/
-  @Prop() currency: string; // if this present use it otherwise use default from plan
   /**
    * Automatically calculate tax on checkout based on the customer's location and your Stripe settings.
    **/
@@ -201,11 +200,10 @@ export class SalablePricingTable {
       if (Boolean(data)) {
         const normalisedData: PricingTable = !this.isCustomPricingTable ? this.productPricingTableFactory(data as ProductPricingTable) : data as PricingTable;
         this.validateConditionalProps(normalisedData)
-        if (Boolean(this.currency) && !Boolean(normalisedData.product.currencies.find((c) => c.currency.shortName.toLowerCase() === this.currency))) {
+        if (Boolean(this.currency) && !Boolean(normalisedData.product.currencies.find((c) => c.currency.shortName.toLowerCase() === this.currency.toLowerCase()))) {
           this.errorMessage = 'Failed to load Pricing Table'
           console.error(`Requested Currency "${this.currency}" was not found on the pricing table's product`)
         }
-        if (!Boolean(this.currency)) this.currency = normalisedData.product.currencies.find((c) => c.defaultCurrency)?.currency.shortName.toLowerCase()
         this.state = this.initialiseState(normalisedData)
       }
     } catch (e) {
@@ -377,6 +375,9 @@ export class SalablePricingTable {
     if (Boolean(data?.plans?.find(({plan}) => plan.planType === 'Coming soon'))) {
       this.validateProp(this.globalContactUrl, 'globalContactUrl');
     }
+    if (Boolean(data?.plans?.some(({plan}) => plan.pricingType === 'paid'))) {
+      this.validateProp(this.currency, 'currency');
+    }
   }
 
   private async fetchCheckoutUrl(plan: Plan): Promise<string> {
@@ -509,7 +510,7 @@ export class SalablePricingTable {
   }
 
   private getCurrency(plan: Plan) {
-    return plan.currencies.find(currenciesOnPlan => currenciesOnPlan.currency.shortName.toLowerCase() === this.currency);
+    return plan.currencies.find(currenciesOnPlan => currenciesOnPlan.currency.shortName.toLowerCase() === this.currency.toLowerCase());
   }
 
   private planUnitValue(licenseType: string) {

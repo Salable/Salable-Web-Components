@@ -55,7 +55,7 @@ export namespace Components {
          */
         "automaticTax": string;
         /**
-          * Uses the currency short name (e.g., USD). Defaults to the default currency on the Product which the Plan is linked to. Currently only supported on payment integration type 'stripe_existing'.
+          * Uses the currency short name (e.g. USD). Required if pricing table contains paid plans
          */
         "currency": string;
         /**
@@ -191,7 +191,7 @@ declare namespace LocalJSX {
          */
         "automaticTax"?: string;
         /**
-          * Uses the currency short name (e.g., USD). Defaults to the default currency on the Product which the Plan is linked to. Currently only supported on payment integration type 'stripe_existing'.
+          * Uses the currency short name (e.g. USD). Required if pricing table contains paid plans
          */
         "currency"?: string;
         /**
