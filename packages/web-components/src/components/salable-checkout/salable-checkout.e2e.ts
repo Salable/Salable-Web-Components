@@ -1,7 +1,7 @@
 import { test } from 'stencil-playwright';
 import {
   salableCheckoutInvalidEmailPrefillTest,
-  salableCheckoutPaymentIntentTest,
+  salableCheckoutPaymentIntentTest, salableCheckoutPerSeatTest,
   salableCheckoutPrefillWithEmailTest,
   setUpCheckoutFetch,
   setUpPaymentIntent
@@ -70,5 +70,42 @@ test.describe('salable-checkout Stencil E2E Tests', () => {
       `);
 
     await salableCheckoutPrefillWithEmailTest(page);
+  });
+
+  test('Displays per seat cost breakdown correctly', async ({ page }) => {
+    await setUpCheckoutFetch(page, mockCheckout({
+      perSeatAmount: 5,
+      interval: 'year',
+      licenseType: 'perSeat',
+      currencies: [
+        {
+          planUuid: "plan_xxxxx",
+          currencyUuid: "currency_xxxxx",
+          price: 100,
+          paymentIntegrationPlanId: "plan_xxxxxx",
+          currency: {
+            uuid: "currency_xxxxx",
+            shortName: "USD",
+            longName: "United States Dollar",
+            symbol: "$"
+          }
+        }
+      ]
+    }));
+    await setUpPaymentIntent(page);
+
+    await page.setContent(`
+        <salable-checkout
+          api-key="${mockApiKey}"
+          plan-uuid="${mockPlanUuid}"
+          member=${mockMember}
+          grantee-id=${mockGrantee}
+          success-url=${mockSuccessUrl}
+          email="johndoe@email.com"
+          currency="USD"
+        ></salable-checkout>
+      `);
+
+    await salableCheckoutPerSeatTest(page);
   });
 });
