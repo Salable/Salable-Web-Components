@@ -22,74 +22,72 @@
     }
   </style>
 </head>
-<body>
-<!--  <salable-pricing-table-->
-<!--    api-key="test_42314737f8bea55559a7ab8929acfd64be0fd179"-->
-<!--    uuid="6c83d681-9b6f-4f4f-a06d-c0cd07a6ca8f"-->
-<!--    global-success-url="https://example.com/success-default"-->
-<!--    global-cancel-url="https://example.com/cancel-default"-->
-<!--    global-grantee-id="userId_metered"-->
-<!--    member="456"-->
-<!--    global-contact-url="https://example.com/contact"-->
-<!--    is-custom-pricing-table="false"-->
-<!--  ></salable-pricing-table>-->
-<!--  <salable-pricing-table-->
-<!--    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"-->
-<!--    uuid="2e0ac383-ee7e-44ba-90cb-ab3eabd56722"-->
-<!--    global-success-url="https://example.com/success-default"-->
-<!--    global-cancel-url="https://example.com/cancel-default"-->
-<!--    global-grantee-id="userId_metered"-->
-<!--    member="456"-->
-<!--    is-custom-pricing-table="false"-->
-<!--  ></salable-pricing-table>-->
-<!--  <salable-pricing-table-->
-<!--    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"-->
-<!--    uuid="1ad1a518-2076-4d76-9280-4b23f19b48bb"-->
-<!--    global-success-url="https://example.com/success-default"-->
-<!--    global-cancel-url="https://example.com/cancel-default"-->
-<!--    global-contact-url="https://example.com/contact-default"-->
-<!--    global-grantee-id="per-seat-user-1"-->
-<!--    customer-email="person@company.com"-->
-<!--    member="456"-->
-<!--    is-custom-pricing-table="false"-->
-<!--  ></salable-pricing-table>-->
-<!--  <salable-pricing-table-->
-<!--    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"-->
-<!--    uuid="29c9a7c8-9a41-4e87-9e7e-7c62d293c131"-->
-<!--    global-success-url="https://example.com/success-default"-->
-<!--    global-cancel-url="https://example.com/cancel-default"-->
-<!--    global-grantee-id="123"-->
-<!--    member="456"-->
-<!--    is-custom-pricing-table="false"-->
-<!--  ></salable-pricing-table>-->
-<!--  <salable-pricing-table-->
-<!--    class="theme"-->
-<!--    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"-->
-<!--    uuid="aec06de8-3a3e-46eb-bd09-f1094c1b1b8d"-->
-<!--    global-success-url="https://example.com/success-default"-->
-<!--    global-cancel-url="https://example.com/cancel-default"-->
-<!--    global-grantee-id="123"-->
-<!--    member="456"-->
-<!--    is-custom-pricing-table="true"-->
-<!--    per-plan-grantee-ids='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "654321", "22266dba-20c9-466f-88ac-e05c8980c222": "123456", "111eefac-9b21-4299-8cde-302249d6f111": "123321"}'-->
-<!--    per-plan-success-urls='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "https://example.com/success-one", "22266dba-20c9-466f-88ac-e05c8980c222": "https://example.com/success-two", "111eefac-9b21-4299-8cde-302249d6f111": "https://example.com/success-three"}'-->
-<!--    per-plan-cancel-urls='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "https://example.com/cancel-one", "22266dba-20c9-466f-88ac-e05c8980c222": "https://example.com/cancel-two", "111eefac-9b21-4299-8cde-302249d6f111": "https://example.com/cancel-three"}'-->
-<!--  ></salable-pricing-table>-->
-<!--  <salable-checkout-->
-<!--    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"-->
-<!--    plan-uuid='351eefac-9b21-4299-8cde-302249d6fb1e'-->
-<!--    member='example-member-123'-->
-<!--    grantee-id='example-grantee-123'-->
-<!--    success-url="https://example.com/success-default"-->
-<!--  ></salable-checkout>-->
+<body style="font-family: system-ui">
+  <h2>Metered Plans with an already subscribed grantee</h2>
+  <salable-pricing-table
+    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+    uuid="2e0ac383-ee7e-44ba-90cb-ab3eabd56722"
+    global-success-url="https://example.com/success-default"
+    global-cancel-url="https://example.com/cancel-default"
+    global-contact-url="https://example.com/contact-default"
+    global-grantee-id="userId_metered"
+    member="456"
+    is-custom-pricing-table="false"
+  ></salable-pricing-table>
+  <h2>Per Seat Plans</h2>
+  <salable-pricing-table
+    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+    uuid="1ad1a518-2076-4d76-9280-4b23f19b48bb"
+    global-success-url="https://example.com/success-default"
+    global-cancel-url="https://example.com/cancel-default"
+    global-contact-url="https://example.com/contact-default"
+    global-grantee-id="per-seat-user-1"
+    customer-email="person@company.com"
+    member="456"
+    is-custom-pricing-table="false"
+  ></salable-pricing-table>
+  <h2>A mixture of plan types and intervals</h2>
+  <salable-pricing-table
+    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+    uuid="29c9a7c8-9a41-4e87-9e7e-7c62d293c131"
+    global-success-url="https://example.com/success-default"
+    global-cancel-url="https://example.com/cancel-default"
+    global-grantee-id="123"
+    member="456"
+    is-custom-pricing-table="false"
+  ></salable-pricing-table>
+  <h2>Example of custom theme</h2>
+  <salable-pricing-table
+    class="theme"
+    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+    uuid="aec06de8-3a3e-46eb-bd09-f1094c1b1b8d"
+    global-success-url="https://example.com/success-default"
+    global-cancel-url="https://example.com/cancel-default"
+    global-grantee-id="123"
+    member="456"
+    is-custom-pricing-table="true"
+    per-plan-grantee-ids='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "654321", "22266dba-20c9-466f-88ac-e05c8980c222": "123456", "111eefac-9b21-4299-8cde-302249d6f111": "123321"}'
+    per-plan-success-urls='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "https://example.com/success-one", "22266dba-20c9-466f-88ac-e05c8980c222": "https://example.com/success-two", "111eefac-9b21-4299-8cde-302249d6f111": "https://example.com/success-three"}'
+    per-plan-cancel-urls='{"5a866dba-20c9-466f-88ac-e05c8980c90b": "https://example.com/cancel-one", "22266dba-20c9-466f-88ac-e05c8980c222": "https://example.com/cancel-two", "111eefac-9b21-4299-8cde-302249d6f111": "https://example.com/cancel-three"}'
+  ></salable-pricing-table>
+  <h2>Checkout no email provided</h2>
   <salable-checkout
-    api-key="test_42314737f8bea55559a7ab8929acfd64be0fd179"
-    plan-uuid='664bac2a-e7fa-413c-a90f-14d9fd14e5df'
-    email='hello2@checkout.com'
-    member='web-component-checkout'
+    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+    plan-uuid='351eefac-9b21-4299-8cde-302249d6fb1e'
+    member='example-member-123'
     grantee-id='example-grantee-123'
     success-url="https://example.com/success-default"
     currency="GBP"
+  ></salable-checkout>
+  <h2>Checkout with email provided on a per seat plan</h2>
+  <salable-checkout
+    api-key="test_q96kzgtnz5acBX73gjQy47d4GowStfNc6VgasQRS"
+    plan-uuid='9cbaf4e7-166a-447d-91ed-662b569b111d'
+    member='example-member-123'
+    grantee-id='example-grantee-123'
+    success-url="https://example.com/success-default"
+    currency="GBP"
+    email="customer@email.com"
   ></salable-checkout>
 </body>
 </html>
