@@ -186,10 +186,6 @@ export class SalableCheckout {
                   type="submit"
                   class="w-full flex justify-center items-center text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                 >
-                  {this.isSubmitting ? (
-                      <span class='h-[15px] w-[15px] mr-2 animate-spin border-2 border-s-white rounded-full border-white/[.5]' data-testid={`loading-spinner`}></span>
-                    )
-                  : null}
                   Pay
                 </button>
               </form>
