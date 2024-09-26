@@ -60,7 +60,6 @@ type CurrencyData = Currency & {
 })
 export class SalableCheckout {
   @State() clientSecret: string | null = null;
-  @State() isSubmitting: boolean = false;
   @State() formState: FormState = {
     userEmail: '',
     formError: null,
