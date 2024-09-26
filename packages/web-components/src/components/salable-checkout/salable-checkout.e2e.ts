@@ -28,6 +28,7 @@ test.describe('salable-checkout Stencil E2E Tests', () => {
           member=${mockMember}
           grantee-id=${mockGrantee}
           success-url=${mockSuccessUrl}
+          currency="USD"
         ></salable-checkout>
       `);
 
@@ -45,6 +46,7 @@ test.describe('salable-checkout Stencil E2E Tests', () => {
           grantee-id=${mockGrantee}
           success-url=${mockSuccessUrl}
           email="johndoe@email"
+          currency="USD"
         ></salable-checkout>
       `);
 
@@ -63,6 +65,7 @@ test.describe('salable-checkout Stencil E2E Tests', () => {
           grantee-id=${mockGrantee}
           success-url=${mockSuccessUrl}
           email="johndoe@email.com"
+          currency="USD"
         ></salable-checkout>
       `);
 

@@ -48,7 +48,7 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
     const element = page.locator('salable-checkout');
     await expect(element).toBeVisible();
 
-    const price = page.getByText('$9.99 / m');
+    const price = page.getByText('$9.99 / month');
     await expect(price).toBeVisible();
 
     const label = page.getByLabel(/email/i);

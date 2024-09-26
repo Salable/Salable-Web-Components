@@ -10,6 +10,7 @@ export default function SalableCheckoutTest({ email }: { email?: string }) {
             member="xxxxx"
             successUrl="xxxxx"
             email={email}
+            currency="USD"
         />
     );
 }

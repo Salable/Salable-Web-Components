@@ -136,11 +136,11 @@ export class SalableCheckout {
       console.error(`Currency "${this.currency}" was not found on the plan's product`)
       return
     }
+    const {currency, ...restOfPlanCurrency} = planCurrency
     this.currencyData = {
-      ...planCurrency,
-      ...planCurrency.currency
+      ...restOfPlanCurrency,
+      ...currency
     }
-
     await this.handleEmailPrefill();
   }
 
