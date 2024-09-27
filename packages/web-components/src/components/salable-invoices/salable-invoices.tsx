@@ -61,8 +61,6 @@ export class SalableInvoices {
   }
 
   render() {
-    const { data: invoices, hasMore } = this.data;
-
     return (
       <Host>
         <div class="font-sans bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden dark:bg-slate-900 dark:border-gray-700">
@@ -96,7 +94,7 @@ export class SalableInvoices {
             </div>
           ) : null}
 
-          {!invoices?.length ? (
+          {!this.data?.data?.length ? (
             <div class="max-w-sm w-full min-h-[200px] flex flex-col justify-center mx-auto px-6 py-4">
               <div class="flex justify-center items-center w-[46px] h-[46px] bg-gray-100 rounded-lg dark:bg-gray-800">
                 <svg
@@ -131,7 +129,7 @@ export class SalableInvoices {
               </thead>
 
               <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                {invoices?.map(row => (
+                {this.data?.data?.map(row => (
                   <tr slot="table-body">
                     <td class="h-px w-px whitespace-nowrap">
                       <div class="px-6 py-2">
@@ -187,7 +185,7 @@ export class SalableInvoices {
                 </button>
               ) : null}
 
-              {hasMore || (this.hasMore && this.currentPage === 1) ? (
+              {this.data?.hasMore || (this.hasMore && this.currentPage === 1) ? (
                 <button
                   onClick={this.getNextPage}
                   type="button"
@@ -237,10 +235,13 @@ export class SalableInvoices {
         switch (response.status) {
           case 401:
             this.errorMessage = 'Unauthenticated';
+            break;
           case 403:
             this.errorMessage = 'Unauthorised';
+            break;
           case 404:
             this.errorMessage = 'Not found';
+            break;
         }
         return;
       }

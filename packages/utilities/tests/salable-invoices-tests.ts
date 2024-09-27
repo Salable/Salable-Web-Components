@@ -1,6 +1,22 @@
 import { expect, Locator, Page } from "@playwright/test";
 import InvoiceRepository, { Invoice } from "../repositories/invoice";
 
+export async function setUpInvoiceApiResponse(
+  page: Page,
+  status = 200,
+  data: { error: string } | Invoice[],
+) {
+  const url = /^.*?\/subscriptions\/.*?\/invoices/;
+
+  await page.route(url, async (route) => {
+    await route.fulfill({
+      status,
+      contentType: "application/json",
+      body: JSON.stringify(data),
+    });
+  });
+}
+
 export async function setUpInvoiceApi(
   page: Page,
   invoiceRepository: InvoiceRepository,
@@ -91,4 +107,33 @@ async function testInvoicesRows(rows: Invoice[], tableRows: Locator) {
     );
     await expect(pdfDownloadLink.locator("svg")).toContainText("Download PDF");
   }
+}
+
+export async function salableInvoiceNoInvoicesTests(page: Page) {
+  await expect(page.getByText("No invoices")).toBeVisible();
+
+  await expect(page.getByRole("button", { name: "Next" })).not.toBeVisible();
+  await expect(page.getByRole("button", { name: "Prev" })).not.toBeVisible();
+
+  const tableRows = page.locator("td");
+  expect(tableRows).toHaveCount(0);
+
+  await expect(page).toHaveScreenshot();
+}
+
+export async function salableInvoiceErrorTests(
+  page: Page,
+  errorMessage: string,
+) {
+  await expect(page.getByRole("heading", { name: "Error!" })).toBeVisible();
+  await expect(page.getByText(errorMessage)).toBeVisible();
+  await expect(page.getByText("No invoices")).toBeVisible();
+
+  await expect(page.getByRole("button", { name: "Next" })).not.toBeVisible();
+  await expect(page.getByRole("button", { name: "Prev" })).not.toBeVisible();
+
+  const tableRows = page.locator("td");
+  expect(tableRows).toHaveCount(0);
+
+  await expect(page).toHaveScreenshot();
 }
