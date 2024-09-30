@@ -40,6 +40,10 @@ const router = createBrowserRouter([
         element: <SalableCheckoutTest email='johnnydoe@email.com'/>,
     },
     {
+        path: "/test/salable-checkout/per-seat",
+        element: <SalableCheckoutTest email='johnnydoe@email.com'/>,
+    },
+    {
         path: "/test/salable-pricing-table",
         element: <SalablePricingTableTest/>,
     },
@@ -133,7 +137,7 @@ const router = createBrowserRouter([
         element: <SalablePricingTableTest />,
     },
     {
-        path: "/test/salable-pricing-table/errors/currency",
+        path: "/test/salable-pricing-table/errors/currency-not-found",
         element: <SalablePricingTable
           apiKey="test_xxxxx"
           uuid="xxxxx"
@@ -143,6 +147,18 @@ const router = createBrowserRouter([
           globalGranteeId="xxxxx"
           member="xxxxx"
           currency="cad"
+        />,
+    },
+    {
+        path: "/test/salable-pricing-table/errors/currency-required",
+        element: <SalablePricingTable
+          apiKey="test_xxxxx"
+          uuid="xxxxx"
+          isCustomPricingTable={true}
+          globalSuccessUrl="https://google.com"
+          globalCancelUrl="https://google.com"
+          globalGranteeId="xxxxx"
+          member="xxxxx"
         />,
     },
     {

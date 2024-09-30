@@ -48,7 +48,7 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
     const element = page.locator('salable-checkout');
     await expect(element).toBeVisible();
 
-    const price = page.getByText('$9.99 / m');
+    const price = page.getByText('$9.99 / month');
     await expect(price).toBeVisible();
 
     const label = page.getByLabel(/email/i);
@@ -71,6 +71,22 @@ export async function salableCheckoutPaymentIntentTest(page: Page) {
 
     const continueButton = page.getByRole('button', { name: 'Continue' });
     await continueButton.click();
+    const payButton = page.getByRole('button', { name: /pay/i });
+    await expect(payButton).toBeVisible();
+    const iframeElement = page.frameLocator("//iframe[contains(@title,'Secure payment input frame')]");
+    await expect(iframeElement.getByPlaceholder('1234 1234 1234')).toBeVisible({
+        timeout: 10000
+    });
+    await expect(page).toHaveScreenshot();
+}
+
+export async function salableCheckoutPerSeatTest(page: Page) {
+    const element = page.locator('salable-checkout');
+    await expect(element).toBeVisible();
+
+    await expect(page.getByText('$5 / year')).toBeVisible();
+    await expect(page.getByText('5 seats, $1 each')).toBeVisible();
+
     const payButton = page.getByRole('button', { name: /pay/i });
     await expect(payButton).toBeVisible();
     const iframeElement = page.frameLocator("//iframe[contains(@title,'Secure payment input frame')]");

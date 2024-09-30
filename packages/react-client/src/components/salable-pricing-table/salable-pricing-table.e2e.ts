@@ -152,6 +152,7 @@ test.describe('salable-pricing-table React Client E2E Tests', () => {
                             currencies: [],
                             displayName: 'Future plan',
                             planType: 'Coming soon',
+                            pricingType: 'free'
                         }
                     }),
                 ]
@@ -172,6 +173,7 @@ test.describe('salable-pricing-table React Client E2E Tests', () => {
                                     currencies: [],
                                     displayName: 'Future Plan',
                                     planType: 'Coming soon',
+                                    pricingType: 'free'
                                 }
                             }),
                         ]
@@ -320,7 +322,7 @@ test.describe('salable-pricing-table React Client E2E Tests', () => {
                     })
                 ]
             }));
-            await page.goto('http://localhost:5173/test/salable-pricing-table/errors/currency');
+            await page.goto('http://localhost:5173/test/salable-pricing-table/errors/currency-not-found');
             const errorMessage = page.getByTestId('salable-pricing-table-error');
             await expect(errorMessage.getByText('Failed to load Pricing Table')).toBeVisible();
         });
@@ -364,6 +366,33 @@ test.describe('salable-pricing-table React Client E2E Tests', () => {
             await waitLicensesFetchResponse;
             const errorMessage = page.getByTestId('salable-pricing-table-error');
             await expect(errorMessage.getByText('Failed to create License')).toBeVisible();
+        });
+
+        test('Displays an error message if currency is not provided when pricing table includes paid plans', async ({page}) => {
+            await setUpCustomPricingTableApi(page, pricingTableMock({
+                product: {
+                    currencies: [{
+                        currency: {shortName: 'USD', symbol: '$'},
+                        defaultCurrency: true
+                    }],
+                },
+                plans: [
+                    pricingTablePlanMock({
+                        plan: {
+                            displayName: 'Plan',
+                            currencies: [{
+                                currency: {shortName: 'USD', symbol: '$'},
+                                price: 100
+                            }],
+                            grantee: { isSubscribed: false, isLicensed: false }
+                        }
+                    })
+                ]
+            }));
+            await page.goto('http://localhost:5173/test/salable-pricing-table/errors/currency-required');
+
+            const errorMessage = page.getByTestId('salable-pricing-table-error');
+            await expect(errorMessage.getByText('Failed to load Pricing Table')).toBeVisible();
         });
     })
 });

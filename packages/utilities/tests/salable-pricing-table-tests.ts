@@ -115,6 +115,18 @@ export async function testComingSoonPlanPricingTable(page: Page) {
     expect(page.url()).toBe('https://example.com/contact')
 }
 
+export async function testFreePlanPricingTable(page: Page) {
+    const pricingTable = page.locator('salable-pricing-table');
+    const firstCard = pricingTable.getByTestId('pricing-table-card-0');
+    await expect(firstCard.getByRole('heading', {name: 'Future plan'})).toBeVisible();
+    await expect(firstCard.getByText('Coming soon')).toBeVisible();
+    const planButton = page.getByTestId('salable-plan-0-button')
+    await expect(planButton).toHaveText('Contact us')
+    await planButton.click()
+    await page.waitForTimeout(1000)
+    expect(page.url()).toBe('https://example.com/contact')
+}
+
 export async function testCheckoutUrlPricingTable(page: Page) {
     const pricingTable = page.locator('salable-pricing-table');
     const firstCard = pricingTable.getByTestId('pricing-table-card-0');

@@ -5,7 +5,7 @@ import objectBuilder from "../object-builder/object-builder";
 if(!process.env.TEST_STRIPE_ACCOUNT_ID) throw Error('Missing TEST_STRIPE_ACCOUNT_ID')
 
 export const mockCheckout = objectBuilder({
-    licenseType: "metered",
+    licenseType: "licensed",
     interval: "month",
     product: {
         organisationPaymentIntegration: {
@@ -13,6 +13,8 @@ export const mockCheckout = objectBuilder({
         }
     },
     pricingType: 'paid',
+    perSeatAmount: 1,
+    maxSeatAmount: -1,
     currencies: [
         {
             planUuid: "plan_xxxxx",

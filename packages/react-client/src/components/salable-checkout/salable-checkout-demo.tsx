@@ -12,6 +12,7 @@ export default function SalableCheckoutDemo() {
                 member='example-member-123'
                 granteeId='example-grantee-123'
                 successUrl="https://www.google.com"
+                currency="USD"
             />
             <h2>With Valid Email</h2>
             <SalableCheckout
@@ -21,6 +22,7 @@ export default function SalableCheckoutDemo() {
                 granteeId='example-grantee-123'
                 successUrl="https://www.google.com"
                 email='johnnydoe@email.com'
+                currency="USD"
             />
              <h2>Theming</h2>
             <SalableCheckout
@@ -30,6 +32,7 @@ export default function SalableCheckoutDemo() {
                 member='example-member-123'
                 granteeId='example-grantee-123'
                 successUrl="https://www.google.com"
+                currency="USD"
             />
         </div>
     )
