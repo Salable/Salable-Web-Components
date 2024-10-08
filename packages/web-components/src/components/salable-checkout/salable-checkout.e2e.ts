@@ -4,9 +4,9 @@ import {
   salableCheckoutPaymentIntentTest, salableCheckoutPerSeatTest,
   salableCheckoutPrefillWithEmailTest,
   setUpCheckoutFetch,
-  setUpPaymentIntent
-} from "../../../../utilities/tests/salable-checkout-tests";
-import { mockCheckout } from "../../../../utilities/mock-data/checkout.mock";
+  setUpPaymentIntent,
+} from '../../../../utilities/tests/salable-checkout-tests';
+import { mockCheckout } from '../../../../utilities/mock-data/checkout.mock';
 
 const STRIPE_PLAN_ID = process.env.STRIPE_PLAN_ID;
 
@@ -15,7 +15,7 @@ test.describe('salable-checkout Stencil E2E Tests', () => {
   const mockPlanUuid = STRIPE_PLAN_ID;
   const mockMember = 'example-member-123';
   const mockGrantee = 'example-grantee-123';
-  const mockSuccessUrl = "https://www.google.com";
+  const mockSuccessUrl = 'https://www.google.com';
 
   test('Create payment intent form', async ({ page }) => {
     await setUpCheckoutFetch(page, mockCheckout());
