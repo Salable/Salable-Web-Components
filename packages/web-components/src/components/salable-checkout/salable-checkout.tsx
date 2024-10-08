@@ -1,18 +1,18 @@
-import { Component, h, Prop, State, Watch } from '@stencil/core';
-import { loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement } from '@stripe/stripe-js';
-import { apiUrl, stripePublicKey, stripePublicKeyTestmode } from '../../constants';
+import {Component, h, Prop, State, Watch} from '@stencil/core';
+import {loadStripe, Stripe, StripeElements, StripeElementsOptions, StripePaymentElement} from '@stripe/stripe-js'
+import {apiUrl, stripePublicKey, stripePublicKeyTestmode} from "../../constants";
 
 type OrganisationPaymentIntegration = {
   accountId: string;
-};
+}
 
 type Product = {
   organisationPaymentIntegration: OrganisationPaymentIntegration;
   currencies: {
-    defaultCurrency: boolean;
-    currency: Currency;
-  }[];
-};
+    defaultCurrency: boolean
+    currency: Currency
+  }[]
+}
 
 type Plan = {
   name: string;
@@ -23,7 +23,7 @@ type Plan = {
   currencies: PlanCurrency[];
   perSeatAmount: number;
   maxSeatAmount: number;
-};
+}
 
 type PlanCurrency = {
   planUuid: string;
@@ -31,26 +31,26 @@ type PlanCurrency = {
   price: number;
   paymentIntegrationPlanId: string;
   currency: Currency;
-};
+}
 
 type Currency = {
   uuid: string;
   shortName: string;
   longName: string;
   symbol: string;
-};
+}
 
 type FormState = {
   userEmail: string;
   userEmailError: string | null;
   formError: string | null;
-  isSubmitting: boolean;
-};
+  isSubmitting: boolean
+}
 
 type CurrencyData = Currency & {
   price: number;
   paymentIntegrationPlanId: string;
-};
+}
 
 @Component({
   tag: 'salable-checkout',
@@ -114,30 +114,32 @@ export class SalableCheckout {
 
   async componentWillLoad() {
     this.validateProps();
-    if (Boolean(this.errorMessage)) return;
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-      const stripeTheme = event.matches ? 'night' : 'stripe';
-      this._createPaymentElement(stripeTheme);
-    });
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (Boolean(this.errorMessage)) return
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", (event) => {
+        const stripeTheme = event.matches ? "night" : "stripe";
+        this._createPaymentElement(stripeTheme)
+      });
+    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
       // Dark mode
-      this.stripeTheme = 'night';
+      this.stripeTheme = 'night'
     } else {
       // Light mode
-      this.stripeTheme = 'stripe';
+      this.stripeTheme = 'stripe'
     }
     this.plan = await this.fetchPlan();
-    const planCurrency = this.plan.currencies.find(c => c.currency.shortName.toLowerCase() === this.currency.toLowerCase());
+    const planCurrency = this.plan.currencies.find((c) => c.currency.shortName.toLowerCase() === this.currency.toLowerCase())
     if (!Boolean(planCurrency)) {
-      this.errorMessage = 'Failed to load checkout';
-      console.error(`Currency "${this.currency}" was not found on the plan's product`);
-      return;
+      this.errorMessage = 'Failed to load checkout'
+      console.error(`Currency "${this.currency}" was not found on the plan's product`)
+      return
     }
-    const { currency, ...restOfPlanCurrency } = planCurrency;
+    const {currency, ...restOfPlanCurrency} = planCurrency
     this.currencyData = {
       ...restOfPlanCurrency,
-      ...currency,
-    };
+      ...currency
+    }
     await this.handleEmailPrefill();
   }
 
@@ -156,7 +158,7 @@ export class SalableCheckout {
         stripeAccount: paymentIntegration.accountId,
       });
 
-      this._createPaymentElement(this.stripeTheme);
+      this._createPaymentElement(this.stripeTheme)
     }
   }
 
@@ -166,20 +168,20 @@ export class SalableCheckout {
       <div>
         {Boolean(this.errorMessage) ? (
           <div class="relative rounded-xl overflow-hidden bg-white border border-t-0 border-gray-200 shadow-sm dark:bg-slate-900 dark:border-gray-700">
-            <TestModeBanner isTestMode={isTestMode} />
-            <div class="font-sans p-4 relative">
-              <ErrorMessage message={this.errorMessage} />
+            <TestModeBanner isTestMode={isTestMode}/>
+            <div
+              class="font-sans p-4 relative"><ErrorMessage message={this.errorMessage}/>
             </div>
           </div>
         ) : null}
 
         {Boolean(this.clientSecret) && !Boolean(this.errorMessage) ? (
           <div class="relative rounded-xl overflow-hidden bg-white border border-t-0 border-gray-200 shadow-sm dark:bg-slate-900 dark:border-gray-700">
-            <TestModeBanner isTestMode={isTestMode} />
-            <div class="font-sans p-4 relative">
-              <PriceTag currency={this.currencyData} plan={this.plan} />
+            <TestModeBanner isTestMode={isTestMode}/>
+            <div
+              class="font-sans p-4 relative"><PriceTag currency={this.currencyData} plan={this.plan}/>
               <form onSubmit={this.handlePayment}>
-                <div id="slb_payment_element" class="mb-6 py-20" />
+                <div id="slb_payment_element" class="mb-6 py-20"/>
                 <button
                   type="submit"
                   class="w-full flex justify-center items-center text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
@@ -187,21 +189,22 @@ export class SalableCheckout {
                   Pay
                 </button>
               </form>
-              <ErrorMessage message={this.formState.formError} />
+              <ErrorMessage message={this.formState.formError}/>
             </div>
           </div>
         ) : null}
 
         {!Boolean(this.clientSecret) && !Boolean(this.errorMessage) ? (
-          <div class="relative rounded-xl overflow-hidden bg-white border border-t-0 border-gray-200 shadow-sm dark:bg-slate-900 dark:border-gray-700">
-            <TestModeBanner isTestMode={isTestMode} />
-            <div class="font-sans p-4 relative">
-              <PriceTag currency={this.currencyData} plan={this.plan} />
+          <div
+            class="relative rounded-xl overflow-hidden bg-white border border-t-0 border-gray-200 shadow-sm dark:bg-slate-900 dark:border-gray-700">
+            <TestModeBanner isTestMode={isTestMode}/>
+            <div
+              class="font-sans p-4 relative">
+              <PriceTag currency={this.currencyData} plan={this.plan}/>
               <form onSubmit={this.handleCreateSubscription}>
                 <div class="mb-6">
-                  <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                    Email
-                  </label>
+                  <label htmlFor="email"
+                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                   <input
                     id="email"
                     class="bg-gray-50 dark:bg-gray-700 border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-gray-400 dark:text-white focus:ring-primary-500 dark:focus:ring-primary-500 focus:border-primary-500 border-gray-300 dark:focus:border-primary-500 dark:border-gray-600"
@@ -210,19 +213,17 @@ export class SalableCheckout {
                   />
                   <p class="text-sm text-red-600 mt-2">{this.formState.userEmailError}</p>
                 </div>
-                <button
-                  type="submit"
-                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-                >
+                <button type="submit"
+                        class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                   Continue
                 </button>
               </form>
-              <ErrorMessage message={this.formState.formError} />
+              <ErrorMessage message={this.formState.formError}/>
             </div>
           </div>
         ) : null}
       </div>
-    );
+    )
   }
 
   @Watch('apiKey')
@@ -232,7 +233,7 @@ export class SalableCheckout {
   @Watch('member')
   validateProp(newValue: string, propName: string) {
     if (typeof newValue !== 'string' || newValue.trim() === '') {
-      this.errorMessage = 'Failed to load checkout';
+      this.errorMessage = 'Failed to load checkout'
       console.error(`"${propName}" is a required property and cannot be empty`);
     }
   }
@@ -255,7 +256,7 @@ export class SalableCheckout {
     this.paymentElement = this.elements.create('payment', {
       layout: 'tabs',
     });
-    this.paymentElement.mount('#slb_payment_element');
+    this.paymentElement.mount('#slb_payment_element')
   }
 
   private async handleEmailPrefill() {
@@ -271,7 +272,7 @@ export class SalableCheckout {
 
     if (!validEmail) return;
 
-    await this.createSubscription();
+    await this.createSubscription()
   }
 
   private validateProps() {
@@ -296,12 +297,12 @@ export class SalableCheckout {
       ...this.formState,
       userEmail: email,
       userEmailError: !this.validateEmail(email) ? 'A valid email is required' : null,
-    };
+    }
   };
 
   private handleCreateSubscription = async (event: Event) => {
     event.preventDefault();
-    await this.createSubscription();
+    await this.createSubscription()
   };
 
   private createSubscription = async () => {
@@ -313,23 +314,26 @@ export class SalableCheckout {
     };
 
     try {
-      const response = await fetch(`${apiUrl}/checkout/create-subscription`, {
-        method: 'POST',
-        headers: {
-          'x-api-key': `${this.apiKey}`,
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${apiUrl}/checkout/create-subscription`,
+        {
+          method: 'POST',
+          headers: {
+            'x-api-key': `${this.apiKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            planUuid: this.planUuid,
+            email: this.formState.userEmail,
+            member: this.member,
+            granteeId: this.granteeId,
+            currency: this.currency,
+          })
         },
-        body: JSON.stringify({
-          planUuid: this.planUuid,
-          email: this.formState.userEmail,
-          member: this.member,
-          granteeId: this.granteeId,
-          currency: this.currency,
-        }),
-      });
+      );
       if (!response.ok) {
         // Todo: handle errors, display failure message, refresh options
-        this.errorMessage = 'Failed to load checkout';
+        this.errorMessage = 'Failed to load checkout'
         console.error('Failed to fetch data:', response.statusText);
         return;
       }
@@ -340,14 +344,14 @@ export class SalableCheckout {
       this.formState = {
         ...this.formState,
         isSubmitting: false,
-      };
+      }
     } catch (error) {
       this.clientSecret = null;
       this.formState = {
         ...this.formState,
-        formError: 'Error creating subscription',
+        formError: "Error creating subscription",
         isSubmitting: false,
-      };
+      }
     }
   };
 
@@ -358,15 +362,15 @@ export class SalableCheckout {
       // Todo: Make sure to disable form submission until Stripe.js has loaded.
       this.formState = {
         ...this.formState,
-        formError: 'Payment element unavailable. Please try again',
+        formError: "Payment element unavailable. Please try again"
       };
       return;
     }
 
-    const { error } = await this.stripe.confirmPayment({
+    const {error} = await this.stripe.confirmPayment({
       elements: this.elements,
       confirmParams: {
-        payment_method_data: { billing_details: { email: this.formState.userEmail } },
+        payment_method_data: {billing_details: {email: this.formState.userEmail}},
         return_url: this.successUrl,
         receipt_email: this.formState.userEmail,
       },
@@ -391,25 +395,25 @@ export class SalableCheckout {
         ...this.formState,
         formError,
         isSubmitting: false,
-      };
+      }
     }
   };
 
   private async fetchPlan() {
     try {
-      const response = await fetch(`${apiUrl}/plans/${this.planUuid}?expand=product.organisationPaymentIntegration,currencies.currency`, {
-        method: 'GET',
-        headers: { 'x-api-key': `${this.apiKey}` },
-      });
+      const response = await fetch(
+        `${apiUrl}/plans/${this.planUuid}?expand=product.organisationPaymentIntegration,currencies.currency`,
+        {method: 'GET', headers: {'x-api-key': `${this.apiKey}`}},
+      );
       if (!response.ok) {
         // Todo: handle errors, display failure message, refresh options
-        this.errorMessage = 'Failed to load checkout';
+        this.errorMessage = 'Failed to load checkout'
         console.error('Failed to fetch plan data:', response.statusText);
         return;
       }
-      return (await response.json()) as Plan;
+      return await response.json() as Plan
     } catch (error) {
-      this.errorMessage = 'Failed to load checkout';
+      this.errorMessage = 'Failed to load checkout'
       console.error('Error fetching data:', error);
     }
   }
@@ -420,46 +424,50 @@ function calcPrice(price: number) {
   return decimal % 1 === 0 ? decimal.toString() : decimal.toFixed(2);
 }
 
-const PriceTag = ({ currency, plan }: { currency: CurrencyData; plan: Plan }) => {
+const PriceTag = ({currency, plan}: {currency: CurrencyData, plan: Plan}) => {
   return (
     <div class="flex justify-between mb-6">
       <p class="text-2xl text-black dark:text-white">Price</p>
       <div>
         <p class="text-base text-black dark:text-white">
-          {Boolean(plan.pricingType === 'paid') ? `${currency.symbol}${calcPrice(currency.price * plan.perSeatAmount)} / ${plan.interval} ` : 'Free'}
-          {Boolean(plan.pricingType === 'paid') && Boolean(plan.licenseType === 'metered') ? <span class="text-gray-500">per unit</span> : null}
+          {Boolean(plan.pricingType === 'paid') ? (
+            `${currency.symbol}${calcPrice(currency.price * plan.perSeatAmount)} / ${plan.interval} `
+          ) : 'Free'}
+          {Boolean(plan.pricingType === 'paid') && Boolean(plan.licenseType === 'metered') ? (
+            <span class='text-gray-500'>per unit</span>
+          ) : null}
         </p>
         {Boolean(plan.licenseType === 'perSeat') ? (
-          <p class="text-right text-black dark:text-white text-xs">
-            {plan.perSeatAmount} seats, {currency.symbol}
-            {calcPrice(currency.price)} each
+          <p class='text-right text-black dark:text-white text-xs'>
+            {plan.perSeatAmount} seats, {currency.symbol}{calcPrice(currency.price)} each
           </p>
         ) : null}
       </div>
     </div>
-  );
+  )
 };
 
-const ErrorMessage = ({ message }: { message?: string | null }) => {
+const ErrorMessage = ({message}: { message?: string | null }) => {
   if (!Boolean(message)) return null;
   return (
-    <div
-      id="alert-additional-content-2"
-      class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
-      role="alert"
-    >
+    <div id="alert-additional-content-2"
+         class="p-4 my-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+         role="alert">
       <div class="flex items-center">
-        <span class="sr-only">Info</span>
+      <span class="sr-only">Info</span>
         <h3 class="text-base font-medium"> {message}</h3>
       </div>
     </div>
-  );
+  )
 };
 
-const TestModeBanner = ({ isTestMode }: { isTestMode: boolean }) => {
+const TestModeBanner = ({isTestMode}: {isTestMode: boolean}) => {
   return isTestMode ? (
     <div class="absolute border-t-4 border-solid left-0 top-0 border-orange-500 w-full text-center">
-      <p class="top-0 absolute px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs left-1/2 transform -translate-x-1/2">test mode</p>
+      <p
+        class="top-0 absolute px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs left-1/2 transform -translate-x-1/2">
+        test mode
+      </p>
     </div>
   ) : null;
 };
