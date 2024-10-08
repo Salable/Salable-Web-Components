@@ -395,6 +395,225 @@ test.describe("salable-pricing-table React Client E2E Tests", () => {
       await selectPlanButton.click();
       await waitCheckoutFetchResponse;
 
+      test("Displays Coming soon plan and on plan button click redirect to correct url", async ({
+        page,
+      }) => {
+        await setUpCustomPricingTableApi(
+          page,
+          pricingTableMock({
+            plans: [
+              pricingTablePlanMock({
+                plan: {
+                  currencies: [],
+                  displayName: "Future plan",
+                  planType: "Coming soon",
+                  pricingType: "free",
+                },
+              }),
+            ],
+          }),
+        );
+        await page.goto(
+          "http://localhost:5173/test/salable-pricing-table/coming-soon",
+        );
+        await testComingSoonPlanPricingTable(page);
+      });
+    });
+
+    test('Calls staging api with environment set to "preview"', async ({
+      page,
+    }) => {
+      await page.route(
+        `https://api.salable.org/pricing-tables/12345?granteeId=123`,
+        async (route) => {
+          await route.fulfill({
+            status: 200,
+            contentType: "application/json",
+            body: JSON.stringify(
+              pricingTableMock({
+                plans: [
+                  pricingTablePlanMock({
+                    plan: {
+                      currencies: [],
+                      displayName: "Future Plan",
+                      planType: "Coming soon",
+                      pricingType: "free",
+                    },
+                  }),
+                ],
+              }),
+            ),
+          });
+        },
+      );
+      await page.goto(
+        "http://localhost:5173/test/salable-pricing-table/preview",
+      );
+      const pricingTable = page.locator("salable-pricing-table");
+      const firstCard = pricingTable.getByTestId("pricing-table-card-0");
+      await expect(
+        firstCard.getByRole("heading", { name: "Future plan" }),
+      ).toBeVisible();
+    });
+
+    test("Successfully click plan button and redirect to checkout url after fetch", async ({
+      page,
+    }) => {
+      await setUpCustomPricingTableApi(
+        page,
+        pricingTableMock({
+          plans: [
+            pricingTablePlanMock({
+              plan: {
+                displayName: "Metered Plan",
+                licenseType: "metered",
+                currencies: [
+                  {
+                    currency: defaultCurrency,
+                    price: 100,
+                  },
+                ],
+                grantee: { isSubscribed: false, isLicensed: false },
+              },
+            }),
+          ],
+        }),
+      );
+      await page.route(/^.*?\/checkoutlink\?.*?/, async (route) => {
+        await page.waitForTimeout(1000);
+        route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({ checkoutUrl: "https://example.com/checkout" }),
+        });
+      });
+      await page.goto(
+        "http://localhost:5173/test/salable-pricing-table/checkout",
+      );
+      await testCheckoutUrlPricingTable(page);
+    });
+
+    test("Successfully click free plan button, create license and redirect to success url", async ({
+      page,
+    }) => {
+      await setUpCustomPricingTableApi(
+        page,
+        pricingTableMock({
+          plans: [
+            pricingTablePlanMock({
+              plan: {
+                displayName: "Free Plan",
+                pricingType: "free",
+                grantee: { isSubscribed: false, isLicensed: false },
+              },
+            }),
+          ],
+        }),
+      );
+      await page.route(/^.*?\/licenses\.*?/, async (route) => {
+        await page.waitForTimeout(1000);
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({}),
+        });
+      });
+      await page.goto(
+        "http://localhost:5173/test/salable-pricing-table/create-license",
+      );
+      await testCreateLicenseSuccessRedirectPricingTable(page);
+    });
+  });
+
+  test.describe("Failure Cases", () => {
+    test("Displays an error message if api key is unauthorised", async ({
+      page,
+    }) => {
+      await setUpErrorPricingTableApi(page, 401, { error: "Unauthorised" });
+      await page.goto(
+        "http://localhost:5173/test/salable-pricing-table/errors/unauthorised",
+      );
+      const pricingTable = page.locator("salable-pricing-table");
+      const errorMessage = pricingTable.getByTestId(
+        "salable-pricing-table-error",
+      );
+      await expect(errorMessage.getByText("Unauthorised")).toBeVisible();
+    });
+
+    test("Displays an error message if fetch fails", async ({ page }) => {
+      await setUpErrorPricingTableApi(page, 400, {
+        error: "Something went wrong",
+      });
+      await page.goto(
+        "http://localhost:5173/test/salable-pricing-table/errors/fetch-fails",
+      );
+      const pricingTable = page.locator("salable-pricing-table");
+      const errorMessage = pricingTable.getByTestId(
+        "salable-pricing-table-error",
+      );
+      await expect(
+        errorMessage.getByText("Failed to load Pricing Table"),
+      ).toBeVisible();
+    });
+
+    test("Displays an error message a required prop is missing", async ({
+      page,
+    }) => {
+      await page.goto(
+        "http://localhost:5173/test/salable-pricing-table/errors/required-prop",
+      );
+      const pricingTable = page.locator("salable-pricing-table");
+      const errorMessage = pricingTable.getByTestId(
+        "salable-pricing-table-error",
+      );
+      await expect(
+        errorMessage.getByText("Failed to load Pricing Table"),
+      ).toBeVisible();
+    });
+
+    test("Displays an error message if checkout fetch fails", async ({
+      page,
+    }) => {
+      await setUpCustomPricingTableApi(
+        page,
+        pricingTableMock({
+          plans: [
+            pricingTablePlanMock({
+              plan: {
+                displayName: "Metered Plan Licensed",
+                licenseType: "metered",
+                currencies: [
+                  {
+                    currency: defaultCurrency,
+                    price: 100,
+                  },
+                ],
+                grantee: { isSubscribed: false, isLicensed: true },
+              },
+            }),
+          ],
+        }),
+      );
+      await page.route(/^.*?\/checkoutlink\?.*?/, (route) => {
+        route.fulfill({
+          status: 400,
+          contentType: "application/json",
+          body: JSON.stringify({ error: "Bad Request" }),
+        });
+      });
+      await page.goto(
+        "http://localhost:5173/test/salable-pricing-table/errors/checkout",
+      );
+      const waitCheckoutFetchResponse = page.waitForResponse(
+        (res) =>
+          res.url().includes(`/checkoutlink`) &&
+          res.request().method() === "GET" &&
+          res.status() === 400,
+      );
+      const selectPlanButton = page.getByTestId("salable-plan-0-button");
+      await selectPlanButton.click();
+      await waitCheckoutFetchResponse;
+
       const errorMessage = page.getByTestId("salable-pricing-table-error");
       await expect(
         errorMessage.getByText("Failed to load checkout"),
@@ -432,7 +651,7 @@ test.describe("salable-pricing-table React Client E2E Tests", () => {
         }),
       );
       await page.goto(
-        "http://localhost:5173/test/salable-pricing-table/errors/currency",
+        "http://localhost:5173/test/salable-pricing-table/errors/currency-not-found",
       );
       const errorMessage = page.getByTestId("salable-pricing-table-error");
       await expect(
@@ -491,6 +710,46 @@ test.describe("salable-pricing-table React Client E2E Tests", () => {
       const errorMessage = page.getByTestId("salable-pricing-table-error");
       await expect(
         errorMessage.getByText("Failed to create License"),
+      ).toBeVisible();
+    });
+
+    test("Displays an error message if currency is not provided when pricing table includes paid plans", async ({
+      page,
+    }) => {
+      await setUpCustomPricingTableApi(
+        page,
+        pricingTableMock({
+          product: {
+            currencies: [
+              {
+                currency: { shortName: "USD", symbol: "$" },
+                defaultCurrency: true,
+              },
+            ],
+          },
+          plans: [
+            pricingTablePlanMock({
+              plan: {
+                displayName: "Plan",
+                currencies: [
+                  {
+                    currency: { shortName: "USD", symbol: "$" },
+                    price: 100,
+                  },
+                ],
+                grantee: { isSubscribed: false, isLicensed: false },
+              },
+            }),
+          ],
+        }),
+      );
+      await page.goto(
+        "http://localhost:5173/test/salable-pricing-table/errors/currency-required",
+      );
+
+      const errorMessage = page.getByTestId("salable-pricing-table-error");
+      await expect(
+        errorMessage.getByText("Failed to load Pricing Table"),
       ).toBeVisible();
     });
   });

@@ -10,6 +10,7 @@ export default function SalablePricingTableTest() {
             globalCancelUrl="https://google.com"
             globalGranteeId="xxxxx"
             member="xxxxx"
+            currency="USD"
         />
     );
 }

@@ -19,6 +19,10 @@ export namespace Components {
          */
         "apiKey": string;
         /**
+          * The short name of the currency used in the checkout e.g. USD
+         */
+        "currency": string;
+        /**
           * A user's email address to be used for the checkout.  Providing the user's email skips the provide email step during checkout
          */
         "email": string;
@@ -73,7 +77,7 @@ export namespace Components {
          */
         "automaticTax": string;
         /**
-          * Uses the currency short name (e.g., USD). Defaults to the default currency on the Product which the Plan is linked to. Currently only supported on payment integration type 'stripe_existing'.
+          * Uses the currency short name (e.g. USD). Required if pricing table contains paid plans
          */
         "currency": string;
         /**
@@ -198,6 +202,10 @@ declare namespace LocalJSX {
          */
         "apiKey": string;
         /**
+          * The short name of the currency used in the checkout e.g. USD
+         */
+        "currency": string;
+        /**
           * A user's email address to be used for the checkout.  Providing the user's email skips the provide email step during checkout
          */
         "email"?: string;
@@ -252,7 +260,7 @@ declare namespace LocalJSX {
          */
         "automaticTax"?: string;
         /**
-          * Uses the currency short name (e.g., USD). Defaults to the default currency on the Product which the Plan is linked to. Currently only supported on payment integration type 'stripe_existing'.
+          * Uses the currency short name (e.g. USD). Required if pricing table contains paid plans
          */
         "currency"?: string;
         /**

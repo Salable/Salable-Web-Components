@@ -29,6 +29,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             global-success-url="https://google.co.uk"
             global-cancel-url="https://google.co.uk"
             global-grantee-id="123"
+            currency="USD"
             member="456"
           ></salable-pricing-table>
         `);
@@ -45,6 +46,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             global-success-url="https://google.co.uk"
             global-cancel-url="https://google.co.uk"
             global-grantee-id="123"
+            currency="USD"
             member="456"
           ></salable-pricing-table>
         `);
@@ -94,6 +96,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             global-success-url="https://google.co.uk"
             global-cancel-url="https://google.co.uk"
             global-grantee-id="123"
+            currency="USD"
             member="456"
           ></salable-pricing-table>
         `);
@@ -182,6 +185,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             global-success-url="https://google.co.uk"
             global-cancel-url="https://google.co.uk"
             global-grantee-id="123"
+            currency="USD"
             member="456"
           ></salable-pricing-table>
         `);
@@ -235,6 +239,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
                 currencies: [],
                 displayName: 'Future Plan',
                 planType: 'Coming soon',
+                pricingType: 'free',
               },
             }),
           ],
@@ -249,6 +254,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             global-cancel-url="https://google.co.uk"
             global-contact-url="https://example.com/contact"
             global-grantee-id="123"
+            currency="USD"
             member="456"
           ></salable-pricing-table>
         `);
@@ -268,6 +274,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
                     currencies: [],
                     displayName: 'Future Plan',
                     planType: 'Coming soon',
+                    pricingType: 'free',
                   },
                 }),
               ],
@@ -285,6 +292,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             global-contact-url="https://example.com/contact"
             global-grantee-id="123"
             member="456"
+            currency="USD"
             environment="preview"
           ></salable-pricing-table>
         `);
@@ -362,6 +370,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
               global-success-url="https://google.co.uk"
               global-cancel-url="https://google.co.uk"
               global-grantee-id="123"
+              currency="USD"
               member="456"
           ></salable-pricing-table>
         `);
@@ -399,6 +408,26 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             global-cancel-url="https://google.co.uk"
             global-grantee-id="123"
             member="456"
+            currency="USD"
+          ></salable-pricing-table>
+        `);
+      const pricingTable = page.locator('salable-pricing-table');
+      const errorMessage = pricingTable.getByTestId('salable-pricing-table-error');
+      await expect(errorMessage.getByText('Failed to load Pricing Table')).toBeVisible();
+    });
+
+    test('Displays an error message if fetch fails', async ({ page }) => {
+      await setUpErrorPricingTableApi(page, 400, { error: 'Something went wrong' });
+      await page.setContent(`
+          <salable-pricing-table
+            api-key="${mockApiKey}"
+            uuid="${mockPricingTableUuid}"
+            is-custom-pricing-table="true"
+            global-success-url="https://google.co.uk"
+            global-cancel-url="https://google.co.uk"
+            global-grantee-id="123"
+            member="456"
+            currency="USD"
           ></salable-pricing-table>
         `);
       const pricingTable = page.locator('salable-pricing-table');
@@ -415,6 +444,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             global-success-url="https://google.co.uk"
             global-cancel-url="https://google.co.uk"
             global-grantee-id="123"
+            currency="USD"
           ></salable-pricing-table>
         `);
       const pricingTable = page.locator('salable-pricing-table');
@@ -459,6 +489,7 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             global-cancel-url="https://google.co.uk"
             global-grantee-id="123"
             member="456"
+            currency="USD"
           ></salable-pricing-table>
         `);
 
@@ -509,6 +540,50 @@ test.describe('salable-pricing-table Stencil E2E Tests', () => {
             global-grantee-id="123"
             member="456"
             currency="cad"
+          ></salable-pricing-table>
+        `);
+
+      const errorMessage = page.getByTestId('salable-pricing-table-error');
+      await expect(errorMessage.getByText('Failed to load Pricing Table')).toBeVisible();
+    });
+
+    test('Displays an error message if currency is not provided when pricing table includes paid plans', async ({ page }) => {
+      await setUpCustomPricingTableApi(
+        page,
+        pricingTableMock({
+          product: {
+            currencies: [
+              {
+                currency: { shortName: 'USD', symbol: '$' },
+                defaultCurrency: true,
+              },
+            ],
+          },
+          plans: [
+            pricingTablePlanMock({
+              plan: {
+                displayName: 'Plan',
+                currencies: [
+                  {
+                    currency: { shortName: 'USD', symbol: '$' },
+                    price: 100,
+                  },
+                ],
+                grantee: { isSubscribed: false, isLicensed: false },
+              },
+            }),
+          ],
+        }),
+      );
+      await page.setContent(`
+          <salable-pricing-table
+            api-key="${mockApiKey}"
+            uuid="${mockPricingTableUuid}"
+            is-custom-pricing-table="true"
+            global-success-url="https://google.co.uk"
+            global-cancel-url="https://google.co.uk"
+            global-grantee-id="123"
+            member="456"
           ></salable-pricing-table>
         `);
 
