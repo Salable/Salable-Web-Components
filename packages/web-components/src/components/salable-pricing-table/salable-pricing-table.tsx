@@ -1,25 +1,19 @@
-import {Component, h, Host, Prop, State, Watch} from '@stencil/core';
-import {apiUrl} from "../../constants";
-import {
-  Plan,
-  PricingTable,
-  PricingTablePlan,
-  ProductCurrency,
-  ProductPricingTable
-} from "../../../../utilities/types/pricing-table";
+import { Component, h, Host, Prop, State, Watch } from '@stencil/core';
+import { apiUrl } from '../../constants';
+import { Plan, PricingTable, PricingTablePlan, ProductCurrency, ProductPricingTable } from '../../../../utilities/types/pricing-table';
 
 type PricingTableState = {
-  monthly: PricingTablePlan[]
-  yearly: PricingTablePlan[]
-  featuredPlanUuid: string | null
-  defaultCurrencyShortName: string | null
-}
+  monthly: PricingTablePlan[];
+  yearly: PricingTablePlan[];
+  featuredPlanUuid: string | null;
+  defaultCurrencyShortName: string | null;
+};
 
 type PlanConfig = {
-  successUrls: [string, string][]
-  granteeIds: [string, string][]
-  cancelUrls: [string, string][]
-}
+  successUrls: [string, string][];
+  granteeIds: [string, string][];
+  cancelUrls: [string, string][];
+};
 
 @Component({
   tag: 'salable-pricing-table',
@@ -28,16 +22,16 @@ type PlanConfig = {
 })
 export class SalablePricingTable {
   @State() planConfig: PlanConfig | null = null;
-  @State() state: PricingTableState | null = null; // Todo: define type
+  @State() state: PricingTableState | null = null;
   @State() errorMessage: string | null = null;
   @State() selectedBillingPeriodKey: 'monthly' | 'yearly' = 'monthly';
   @State() isLoadingPlanUuid: string | null = null;
   @State() apiUrl: string | null = apiUrl;
 
   /**
-   * The publishable api key, this can be generated in the Salable dashboard
+   * The generated token for this session from the Salable API
    **/
-  @Prop() apiKey!: string;
+  @Prop() sessionToken!: string;
   /**
    * The uuid of the pricing table that you want to display.
    **/
@@ -113,7 +107,7 @@ export class SalablePricingTable {
   private _perPlanCancelUrls?: Record<string, string> | string;
   private toggleIntervalEl: HTMLInputElement;
 
-  @Watch('apiKey')
+  @Watch('sessionToken')
   @Watch('uuid')
   @Watch('globalSuccessUrl')
   @Watch('globalCancelUrl')
@@ -122,8 +116,8 @@ export class SalablePricingTable {
   @Watch('member')
   validateProp(newValue: string, propName: string) {
     if (typeof newValue !== 'string' || newValue.trim() === '') {
-      console.error(`${propName} is a required property and cannot be empty`)
-      this.errorMessage = 'Failed to load Pricing Table'
+      console.error(`${propName} is a required property and cannot be empty`);
+      this.errorMessage = 'Failed to load Pricing Table';
     }
   }
 
@@ -141,7 +135,7 @@ export class SalablePricingTable {
 
     for (const value of Object.values(newValue)) {
       if (typeof value !== 'string') {
-        throw new Error('All perPlanGranteeIds values must be strings')
+        throw new Error('All perPlanGranteeIds values must be strings');
       }
     }
     this._perPlanGranteeIds = newValue;
@@ -161,9 +155,10 @@ export class SalablePricingTable {
 
     for (const value of Object.values(newValue)) {
       if (typeof value !== 'string') {
-        throw new Error('All perPlanSuccessUrls values must be strings')
+        throw new Error('All perPlanSuccessUrls values must be strings');
       }
     }
+
     this._perPlanSuccessUrls = newValue;
   }
 
@@ -181,7 +176,7 @@ export class SalablePricingTable {
 
     for (const value of Object.values(newValue)) {
       if (typeof value !== 'string') {
-        throw new Error('All perPlanCancelUrls values must be strings')
+        throw new Error('All perPlanCancelUrls values must be strings');
       }
     }
     this._perPlanCancelUrls = newValue;
@@ -189,31 +184,33 @@ export class SalablePricingTable {
 
   async componentWillLoad() {
     this.validateProps();
-    if (Boolean(this.errorMessage)) return
+    if (Boolean(this.errorMessage)) return;
     this.perPlanGranteeIdsWatcher(this.perPlanGranteeIds);
     this.perPlanSuccessUrlsWatcher(this.perPlanSuccessUrls);
     this.perPlanCancelUrlsWatcher(this.perPlanCancelUrls);
-    this.apiUrl = this.environment === 'preview' ? 'https://api.salable.org' : apiUrl
+    this.apiUrl = this.environment === 'preview' ? 'https://api.salable.org' : apiUrl;
     this.initPlanConfig();
+
     try {
       const data = await this.fetchPricingTable();
       if (Boolean(data)) {
-        const normalisedData: PricingTable = !this.isCustomPricingTable ? this.productPricingTableFactory(data as ProductPricingTable) : data as PricingTable;
-        this.validateConditionalProps(normalisedData)
-        if (Boolean(this.currency) && !Boolean(normalisedData.product.currencies.find((c) => c.currency.shortName.toLowerCase() === this.currency.toLowerCase()))) {
-          this.errorMessage = 'Failed to load Pricing Table'
-          console.error(`Requested Currency "${this.currency}" was not found on the pricing table's product`)
+        const normalisedData: PricingTable = !this.isCustomPricingTable ? this.productPricingTableFactory(data as ProductPricingTable) : (data as PricingTable);
+        this.validateConditionalProps(normalisedData);
+        if (Boolean(this.currency) && !Boolean(normalisedData.product.currencies.find(c => c.currency.shortName.toLowerCase() === this.currency.toLowerCase()))) {
+          this.errorMessage = 'Failed to load Pricing Table';
+          console.error(`Requested Currency "${this.currency}" was not found on the pricing table's product`);
         }
-        this.state = this.initialiseState(normalisedData)
+        this.state = this.initialiseState(normalisedData);
       }
     } catch (e) {
-      console.error(e)
-      this.errorMessage = 'Failed to load Pricing Table'
+      console.error(e);
+      this.errorMessage = 'Failed to load Pricing Table';
     }
   }
 
   render() {
-    const isTestMode = this.apiKey.startsWith('test_');
+    const isTestMode = this.sessionToken.startsWith('test_');
+
     return (
       <Host>
         <div class="font-sans relative">
@@ -221,109 +218,106 @@ export class SalablePricingTable {
             <div class="mb-4 border-solid border-t-4 border-orange-500 w-full flex justify-center">
               <p class="px-1 bg-orange-500 rounded-b font-bold text-white uppercase text-xs">test mode</p>
             </div>
-          ): null}
+          ) : null}
+
           {Boolean(this.errorMessage) ? (
-            <div class='bg-red-500 text-white p-3 rounded-md leading-none' data-testid={`salable-pricing-table-error`}>
+            <div class="bg-red-500 text-white p-3 rounded-md leading-none" data-testid={`salable-pricing-table-error`}>
               {this.errorMessage}
             </div>
           ) : null}
+
           {!Boolean(this.errorMessage) && this.state.monthly.length > 0 && this.state.yearly.length > 0 ? (
             <section class="flex justify-center items-center mb-12">
-              <label
-                class="min-w-[3.5rem] text-sm text-gray-500 me-3 dark:text-gray-400"
-                htmlfor="interval-toggle"
-                onClick={this.handleToggleBillingPeriodMonthly}
-              >Monthly</label>
+              <label class="min-w-[3.5rem] text-sm text-gray-500 me-3 dark:text-gray-400" htmlfor="interval-toggle" onClick={this.handleToggleBillingPeriodMonthly}>
+                Monthly
+              </label>
 
               <input
                 type="checkbox"
                 id="interval-toggle"
                 class="relative w-[3.25rem] h-7 p-px bg-gray-200 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-primary-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-primary-600 checked:border-primary-600 focus:checked:border-primary-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-primary-500 dark:checked:border-primary-500 dark:focus:ring-offset-gray-600 before:inline-block before:w-6 before:h-6 before:bg-white checked:before:bg-white before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-white"
-                ref={(el) => {
-                  this.toggleIntervalEl = el as HTMLInputElement
+                ref={el => {
+                  this.toggleIntervalEl = el as HTMLInputElement;
                 }}
                 onInput={this.handleToggleBillingPeriod}
               />
 
-              <label
-                class="relative min-w-[3.5rem] text-sm text-gray-500 ms-3 dark:text-gray-400"
-                htmlfor="interval-toggle"
-                onClick={this.handleToggleBillingPeriodYearly}
-              >Annual</label>
+              <label class="relative min-w-[3.5rem] text-sm text-gray-500 ms-3 dark:text-gray-400" htmlfor="interval-toggle" onClick={this.handleToggleBillingPeriodYearly}>
+                Annual
+              </label>
             </section>
           ) : null}
 
           {!Boolean(this.errorMessage) ? (
             <div class={`grid ${this.getColumnCount()} gap-6 lg:items-center`}>
-              {this.state[this.selectedBillingPeriodKey].map(({plan}, planIndex) => {
+              {this.state[this.selectedBillingPeriodKey].map(({ plan }, planIndex) => {
                 return (
                   <section class={this.getCardClass(plan)} data-testid={`pricing-table-card-${planIndex}`}>
                     {this.state.featuredPlanUuid === plan.uuid ? (
-                      <span class='absolute text-xs bg-primary-600 p-1 text-white leading-none uppercase rounded-sm right-0 left-0 w-fit m-auto top-[-10px]'>Featured</span>
+                      <span class="absolute text-xs bg-primary-600 p-1 text-white leading-none uppercase rounded-sm right-0 left-0 w-fit m-auto top-[-10px]">Featured</span>
                     ) : null}
-                    <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200" id="pricing-table-card-heading">{plan.displayName}</h3>
+                    <h3 class="font-medium text-lg text-gray-800 dark:text-gray-200" id="pricing-table-card-heading">
+                      {plan.displayName}
+                    </h3>
                     {plan.currencies.length > 0 && plan.pricingType === 'paid' ? (
-                      <div class='mt-2'>
+                      <div class="mt-2">
                         <span class="font-bold text-2xl">{this.getCurrency(plan)?.currency.symbol}</span>
                         <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">{this.calcPrice(this.getCurrency(plan)?.price)}</span>
-                        <span class="text-xl text-grey-500"> / {plan.interval}
-                          {plan.licenseType !== 'licensed' ? (
-                            <span class="text-gray-500"> per {this.planUnitValue(plan.licenseType)}</span>
-                          ) : null}
+                        <span class="text-xl text-grey-500">
+                          {' '}
+                          / {plan.interval}
+                          {plan.licenseType !== 'licensed' ? <span class="text-gray-500"> per {this.planUnitValue(plan.licenseType)}</span> : null}
                         </span>
                         <span class="text-xl text-grey-500">
-                        {plan.licenseType !== 'licensed' ? (
-                          <span>
-                            {plan.perSeatAmount > 1 && plan.maxSeatAmount === -1 ? (
-                              <div class="text-gray-500 text-sm"> (min. {plan.perSeatAmount} seats)</div>
-                            ) : null}
-                            {plan.perSeatAmount === 1 && plan.maxSeatAmount > 0 ? (
-                              <div class="text-gray-500 text-sm"> (max. {plan.maxSeatAmount} seats)</div>
-                            ) : null}
-                            {plan.perSeatAmount > 1 && plan.maxSeatAmount > 1 ? (
-                              <div
-                                class="text-gray-500 text-sm"> ({plan.perSeatAmount} - {plan.maxSeatAmount} seats)</div>
-                            ) : null}
-                          </span>
-                        ) : null}
-                      </span>
+                          {plan.licenseType !== 'licensed' ? (
+                            <span>
+                              {plan.perSeatAmount > 1 && plan.maxSeatAmount === -1 ? <div class="text-gray-500 text-sm"> (min. {plan.perSeatAmount} seats)</div> : null}
+                              {plan.perSeatAmount === 1 && plan.maxSeatAmount > 0 ? <div class="text-gray-500 text-sm"> (max. {plan.maxSeatAmount} seats)</div> : null}
+                              {plan.perSeatAmount > 1 && plan.maxSeatAmount > 1 ? (
+                                <div class="text-gray-500 text-sm">
+                                  {' '}
+                                  ({plan.perSeatAmount} - {plan.maxSeatAmount} seats)
+                                </div>
+                              ) : null}
+                            </span>
+                          ) : null}
+                        </span>
                       </div>
                     ) : null}
+
                     {plan.pricingType === 'free' && plan.planType === 'Standard' ? (
-                      <div class='mt-2'>
+                      <div class="mt-2">
                         <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">Free</span>
                       </div>
                     ) : null}
+
                     {plan.planType === 'Coming soon' ? (
-                      <div class='mt-2'>
+                      <div class="mt-2">
                         <span class="font-bold text-5xl text-gray-800 dark:text-gray-200">Coming soon</span>
                       </div>
                     ) : null}
-                    {Boolean(plan.description) ? (
-                      <p class="mt-2 text-sm text-gray-500">{plan.description}</p>
-                    ) : null}
 
-                    <div class='w-full mt-4'>
+                    {Boolean(plan.description) ? <p class="mt-2 text-sm text-gray-500">{plan.description}</p> : null}
+
+                    <div class="w-full mt-4">
                       <ul class="mb-5 space-y-2.5 text-sm mx-auto">
                         {plan.features?.map((feature, featureIndex) => (
                           <li class="flex flex-col">
-                            <div class='flex justify-between'>
-                              <h4
-                                class="text-gray-800 dark:text-gray-400 text-left flex gap-2 font-semibold">
-                                {feature.feature.displayName}
-                              </h4>
+                            <div class="flex justify-between">
+                              <h4 class="text-gray-800 dark:text-gray-400 text-left flex gap-2 font-semibold">{feature.feature.displayName}</h4>
                               {Boolean(feature.feature.description) ? (
-                                <span data-testid={`info_${planIndex}_${featureIndex}`}
-                                      class="grow-0 group relative" tab-index="0">
-                                <div class="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">?</div>
-                                <div
-                                  data-testid={`tooltip_${planIndex}_${featureIndex}`}
-                                  role="tooltip"
-                                  class="absolute right-0 w-max max-w-[200px] bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
-                                >
-                                  {feature.feature.description}
-                                </div>
-                              </span>
+                                <span data-testid={`info_${planIndex}_${featureIndex}`} class="grow-0 group relative" tab-index="0">
+                                  <div class="text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-full text-[9px] px-2 py-0 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    ?
+                                  </div>
+                                  <div
+                                    data-testid={`tooltip_${planIndex}_${featureIndex}`}
+                                    role="tooltip"
+                                    class="absolute right-0 w-max max-w-[200px] bottom-6 z-10 invisible opacity-0 group-hover:visible group-hover:opacity-100 group-focus:visible group-focus:opacity-100 inline-block px-2 py-1 text-xs font-medium text-white bg-gray-900 rounded-lg shadow-sm tooltip dark:bg-gray-700"
+                                  >
+                                    {feature.feature.description}
+                                  </div>
+                                </span>
                               ) : null}
                             </div>
                             {this.getFeatureValue(feature.feature.valueType, feature.value, feature.isUnlimited, feature.feature.showUnlimited, feature.enumValue?.name)}
@@ -347,9 +341,9 @@ export class SalablePricingTable {
                         onClick={this.handlePlanSelect(plan)}
                         disabled={Boolean((plan.licenseType === 'metered' && plan.grantee.isSubscribed) || this.isLoadingPlanUuid)}
                       >
-                        {this.isLoadingPlanUuid === plan.uuid ? <span
-                          class='h-[15px] w-[15px] mr-2 animate-spin border-2 border-s-white rounded-full border-white/[.5]'
-                          data-testid={`plan-${planIndex}-spinner`}></span> : null}
+                        {this.isLoadingPlanUuid === plan.uuid ? (
+                          <span class="h-[15px] w-[15px] mr-2 animate-spin border-2 border-s-white rounded-full border-white/[.5]" data-testid={`plan-${planIndex}-spinner`}></span>
+                        ) : null}
                         {this.planCtaLabelValue(plan)}
                       </button>
                     )}
@@ -364,18 +358,19 @@ export class SalablePricingTable {
   }
 
   private validateProps() {
-    this.validateProp(this.apiKey, 'apiKey');
+    this.validateProp(this.sessionToken, 'sessionToken');
     this.validateProp(this.uuid, 'uuid');
     this.validateProp(this.globalSuccessUrl, 'globalSuccessUrl');
     this.validateProp(this.globalCancelUrl, 'globalCancelUrl');
     this.validateProp(this.globalGranteeId, 'globalGranteeId');
     this.validateProp(this.member, 'member');
   }
+
   private validateConditionalProps(data: PricingTable) {
-    if (Boolean(data?.plans?.find(({plan}) => plan.planType === 'Coming soon'))) {
+    if (Boolean(data?.plans?.find(({ plan }) => plan.planType === 'Coming soon'))) {
       this.validateProp(this.globalContactUrl, 'globalContactUrl');
     }
-    if (Boolean(data?.plans?.some(({plan}) => plan.pricingType === 'paid'))) {
+    if (Boolean(data?.plans?.some(({ plan }) => plan.pricingType === 'paid'))) {
       this.validateProp(this.currency, 'currency');
     }
   }
@@ -386,26 +381,26 @@ export class SalablePricingTable {
         member: this.member,
       });
 
-      let granteeId = this.globalGranteeId
+      let granteeId = this.globalGranteeId;
       if (Boolean(this.perPlanGranteeIds)) {
-        const granteeIdsPerPlan = JSON.parse(this.perPlanGranteeIds as string)
-        if (granteeIdsPerPlan[plan.uuid]) granteeId = granteeIdsPerPlan[plan.uuid]
+        const granteeIdsPerPlan = JSON.parse(this.perPlanGranteeIds as string);
+        if (granteeIdsPerPlan[plan.uuid]) granteeId = granteeIdsPerPlan[plan.uuid];
       }
-      params.set('granteeId', granteeId)
+      params.set('granteeId', granteeId);
 
-      let successUrl = this.globalSuccessUrl ?? document.URL
+      let successUrl = this.globalSuccessUrl ?? document.URL;
       if (Boolean(this.perPlanSuccessUrls)) {
-        const successUrlsPerPlan = JSON.parse(this.perPlanSuccessUrls as string)
-        if (successUrlsPerPlan[plan.uuid]) successUrl = successUrlsPerPlan[plan.uuid]
+        const successUrlsPerPlan = JSON.parse(this.perPlanSuccessUrls as string);
+        if (successUrlsPerPlan[plan.uuid]) successUrl = successUrlsPerPlan[plan.uuid];
       }
-      params.set('successUrl', successUrl)
+      params.set('successUrl', successUrl);
 
-      let cancelUrl = this.globalCancelUrl
+      let cancelUrl = this.globalCancelUrl;
       if (Boolean(this.perPlanCancelUrls)) {
-        const cancelUrlsPerPlan = JSON.parse(this.perPlanCancelUrls as string)
-        if (cancelUrlsPerPlan[plan.uuid]) cancelUrl = cancelUrlsPerPlan[plan.uuid]
+        const cancelUrlsPerPlan = JSON.parse(this.perPlanCancelUrls as string);
+        if (cancelUrlsPerPlan[plan.uuid]) cancelUrl = cancelUrlsPerPlan[plan.uuid];
       }
-      params.set('cancelUrl', cancelUrl)
+      params.set('cancelUrl', cancelUrl);
 
       if (Boolean(this.promoCode)) params.set('promoCode', this.promoCode);
       if (Boolean(this.allowPromoCode)) params.set('allowPromoCode', this.allowPromoCode);
@@ -417,30 +412,31 @@ export class SalablePricingTable {
       const checkoutUrlFetch = await fetch(`${this.apiUrl}/plans/${plan.uuid}/checkoutlink?${decodeURIComponent(params.toString())}`, {
         headers: {
           version: 'v2',
-          'x-api-key': this.apiKey
-        }
-      })
-      const data = await checkoutUrlFetch.json()
+          Authorization: `Bearer ${this.sessionToken}`,
+        },
+      });
+      const data = await checkoutUrlFetch.json();
+
       if (checkoutUrlFetch.ok) {
-        return data.checkoutUrl
+        return data.checkoutUrl;
       } else {
         if (checkoutUrlFetch.status === 401 || checkoutUrlFetch.status === 403) {
           this.errorMessage = 'Unauthorised';
-          return null
+          return null;
         }
-        this.errorMessage = 'Failed to load checkout'
-        console.error(data.error ?? data)
-        return null
+        this.errorMessage = 'Failed to load checkout';
+        console.error(data.error ?? data);
+        return null;
       }
     } catch (error) {
       // Todo: add refresh/retry option
       console.error('Fetch error:', error);
       this.errorMessage = 'Error fetching data';
-      return null
+      return null;
     }
   }
 
-  private async fetchPricingTable(): Promise<PricingTable | ProductPricingTable |null> {
+  private async fetchPricingTable(): Promise<PricingTable | ProductPricingTable | null> {
     try {
       const params = new URLSearchParams({
         granteeId: this.globalGranteeId,
@@ -450,25 +446,25 @@ export class SalablePricingTable {
         ? `${this.apiUrl}/pricing-tables/${this.uuid}?${decodeURIComponent(params.toString())}`
         : `${this.apiUrl}/products/${this.uuid}/pricingtable?${decodeURIComponent(params.toString())}`;
 
-      const response = await fetch(pricingTableUrl, {headers: {version: 'v2', 'x-api-key': `${this.apiKey}`}});
-      const data = await response.json()
+      const response = await fetch(pricingTableUrl, { headers: { version: 'v2', Authorization: `Bearer ${this.sessionToken}` } });
+      const data = await response.json();
 
       if (!response.ok) {
         // Todo: add refresh/retry option
         // Todo: 401 Unauthenticated | 403 Unauthorised (when API is fixed)
         if (response.status === 401 || response.status === 403) {
           this.errorMessage = 'Unauthorised';
-          return null
+          return null;
         }
         if (response.status === 404) {
           this.errorMessage = 'Not found';
-          return null
+          return null;
         }
         if (response.status === 400) {
           console.error(`${data.error}`);
         }
-        this.errorMessage = 'Failed to load Pricing Table'
-        return null
+        this.errorMessage = 'Failed to load Pricing Table';
+        return null;
       }
 
       return data;
@@ -499,7 +495,7 @@ export class SalablePricingTable {
     }
 
     if (result.monthly.length === 0 && result.yearly.length > 0) {
-      this.selectedBillingPeriodKey = 'yearly'
+      this.selectedBillingPeriodKey = 'yearly';
     }
 
     return result;
@@ -528,14 +524,14 @@ export class SalablePricingTable {
 
   private planCtaLabelValue(plan: Plan) {
     switch (plan.planType) {
-      case 'Standard' :
-        if (plan.licenseType === 'metered' && plan.grantee.isSubscribed) return 'Subscribed'
-        if (plan.evalDays > 0) return `Start ${plan.evalDays} day trial`
-        return 'Select Plan'
-      case 'Coming soon' :
-        return 'Contact us'
-      default :
-        return ''
+      case 'Standard':
+        if (plan.licenseType === 'metered' && plan.grantee.isSubscribed) return 'Subscribed';
+        if (plan.evalDays > 0) return `Start ${plan.evalDays} day trial`;
+        return 'Select Plan';
+      case 'Coming soon':
+        return 'Contact us';
+      default:
+        return '';
     }
   }
 
@@ -556,30 +552,32 @@ export class SalablePricingTable {
   };
 
   private handlePlanSelect = (plan: Plan) => async (event: Event) => {
-    if (plan.planType !== 'Coming soon') {
-      event.preventDefault();
-      this.isLoadingPlanUuid = plan.uuid
-      try {
-        if (plan.pricingType === 'paid') {
-          const url = await this.fetchCheckoutUrl(plan)
-          if (Boolean(url)) window.location.href = url
-          return
-        } else {
-          await this.createLicenses(plan)
-        }
-      } catch (e) {
-        console.error(e)
-        this.errorMessage = 'Failed to load checkout'
+    if (plan.planType === 'Coming soon') return;
+
+    event.preventDefault();
+
+    this.isLoadingPlanUuid = plan.uuid;
+
+    try {
+      if (plan.pricingType === 'paid') {
+        const url = await this.fetchCheckoutUrl(plan);
+        if (Boolean(url)) window.location.href = url;
+        return;
+      } else {
+        await this.createLicenses(plan);
       }
+    } catch (e) {
+      console.error(e);
+      this.errorMessage = 'Failed to load checkout';
     }
   };
 
   private createLicenses = async (plan: Plan) => {
-    const body = Array.from({length: plan.perSeatAmount}, () => ({
+    const body = Array.from({ length: plan.perSeatAmount }, () => ({
       planUuid: plan.uuid,
       member: this.member,
       granteeId: null,
-      ...(this.customerEmail && {email: this.customerEmail}),
+      ...(this.customerEmail && { email: this.customerEmail }),
     }));
 
     const granteeId = this.planConfig.granteeIds.find(([planUuid]) => planUuid === plan.uuid)?.[1] ?? this.globalGranteeId;
@@ -590,9 +588,10 @@ export class SalablePricingTable {
     try {
       const licensesResponse = await fetch(`${this.apiUrl}/licenses`, {
         method: 'POST',
-        headers: {'x-api-key': this.apiKey},
+        headers: { Authorization: `Bearer ${this.sessionToken}` },
         body: JSON.stringify(body),
       });
+
       if (licensesResponse.status === 200) {
         location.href = successUrl;
       } else {
@@ -623,17 +622,17 @@ export class SalablePricingTable {
   }
 
   private getCardClass(plan: Plan) {
-    return plan.uuid === this.state.featuredPlanUuid ?
-      "h-full flex flex-col p-6 text-gray-900 bg-white rounded-lg border shadow xl:p-8 dark:bg-gray-800 dark:text-white shadow-xl border-2 border-primary-600 relative" :
-      "h-full flex flex-col p-6 text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white";
+    return plan.uuid === this.state.featuredPlanUuid
+      ? 'h-full flex flex-col p-6 text-gray-900 bg-white rounded-lg border shadow xl:p-8 dark:bg-gray-800 dark:text-white shadow-xl border-2 border-primary-600 relative'
+      : 'h-full flex flex-col p-6 text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white';
   }
 
   private productPricingTableFactory(pricingTable: ProductPricingTable): PricingTable {
     return {
       featuredPlanUuid: '',
-      product: {currencies: pricingTable.currencies},
-      plans: pricingTable.plans?.map((plan: Plan) => ({plan, currencies: plan.currencies}))
-    }
+      product: { currencies: pricingTable.currencies },
+      plans: pricingTable.plans?.map((plan: Plan) => ({ plan, currencies: plan.currencies })),
+    };
   }
 
   private getColumnCount = () => {
@@ -651,7 +650,7 @@ export class SalablePricingTable {
     }
   };
 
-  private calculateColumnCount = (length: number): number => length <= 4 ? length : length % 4 === 0 ? 4 : 3;
+  private calculateColumnCount = (length: number): number => (length <= 4 ? length : length % 4 === 0 ? 4 : 3);
 
   private calcPrice(price: number) {
     const decimal = price / 100;
@@ -660,22 +659,18 @@ export class SalablePricingTable {
 
   private getFeatureValue(valueType: string, value: string, isUnlimited: boolean, showUnlimited: boolean, enumValue?: string) {
     switch (valueType) {
-      case "numerical":
+      case 'numerical':
         return showUnlimited && isUnlimited ? 'Unlimited' : value;
-      case "enum":
+      case 'enum':
         return enumValue ?? 'n/a';
-      case "boolean":
+      case 'boolean':
         return value === 'true' ? (
-          <svg class="w-6 h-6 text-primary-600 dark:stroke-white stroke-black ml-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-               fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="m5 12 4.7 4.5 9.3-9"/>
+          <svg class="w-6 h-6 text-primary-600 dark:stroke-white stroke-black ml-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 12 4.7 4.5 9.3-9" />
           </svg>
         ) : (
-          <svg class="w-6 h-6 text-primary-600 dark:stroke-white stroke-black ml-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-               fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M6 18 18 6m0 12L6 6"/>
+          <svg class="w-6 h-6 text-primary-600 dark:stroke-white stroke-black ml-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6m0 12L6 6" />
           </svg>
         );
     }

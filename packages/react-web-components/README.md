@@ -25,7 +25,7 @@ defineCustomElements();
 export default function SalablePricingTableDemo() {
     return (
         <SalablePricingTable
-            apiKey="your_api_key"
+            sessionToken="your_session_token"
             uuid="your_uuid"
             globalSuccessUrl="https://example.com/success"
             globalCancelUrl="https://example.com/cancel"
