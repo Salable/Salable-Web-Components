@@ -20,7 +20,7 @@ Here's an example of how to use the `salable-pricing-table` component in your HT
 
 ```html
 <salable-pricing-table
-  api-key="your_api_key"
+  session-token="your_session_token"
   uuid="your_uuid"
   global-success-url="https://example.com/success"
   global-cancel-url="https://example.com/cancel"
@@ -40,4 +40,3 @@ For a full list of components and detailed guides on using them, please refer to
 ## Support and Contributions
 
 Encountering issues or have suggestions? Please submit them on our [GitHub issues page](https://github.com/Salable/Salable-Web-Components/issues)
-

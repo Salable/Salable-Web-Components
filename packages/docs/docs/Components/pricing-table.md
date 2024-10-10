@@ -19,7 +19,7 @@ description: How to use the pricing table web component and React wrapper
 </head>
 <body>
 <salable-pricing-table
-    api-key="xxxxx"
+    session-token="xxxxx"
     uuid="xxxxx"
     global-success-url="https://cataas.com/cat/cute"
     global-cancel-url="https://cataas.com/cat/angry"
@@ -40,7 +40,7 @@ description: How to use the pricing table web component and React wrapper
 </script>
 
 <salable-pricing-table
-    api-key="xxxxx"
+    session-token="xxxxx"
     uuid="xxxxx"
     global-success-url="https://cataas.com/cat/cute"
     global-cancel-url="https://cataas.com/cat/angry"
@@ -66,7 +66,7 @@ defineCustomElements();
 export default function SalablePricingTableDemo() {
     return (
         <SalablePricingTable
-            apiKey="xxxxx"
+            sessionToken="xxxxx"
             uuid="xxxxx"
             globalSuccessUrl="https://google.co.uk"
             globalCancelUrl="https://google.co.uk"
@@ -81,7 +81,7 @@ export default function SalablePricingTableDemo() {
 
 | Property                        | Attribute                 | Description                                                                                                                                                                                    | Type                                 | Default     |
 |---------------------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|-------------|
-| `apiKey` _(required)_           | `api-key`                 | The publishable api key, this can be generated in the Salable dashboard                                                                                                                        | `string`                             | `undefined` |
+| `sessionToken` _(required)_           | `session-token`                 | The generated token for this session from the Salable API                                                                                                                      | `string`                             | `undefined` |
 | `uuid` _(required)_             | `uuid`                    | The uuid of the pricing table that you want to display.                                                                                                                                        | `string`                             | `undefined` |
 | `member` _(required)_           | `member`                  | The ID of the member who will manage the license.                                                                                                                                              | `string`                             | `undefined` |
 | `globalCancelUrl` _(required)_  | `global-cancel-url`       | The URL to send users to if the transaction fails. Must be an absolute URL.                                                                                                                    | `string`                             | `undefined` |

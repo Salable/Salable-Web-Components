@@ -47,10 +47,6 @@ export namespace Components {
          */
         "allowPromoCode": string;
         /**
-          * The publishable api key, this can be generated in the Salable dashboard
-         */
-        "apiKey": string;
-        /**
           * Automatically calculate tax on checkout based on the customer's location and your Stripe settings.
          */
         "automaticTax": string;
@@ -107,6 +103,10 @@ export namespace Components {
           * Used to pre-fill the promo code in Stripe checkout. Use the promo code ID from Stripe dashboard. Customers cannot edit this field during checkout.
          */
         "promoCode": string;
+        /**
+          * The generated token for this session from the Salable API
+         */
+        "sessionToken": string;
         /**
           * The uuid of the pricing table that you want to display.
          */
@@ -183,10 +183,6 @@ declare namespace LocalJSX {
          */
         "allowPromoCode"?: string;
         /**
-          * The publishable api key, this can be generated in the Salable dashboard
-         */
-        "apiKey": string;
-        /**
           * Automatically calculate tax on checkout based on the customer's location and your Stripe settings.
          */
         "automaticTax"?: string;
@@ -243,6 +239,10 @@ declare namespace LocalJSX {
           * Used to pre-fill the promo code in Stripe checkout. Use the promo code ID from Stripe dashboard. Customers cannot edit this field during checkout.
          */
         "promoCode"?: string;
+        /**
+          * The generated token for this session from the Salable API
+         */
+        "sessionToken": string;
         /**
           * The uuid of the pricing table that you want to display.
          */
